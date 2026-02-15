@@ -15,6 +15,7 @@ import { parseStringify } from "../utils";
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
 
+
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
@@ -148,7 +149,9 @@ export const getInstitution = async ({
 
 import { normalizeCategory } from "@/lib/utils/category";
 
-export const getTransactions = async ({ accessToken }: getTransactionsProps) => {
+export const getTransactions = async ({
+  accessToken,
+}: getTransactionsProps) => {
   let hasMore = true;
   let cursor: string | undefined = undefined;
   let allTransactions: any[] = [];
@@ -171,7 +174,7 @@ export const getTransactions = async ({ accessToken }: getTransactionsProps) => 
         amount: t.amount,
         pending: t.pending,
 
-        // ✅ CATEGORY FIX
+        // 🔥 CATEGORY FIX
         category: normalizeCategory(
           t.personal_finance_category?.primary ||
           t.category?.[0] ||

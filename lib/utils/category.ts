@@ -1,15 +1,25 @@
-export const normalizeCategory = (category?: string) => {
-    if (!category) return "Payment";
-  
-    const map: Record<string, string> = {
-      FOOD_AND_DRINK: "Food and Drink",
-      TRANSPORTATION: "Travel",
-      TRAVEL: "Travel",
-      ENTERTAINMENT: "Entertainment",
-      PAYMENT: "Payment",
-      BANK_FEES: "Bank Fees",
-    };
-  
-    return map[category] || category;
-  };
-  
+export function normalizeCategory(raw?: string): string {
+  if (!raw) return "Payment";
+
+  const key = raw.toLowerCase();
+
+  if (key.includes("food") || key.includes("drink"))
+    return "Food and Drink";
+
+  if (key.includes("travel") || key.includes("airline"))
+    return "Travel";
+
+  if (key.includes("transport") || key.includes("uber"))
+    return "Transportation";
+
+  if (key.includes("transfer"))
+    return "Transfer";
+
+  if (key.includes("payment"))
+    return "Payment";
+
+  if (key.includes("bank"))
+    return "Bank Fees";
+
+  return "Payment";
+}
