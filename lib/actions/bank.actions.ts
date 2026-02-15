@@ -146,9 +146,9 @@ export const getInstitution = async ({
   }
 };
 
-export const getTransactions = async ({
-  accessToken,
-}: getTransactionsProps) => {
+import { normalizeCategory } from "@/lib/utils/category";
+
+export const getTransactions = async ({ accessToken }: getTransactionsProps) => {
   let hasMore = true;
   let cursor: string | undefined = undefined;
   let allTransactions: any[] = [];
@@ -171,9 +171,12 @@ export const getTransactions = async ({
         amount: t.amount,
         pending: t.pending,
 
-        // 🟢 FIXED CATEGORY
-        category:
-          t.personal_finance_category?.primary || t.category?.[0] || "General",
+        // ✅ CATEGORY FIX
+        category: normalizeCategory(
+          t.personal_finance_category?.primary ||
+          t.category?.[0] ||
+          "Payment"
+        ),
 
         date: t.date,
         image: t.logo_url,
