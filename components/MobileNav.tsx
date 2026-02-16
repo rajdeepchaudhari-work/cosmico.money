@@ -1,17 +1,19 @@
-'use client'
+"use client";
 
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { sidebarLinks } from "@/constants"
-import { cn } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import Footer from "./Footer"
+} from "@/components/ui/sheet";
+
+import { sidebarLinks } from "@/constants";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Footer from "./Footer";
+import PlaidLink from "@/components/PlaidLink";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
@@ -29,60 +31,74 @@ const MobileNav = ({ user }: MobileNavProps) => {
           />
         </SheetTrigger>
 
-        {/* 🔵 FIXED HEIGHT + FLEX */}
-        <SheetContent
-          side="left"
-          className="border-none bg-white flex flex-col justify-between h-screen"
-        >
-          {/* TOP */}
-          <div>
-            <Link href="/" className="cursor-pointer flex items-center gap-1 px-4">
-              <Image src="/icons/logo.svg" width={34} height={34} alt="logo" />
-              <h1 className="text-26 font-bold text-black-1">Cosmico</h1>
-            </Link>
+        {/* PANEL */}
+        <SheetContent side="left" className="border-none bg-white p-0">
+          <div className="flex h-full flex-col justify-between">
+            {/* TOP */}
+            <div>
+              {/* LOGO */}
+              <Link href="/" className="flex items-center gap-2 px-6 py-6">
+                <Image
+                  src="/icons/logo.svg"
+                  width={34}
+                  height={34}
+                  alt="logo"
+                />
+                <h1 className="text-26 font-bold text-black-1">Cosmico</h1>
+              </Link>
 
-            <nav className="flex flex-col gap-6 pt-16 px-2">
-              {sidebarLinks.map((item) => {
-                const isActive =
-                  pathname === item.route ||
-                  pathname.startsWith(`${item.route}/`);
+              {/* NAV LINKS */}
+              <nav className="flex flex-col gap-2 px-4 mt-6">
+                {sidebarLinks.map((item) => {
+                  const isActive =
+                    pathname === item.route ||
+                    pathname.startsWith(`${item.route}/`);
 
-                return (
-                  <SheetClose asChild key={item.route}>
-                    <Link
-                      href={item.route}
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-3 rounded-lg",
-                        { "bg-bank-gradient": isActive }
-                      )}
-                    >
-                      <Image
-                        src={item.imgURL}
-                        alt={item.label}
-                        width={20}
-                        height={20}
-                        className={cn({
-                          "brightness-[3] invert-0": isActive,
-                        })}
-                      />
-                      <p
+                  return (
+                    <SheetClose asChild key={item.route}>
+                      <Link
+                        href={item.route}
                         className={cn(
-                          "text-16 font-semibold text-black-2",
-                          { "text-white": isActive }
+                          "flex items-center gap-3 rounded-xl px-4 py-3",
+                          isActive && "bg-bank-gradient"
                         )}
                       >
-                        {item.label}
-                      </p>
-                    </Link>
-                  </SheetClose>
-                );
-              })}
-            </nav>
-          </div>
+                        <Image
+                          src={item.imgURL}
+                          alt={item.label}
+                          width={20}
+                          height={20}
+                          className={cn({
+                            "brightness-[3] invert-0": isActive,
+                          })}
+                        />
 
-          {/* 🔵 FOOTER FIX */}
-          <div className="pb-6 pt-4">
-            <Footer user={user} type="mobile" />
+                        <p
+                          className={cn(
+                            "text-16 font-semibold text-black-2",
+                            isActive && "text-white"
+                          )}
+                        >
+                          {item.label}
+                        </p>
+                      </Link>
+                    </SheetClose>
+                  );
+                })}
+
+                {/* CONNECT BANK BUTTON */}
+                <SheetClose asChild>
+                  <div>
+                    <PlaidLink user={user} variant="nav" />
+                  </div>
+                </SheetClose>
+              </nav>
+            </div>
+
+            {/* FOOTER */}
+            <div className="pb-10 px-4">
+              <Footer user={user} type="mobile" />
+            </div>
           </div>
         </SheetContent>
       </Sheet>
