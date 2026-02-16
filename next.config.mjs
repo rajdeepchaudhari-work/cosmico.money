@@ -3,6 +3,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,10 +13,6 @@ const nextConfig = {
       "logo.clearbit.com",
       "plaid-merchant-logos.plaid.com",
     ],
-  },
-
-  experimental: {
-    serverActions: true,
   },
 };
 
