@@ -1,26 +1,58 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
+import { Button } from "@/components/ui/button";
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { PlaidLinkOnSuccess, PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
+import { createLinkToken, exchangePublicToken } from "@/lib/actions/user.actions";
 import Footer from "./Footer";
-import PlaidLink from "@/components/PlaidLink";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  // Plaid Link setup at MobileNav level so the hook persists after Sheet closes
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const getLinkToken = async () => {
+      const data = await createLinkToken(user);
+      setToken(data?.linkToken);
+    };
+    getLinkToken();
+  }, [user]);
+
+  const onSuccess = useCallback<PlaidLinkOnSuccess>(
+    async (public_token: string) => {
+      await exchangePublicToken({ publicToken: public_token, user });
+      router.push("/");
+    },
+    [user, router]
+  );
+
+  const config: PlaidLinkOptions = { token, onSuccess };
+  const { open, ready } = usePlaidLink(config);
+
+  const handleConnectBank = () => {
+    setSheetOpen(false);
+    // Delay opening Plaid until the Sheet overlay and focus trap are gone
+    setTimeout(() => open(), 300);
+  };
 
   return (
     <section className="w-full max-w-[264px]">
-      <Sheet>
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetTrigger>
           <Image
             src="/icons/hamburger.svg"
@@ -87,11 +119,21 @@ const MobileNav = ({ user }: MobileNavProps) => {
                 })}
 
                 {/* CONNECT BANK BUTTON */}
-                <SheetClose asChild>
-                  <div>
-                    <PlaidLink user={user} variant="nav" />
-                  </div>
-                </SheetClose>
+                <Button
+                  onClick={handleConnectBank}
+                  disabled={!ready}
+                  className="plaidlink-default"
+                >
+                  <Image
+                    src="/icons/connect-bank.svg"
+                    alt="connect bank"
+                    width={24}
+                    height={24}
+                  />
+                  <p className="text-[16px] font-semibold text-black-2">
+                    Connect bank
+                  </p>
+                </Button>
               </nav>
             </div>
 
