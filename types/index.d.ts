@@ -233,7 +233,7 @@ declare interface RecentTransactionsProps {
   accounts: Account[];
   transactions: Transaction[];
   appwriteItemId: string;
-  page: number;
+  page?: number;
   country?: string;
 }
 
