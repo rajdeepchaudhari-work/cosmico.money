@@ -4,6 +4,12 @@ import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
+export const COUNTRY_CONFIG: Record<string, { currency: string; locale: string; prefix: string; idLabel: string; idPlaceholder: string; stateLabel: string; statePlaceholder: string; plaidCode: string; transfersEnabled: boolean }> = {
+  US: { currency: "USD", locale: "en-US", prefix: "$", idLabel: "SSN", idPlaceholder: "Example: 1234", stateLabel: "State", statePlaceholder: "Example: NY", plaidCode: "US", transfersEnabled: true },
+  CA: { currency: "CAD", locale: "en-CA", prefix: "CA$", idLabel: "SIN", idPlaceholder: "Example: 123-456-789", stateLabel: "Province", statePlaceholder: "Example: ON", plaidCode: "CA", transfersEnabled: false },
+  UK: { currency: "GBP", locale: "en-GB", prefix: "\u00a3", idLabel: "NI Number", idPlaceholder: "Example: QQ 12 34 56 C", stateLabel: "County", statePlaceholder: "Example: London", plaidCode: "GB", transfersEnabled: false },
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -66,10 +72,11 @@ export const formatDateTime = (dateString: Date) => {
   };
 };
 
-export function formatAmount(amount: number): string {
-  const formatter = new Intl.NumberFormat("en-US", {
+export function formatAmount(amount: number, country: string = "US"): string {
+  const config = COUNTRY_CONFIG[country] || COUNTRY_CONFIG.US;
+  const formatter = new Intl.NumberFormat(config.locale, {
     style: "currency",
-    currency: "USD",
+    currency: config.currency,
     minimumFractionDigits: 2,
   });
 
@@ -201,6 +208,7 @@ export const authFormSchema = (type: string) => z.object({
   lastName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
   address1: type === 'sign-in' ? z.string().optional() : z.string().max(50),
   city: type === 'sign-in' ? z.string().optional() : z.string().max(50),
+  country: type === 'sign-in' ? z.string().optional() : z.string().min(2),
   state: type === 'sign-in' ? z.string().optional() : z.string().min(2).max(2),
   postalCode: type === 'sign-in' ? z.string().optional() : z.string().min(3).max(6),
   dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3),

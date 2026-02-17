@@ -15,6 +15,7 @@ declare type SignUpParams = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
+  country: string;
   ssn: string;
   email: string;
   password: string;
@@ -39,6 +40,7 @@ declare type User = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
+  country: string;
   ssn: string;
 };
 
@@ -134,6 +136,7 @@ declare type NewDwollaCustomerParams = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
+  country: string;
   ssn: string;
 };
 
@@ -207,6 +210,7 @@ declare interface TotalBalanceBoxProps {
   accounts: Account[];
   totalBanks: number;
   totalCurrentBalance: number;
+  country?: string;
 }
 
 declare interface FooterProps {

@@ -18,8 +18,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import CustomInput from './CustomInput';
-import { authFormSchema } from '@/lib/utils';
+import { authFormSchema, COUNTRY_CONFIG } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
@@ -41,6 +42,9 @@ const AuthForm = ({ type }: { type: string }) => {
       },
     })
    
+    const selectedCountry = form.watch('country') || 'US';
+    const countryConfig = COUNTRY_CONFIG[selectedCountry] || COUNTRY_CONFIG.US;
+
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
       setIsLoading(true);
@@ -57,6 +61,7 @@ const AuthForm = ({ type }: { type: string }) => {
             state: data.state!,
             postalCode: data.postalCode!,
             dateOfBirth: data.dateOfBirth!,
+            country: data.country!,
             ssn: data.ssn!,
             email: data.email,
             password: data.password
@@ -122,6 +127,28 @@ const AuthForm = ({ type }: { type: string }) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {type === 'sign-up' && (
                 <>
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">Country</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="input-class">
+                              <SelectValue placeholder="Select your country" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="US">United States</SelectItem>
+                            <SelectItem value="CA">Canada</SelectItem>
+                            <SelectItem value="UK">United Kingdom</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="form-message mt-2" />
+                      </FormItem>
+                    )}
+                  />
                   <div className="flex gap-4">
                     <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' />
                     <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your first name' />
@@ -129,12 +156,12 @@ const AuthForm = ({ type }: { type: string }) => {
                   <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' />
                   <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' />
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='state' label="State" placeholder='Example: NY' />
+                    <CustomInput control={form.control} name='state' label={countryConfig.stateLabel} placeholder={countryConfig.statePlaceholder} />
                     <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' />
                   </div>
                   <div className="flex gap-4">
                     <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' />
-                    <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' />
+                    <CustomInput control={form.control} name='ssn' label={countryConfig.idLabel} placeholder={countryConfig.idPlaceholder} />
                   </div>
                 </>
               )}

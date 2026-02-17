@@ -1,9 +1,11 @@
 import AnimatedCounter from './AnimatedCounter';
 import DoughnutChart from './DoughnutChart';
+import { COUNTRY_CONFIG } from '@/lib/utils';
 
 const TotalBalanceBox = ({
-  accounts = [], totalBanks, totalCurrentBalance
+  accounts = [], totalBanks, totalCurrentBalance, country
 }: TotalBalanceBoxProps) => {
+  const prefix = COUNTRY_CONFIG[country || "US"]?.prefix || "$";
   return (
     <section className="total-balance">
       <div className="total-balance-chart">
@@ -20,7 +22,7 @@ const TotalBalanceBox = ({
           </p>
 
           <div className="total-balance-amount flex-center gap-2">
-            <AnimatedCounter amount={totalCurrentBalance} />
+            <AnimatedCounter amount={totalCurrentBalance} prefix={prefix} />
           </div>
         </div>
       </div>

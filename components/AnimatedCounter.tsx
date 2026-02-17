@@ -2,14 +2,14 @@
 
 import CountUp from 'react-countup';
 
-const AnimatedCounter = ({ amount }: { amount: number }) => {
+const AnimatedCounter = ({ amount, prefix = "$" }: { amount: number; prefix?: string }) => {
   return (
     <div className="w-full">
-      <CountUp 
+      <CountUp
         decimals={2}
         decimal=","
-        prefix="$"
-        end={amount} 
+        prefix={prefix}
+        end={amount}
       />
     </div>
   )

@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
-import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
+import { COUNTRY_CONFIG, encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
 import {
   CountryCode,
   ProcessorTokenCreateRequest,
@@ -58,7 +58,7 @@ export const signIn = async ({ email, password }: signInProps) => {
 };
 
 export const signUp = async ({ password, ...userData }: SignUpParams) => {
-  const { email, firstName, lastName } = userData;
+  const { email, firstName, lastName, country } = userData;
 
   let newUserAccount;
 
@@ -74,14 +74,20 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     if (!newUserAccount) throw new Error("Error creating user");
 
-    const dwollaCustomerUrl = await createDwollaCustomer({
-      ...userData,
-      type: "personal",
-    });
+    let dwollaCustomerId = "";
+    let dwollaCustomerUrl = "";
 
-    if (!dwollaCustomerUrl) throw new Error("Error creating Dwolla customer");
+    if (country === "US") {
+      const url = await createDwollaCustomer({
+        ...userData,
+        type: "personal",
+      });
 
-    const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
+      if (!url) throw new Error("Error creating Dwolla customer");
+
+      dwollaCustomerUrl = url;
+      dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
+    }
 
     const newUser = await database.createDocument(
       DATABASE_ID!,
@@ -145,7 +151,7 @@ export const createLinkToken = async (user: User) => {
       client_name: `${user.firstName} ${user.lastName}`,
       products: ["auth", "transactions"] as Products[],
       language: "en",
-      country_codes: ["US"] as CountryCode[],
+      country_codes: [(COUNTRY_CONFIG[user.country]?.plaidCode || "US") as CountryCode],
     };
 
     const response = await plaidClient.linkTokenCreate(tokenParams);
@@ -207,27 +213,31 @@ export const exchangePublicToken = async ({
 
     const accountData = accountsResponse.data.accounts[0];
 
-    // Create a processor token for Dwolla using the access token and account ID
-    const request: ProcessorTokenCreateRequest = {
-      access_token: accessToken,
-      account_id: accountData.account_id,
-      processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
-    };
+    let fundingSourceUrl = "";
 
-    const processorTokenResponse = await plaidClient.processorTokenCreate(
-      request
-    );
-    const processorToken = processorTokenResponse.data.processor_token;
+    if (user.country === "US") {
+      // Create a processor token for Dwolla using the access token and account ID
+      const request: ProcessorTokenCreateRequest = {
+        access_token: accessToken,
+        account_id: accountData.account_id,
+        processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
+      };
 
-    // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
-    const fundingSourceUrl = await addFundingSource({
-      dwollaCustomerId: user.dwollaCustomerId,
-      processorToken,
-      bankName: accountData.name,
-    });
+      const processorTokenResponse = await plaidClient.processorTokenCreate(
+        request
+      );
+      const processorToken = processorTokenResponse.data.processor_token;
 
-    // If the funding source URL is not created, throw an error
-    if (!fundingSourceUrl) throw Error;
+      // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
+      fundingSourceUrl = await addFundingSource({
+        dwollaCustomerId: user.dwollaCustomerId,
+        processorToken,
+        bankName: accountData.name,
+      }) || "";
+
+      // If the funding source URL is not created, throw an error
+      if (!fundingSourceUrl) throw Error;
+    }
 
     // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and shareableId ID
     await createBankAccount({

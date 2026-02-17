@@ -6,17 +6,33 @@ import React from 'react'
 
 const Transfer = async () => {
   const loggedIn = await getLoggedInUser();
-  const accounts = await getAccounts({ 
-    userId: loggedIn.$id 
+  const accounts = await getAccounts({
+    userId: loggedIn.$id
   })
 
   if(!accounts) return;
-  
+
   const accountsData = accounts?.data;
+
+  if (loggedIn.country && loggedIn.country !== "US") {
+    return (
+      <section className="payment-transfer">
+        <HeaderBox
+          title="Payment Transfer"
+          subtext="Fund transfers are currently only available for US accounts."
+        />
+        <div className="flex flex-col items-center justify-center gap-4 pt-10">
+          <p className="text-16 text-gray-600">
+            Dwolla-powered transfers are not available in your region ({loggedIn.country}).
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="payment-transfer">
-      <HeaderBox 
+      <HeaderBox
         title="Payment Transfer"
         subtext="Please provide any specific details or notes related to the payment transfer"
       />
