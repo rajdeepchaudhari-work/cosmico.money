@@ -58,8 +58,9 @@ const currentTransactions = account?.transactions.slice(
         </div>
 
         <section className="flex w-full flex-col gap-6">
-          <TransactionsTable 
+          <TransactionsTable
             transactions={currentTransactions}
+            country={loggedIn?.country}
           />
             {totalPages > 1 && (
               <div className="my-4 w-full">

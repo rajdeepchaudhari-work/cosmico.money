@@ -51,7 +51,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
       try {
         // Sign up with Appwrite & create plaid token
-        
+
         if(type === 'sign-up') {
           const userData = {
             firstName: data.firstName!,
@@ -139,7 +139,7 @@ const AuthForm = ({ type }: { type: string }) => {
                               <SelectValue placeholder="Select your country" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="bg-white">
                             <SelectItem value="US">United States</SelectItem>
                             <SelectItem value="CA">Canada</SelectItem>
                             <SelectItem value="UK">United Kingdom</SelectItem>

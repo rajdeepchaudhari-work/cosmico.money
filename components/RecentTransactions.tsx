@@ -10,6 +10,7 @@ const RecentTransactions = ({
   transactions = [],
   appwriteItemId,
   page = 1,
+  country,
 }: RecentTransactionsProps) => {
   const rowsPerPage = 10;
   const totalPages = Math.ceil(transactions.length / rowsPerPage);
@@ -58,7 +59,7 @@ const RecentTransactions = ({
               type="full"
             />
 
-            <TransactionsTable transactions={currentTransactions} />
+            <TransactionsTable transactions={currentTransactions} country={country} />
             
 
             {totalPages > 1 && (

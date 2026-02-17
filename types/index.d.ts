@@ -144,6 +144,7 @@ declare interface CreditCardProps {
   account: Account;
   userName: string;
   showBalance?: boolean;
+  country?: string;
 }
 
 declare interface BankInfoProps {
@@ -233,6 +234,7 @@ declare interface RecentTransactionsProps {
   transactions: Transaction[];
   appwriteItemId: string;
   page: number;
+  country?: string;
 }
 
 declare interface TransactionHistoryTableProps {
@@ -246,6 +248,7 @@ declare interface CategoryBadgeProps {
 
 declare interface TransactionTableProps {
   transactions: Transaction[];
+  country?: string;
 }
 
 declare interface CategoryProps {

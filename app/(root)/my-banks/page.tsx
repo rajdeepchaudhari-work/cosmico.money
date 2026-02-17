@@ -24,10 +24,11 @@ const MyBanks = async () => {
           </h2>
           <div className="flex flex-wrap gap-6">
             {accounts && accounts.data.map((a: Account) => (
-              <BankCard 
+              <BankCard
                 key={accounts.id}
                 account={a}
                 userName={loggedIn?.firstName}
+                country={loggedIn?.country}
               />
             ))}
           </div>
