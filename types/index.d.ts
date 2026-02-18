@@ -339,6 +339,7 @@ declare interface getBankByAccountIdProps {
 // Rewards
 declare type Reward = {
   $id: string;
+  userId: string;
   merchantName: string;
   merchantMatch: string;
   targetAmount: number;

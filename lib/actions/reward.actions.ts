@@ -6,14 +6,14 @@ import { parseStringify } from "../utils";
 import { UK_MERCHANT_CHALLENGES } from "@/constants";
 import { generateAIRewards } from "./ai.actions";
 
-export const getRewards = async (): Promise<Reward[]> => {
+export const getRewards = async (userId: string): Promise<Reward[]> => {
   try {
     const { database } = await createAdminClient();
 
     const result = await database.listDocuments(
       process.env.APPWRITE_DATABASE_ID!,
       process.env.APPWRITE_REWARDS_COLLECTION_ID!,
-      [Query.limit(100)]
+      [Query.equal("userId", userId), Query.limit(100)]
     );
 
     return parseStringify(result.documents);
@@ -23,31 +23,31 @@ export const getRewards = async (): Promise<Reward[]> => {
   }
 };
 
-export const seedRewards = async (): Promise<{ success: boolean }> => {
+export const seedRewards = async (userId: string): Promise<{ success: boolean }> => {
   try {
     const { database } = await createAdminClient();
 
     const DATABASE_ID = process.env.APPWRITE_DATABASE_ID!;
     const REWARDS_COLLECTION_ID = process.env.APPWRITE_REWARDS_COLLECTION_ID!;
 
-    // Check if rewards already exist
+    // Check if this user already has rewards
     const existing = await database.listDocuments(
       DATABASE_ID,
       REWARDS_COLLECTION_ID,
-      [Query.limit(1)]
+      [Query.equal("userId", userId), Query.limit(1)]
     );
 
     if (existing.total > 0) {
       return { success: true };
     }
 
-    // Seed all UK merchant challenges
+    // Seed static UK merchant challenges for this user
     for (const challenge of UK_MERCHANT_CHALLENGES) {
       await database.createDocument(
         DATABASE_ID,
         REWARDS_COLLECTION_ID,
         ID.unique(),
-        challenge
+        { ...challenge, userId }
       );
     }
 
@@ -64,7 +64,8 @@ export const seedRewards = async (): Promise<{ success: boolean }> => {
  * Falls back to static UK_MERCHANT_CHALLENGES if the AI call fails.
  */
 export const seedAIRewards = async (
-  transactions: Transaction[]
+  transactions: Transaction[],
+  userId: string
 ): Promise<{ success: boolean }> => {
   try {
     const { database } = await createAdminClient();
@@ -72,11 +73,11 @@ export const seedAIRewards = async (
     const DATABASE_ID = process.env.APPWRITE_DATABASE_ID!;
     const REWARDS_COLLECTION_ID = process.env.APPWRITE_REWARDS_COLLECTION_ID!;
 
-    // Skip if rewards already exist
+    // Skip if this user already has rewards
     const existing = await database.listDocuments(
       DATABASE_ID,
       REWARDS_COLLECTION_ID,
-      [Query.limit(1)]
+      [Query.equal("userId", userId), Query.limit(1)]
     );
 
     if (existing.total > 0) {
@@ -95,7 +96,7 @@ export const seedAIRewards = async (
         DATABASE_ID,
         REWARDS_COLLECTION_ID,
         ID.unique(),
-        challenge
+        { ...challenge, userId }
       );
     }
 

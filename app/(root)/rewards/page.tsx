@@ -27,11 +27,11 @@ const Rewards = async () => {
     }
   }
 
-  // Auto-seed AI-generated rewards if collection is empty
-  let rewards = await getRewards();
+  // Auto-seed AI-generated rewards if this user has none yet
+  let rewards = await getRewards(loggedIn.$id);
   if (rewards.length === 0) {
-    await seedAIRewards(allTransactions);
-    rewards = await getRewards();
+    await seedAIRewards(allTransactions, loggedIn.$id);
+    rewards = await getRewards(loggedIn.$id);
   }
 
   const rewardsWithProgress = calculateRewardProgress(rewards, allTransactions);
