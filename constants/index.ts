@@ -24,6 +24,11 @@ export const sidebarLinks = [
     route: "/payment-transfer",
     label: "Transfer Funds",
   },
+  {
+    imgURL: "/icons/ai-chat.svg",
+    route: "/assistant",
+    label: "Cosmico AI",
+  },
 ];
 
 // good_user / good_password - Bank of America
