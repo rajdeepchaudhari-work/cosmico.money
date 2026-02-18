@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import DisclaimerModal from '@/components/DisclaimerModal'
 import ChatWidget from '@/components/ChatWidget'
+import AnimatedTagline from '@/components/AnimatedTagline'
 
 export default function LandingPage() {
   return (
@@ -54,20 +55,13 @@ export default function LandingPage() {
             </div>
 
             <h1 className="text-5xl lg:text-[3.75rem] font-bold text-gray-900 leading-tight mb-6 font-ibm-plex-serif">
-              Banking that{' '}
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #FC5C3A 0%, #368DFF 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                thinks for you
-              </span>
+              Banking that
+              <br />
+              <AnimatedTagline />
             </h1>
 
             <p className="text-lg text-gray-500 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              Cosmico connects all your bank accounts, analyses your spending with AI-powered charts, and rewards you for smart financial habits — all from one intelligent dashboard.
+              Cosmico connects all your bank accounts, analyses your spending with AI-powered charts, and rewards you for smart financial habits. One intelligent dashboard for everything.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
@@ -181,7 +175,7 @@ export default function LandingPage() {
               Everything you need, nothing you don&apos;t
             </h2>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              A complete AI-powered financial OS designed for modern life — secure, fast, and effortlessly intelligent.
+              A complete AI-powered financial OS designed for modern life. Secure, fast, and effortlessly intelligent.
             </p>
           </div>
 
@@ -203,7 +197,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Transfers</h3>
               <p className="text-gray-500 leading-relaxed text-sm">
-                Send money to anyone, anywhere in seconds. No hidden fees, no delays — just seamless ACH-powered transfers at your fingertips.
+                Send money to anyone, anywhere in seconds. No hidden fees, no delays. Just seamless ACH-powered transfers at your fingertips.
               </p>
             </div>
 
@@ -231,7 +225,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Bank-grade Security</h3>
               <p className="text-gray-500 leading-relaxed text-sm">
-                Your data is encrypted end-to-end. We use the same security standards as the world&apos;s top financial institutions — so your money is always safe.
+                Your data is encrypted end-to-end. We use the same security standards as the world&apos;s top financial institutions, so your money is always safe.
               </p>
             </div>
 
@@ -250,7 +244,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Spending Analysis</h3>
               <p className="text-gray-500 leading-relaxed text-sm">
-                Monzo-style interactive charts show exactly where your money goes — category doughnuts, monthly bars, and daily spend trends, all in real time.
+                Monzo-style interactive charts show exactly where your money goes: category doughnuts, monthly bars, and daily spend trends, all in real time.
               </p>
             </div>
 
@@ -379,7 +373,7 @@ export default function LandingPage() {
                   icon: '💬',
                   color: '#FC5C3A',
                   title: 'Contextual spending chat',
-                  desc: 'Cosmico AI reads your live transaction data before every response — so answers are always about your real finances, not generic advice.',
+                  desc: 'Cosmico AI reads your live transaction data before every response, so answers are always about your real finances, not generic advice.',
                 },
                 {
                   icon: '🎯',
@@ -391,13 +385,13 @@ export default function LandingPage() {
                   icon: '📊',
                   color: '#8b5cf6',
                   title: 'Spending analysis on demand',
-                  desc: 'Ask "where did my money go last month?" or navigate to Spending Analysis for full Monzo-style charts — doughnuts, bar charts, and trend lines.',
+                  desc: 'Ask "where did my money go last month?" or navigate to Spending Analysis for full Monzo-style charts: doughnuts, bar charts, and trend lines.',
                 },
                 {
                   icon: '⚡',
                   color: '#10b981',
                   title: 'Floating widget — always there',
-                  desc: 'Cosmico AI lives in the bottom corner of your dashboard. One click to open, instant answers — no page navigation required.',
+                  desc: 'Cosmico AI lives in the bottom corner of your dashboard. One click to open, instant answers with no page navigation required.',
                 },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 items-start">
@@ -445,7 +439,7 @@ export default function LandingPage() {
               </span>
             </h2>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              GPT-4o-mini studies your real transaction history and builds a personalised Quest Board of merchant challenges — complete them to win cashback and gift cards.
+              GPT-4o-mini studies your real transaction history and builds a personalised Quest Board of merchant challenges. Complete them to win cashback and gift cards.
             </p>
           </div>
 
@@ -458,25 +452,25 @@ export default function LandingPage() {
                   icon: '🤖',
                   color: '#368DFF',
                   title: 'AI builds your quests',
-                  desc: 'Every challenge is generated fresh by GPT-4o-mini based on your actual spending — not a one-size-fits-all list. Tesco shopper? You get a Tesco quest.',
+                  desc: 'Every challenge is generated fresh by GPT-4o-mini based on your actual spending, not a one-size-fits-all list. Tesco shopper? You get a Tesco quest.',
                 },
                 {
                   icon: '📈',
                   color: '#FC5C3A',
                   title: 'XP progress tracking',
-                  desc: 'Each quest has a live progress bar that fills as you spend. Watch your XP grow toward the reward threshold — no manual tracking needed.',
+                  desc: 'Each quest has a live progress bar that fills as you spend. Watch your XP grow toward the reward threshold with no manual tracking needed.',
                 },
                 {
                   icon: '🎁',
                   color: '#8b5cf6',
                   title: 'Real prizes, real merchants',
-                  desc: 'Rewards include Amazon vouchers, cashback, and gift cards from brands you actually use — unlocked automatically when you complete a quest.',
+                  desc: 'Rewards include Amazon vouchers, cashback, and gift cards from brands you actually use. They unlock automatically when you complete a quest.',
                 },
                 {
                   icon: '🔄',
                   color: '#10b981',
                   title: 'Fresh quests, always',
-                  desc: 'Complete your board and new AI-generated challenges appear. Your spending habits evolve — your Quest Board evolves with them.',
+                  desc: 'Complete your board and new AI-generated challenges appear. Your spending habits evolve and your Quest Board evolves with them.',
                 },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 items-start">
@@ -646,7 +640,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Create your account</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Sign up in under two minutes — no paperwork, no branch visits. Just your email and a few details to get started.
+                Sign up in under two minutes. No paperwork, no branch visits. Just your email and a few details to get started.
               </p>
             </div>
 
@@ -673,7 +667,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Connect your banks</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Securely link all your existing bank accounts in seconds using Plaid — read-only access, zero risk to your money.
+                Securely link all your existing bank accounts in seconds using Plaid. Read-only access, zero risk to your money.
               </p>
             </div>
 
@@ -700,7 +694,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Track &amp; transfer</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Let Cosmico AI analyse your spending, generate personalised rewards quests, and help you make smarter financial moves — every day.
+                Let Cosmico AI analyse your spending, generate personalised rewards quests, and help you make smarter financial moves every single day.
               </p>
             </div>
 
@@ -743,16 +737,16 @@ export default function LandingPage() {
               Your complete financial picture
             </h2>
             <p className="text-gray-500 text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single intelligent dashboard — powered by AI insights so you always know exactly where you stand.
+              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single intelligent dashboard powered by AI insights, so you always know exactly where you stand.
             </p>
             <ul className="space-y-4 text-left max-w-md mx-auto lg:mx-0">
               {[
                 { icon: '💳', text: 'Multi-bank account aggregation with real-time balances' },
-                { icon: '📊', text: 'Monzo-style Spending Analysis — category charts, monthly bars, daily trends' },
-                { icon: '🤖', text: 'Cosmico AI assistant — chat about your finances, get instant answers' },
+                { icon: '📊', text: 'Monzo-style Spending Analysis with category charts, monthly bars and daily trends' },
+                { icon: '🤖', text: 'Cosmico AI assistant to chat about your finances and get instant answers' },
                 { icon: '🎯', text: 'AI-generated Quest Board rewards personalised to your spending habits' },
-                { icon: '↗️', text: 'Instant ACH transfers to anyone — no bank charges' },
-                { icon: '⚙️', text: 'Full profile & settings control — tax residency, address, connected banks' },
+                { icon: '↗️', text: 'Instant ACH transfers to anyone with no bank charges' },
+                { icon: '⚙️', text: 'Full profile and settings control for tax residency, address and connected banks' },
               ].map((item) => (
                 <li key={item.text} className="flex items-start gap-3">
                   <span className="text-xl shrink-0">{item.icon}</span>
@@ -807,7 +801,7 @@ export default function LandingPage() {
                 <span style={{ color: '#FC5C3A' }}>to experience it.</span>
               </h2>
               <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Cosmico is launching soon. Create a free account today and get access to AI-powered spending insights, Quest Board rewards, and your personal AI banker — all for free.
+                Cosmico is launching soon. Create a free account today and get access to AI-powered spending insights, Quest Board rewards, and your personal AI banker. All completely free.
               </p>
               <Link
                 href="/sign-up"

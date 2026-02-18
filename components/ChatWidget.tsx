@@ -58,9 +58,9 @@ export default function ChatWidget() {
           style={{
             position: "fixed",
             bottom: 84,
-            right: 24,
-            width: 360,
-            maxHeight: 520,
+            right: 16,
+            width: "min(360px, calc(100vw - 32px))",
+            maxHeight: "min(520px, 70vh)",
             background: "#ffffff",
             borderRadius: 20,
             boxShadow: "0 12px 48px rgba(0,0,0,0.16)",
@@ -331,7 +331,7 @@ export default function ChatWidget() {
         style={{
           position: "fixed",
           bottom: 24,
-          right: 24,
+          right: 16,
           width: 52,
           height: 52,
           background: open

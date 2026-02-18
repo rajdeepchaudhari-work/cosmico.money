@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ChatWidget from "@/components/ChatWidget";
 
 export default function RootLayout({
   children,
@@ -8,6 +9,7 @@ export default function RootLayout({
   return (
     <main className="flex min-h-screen w-full justify-between font-inter">
       {children}
+      <ChatWidget />
       <div className="auth-asset">
         <div>
           <Image
