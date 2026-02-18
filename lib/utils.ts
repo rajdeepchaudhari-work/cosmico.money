@@ -4,10 +4,42 @@ import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
-export const COUNTRY_CONFIG: Record<string, { currency: string; locale: string; prefix: string; idLabel: string; idPlaceholder: string; stateLabel: string; statePlaceholder: string; plaidCode: string; transfersEnabled: boolean }> = {
-  US: { currency: "USD", locale: "en-US", prefix: "$", idLabel: "SSN", idPlaceholder: "Example: 1234", stateLabel: "State", statePlaceholder: "Example: NY", plaidCode: "US", transfersEnabled: true },
-  CA: { currency: "CAD", locale: "en-CA", prefix: "CA$", idLabel: "SIN", idPlaceholder: "Example: 123-456-789", stateLabel: "Province", statePlaceholder: "Example: ON", plaidCode: "CA", transfersEnabled: false },
-  UK: { currency: "GBP", locale: "en-GB", prefix: "\u00a3", idLabel: "NI Number", idPlaceholder: "Example: QQ 12 34 56 C", stateLabel: "County", statePlaceholder: "Example: London", plaidCode: "GB", transfersEnabled: false },
+export const COUNTRY_CONFIG: Record<string, {
+  currency: string; locale: string; prefix: string;
+  idLabel: string; idPlaceholder: string;
+  stateLabel: string; statePlaceholder: string;
+  postalPlaceholder: string;
+  addressPlaceholder: string;
+  cityPlaceholder: string;
+  plaidCode: string; transfersEnabled: boolean;
+}> = {
+  US: {
+    currency: "USD", locale: "en-US", prefix: "$",
+    idLabel: "SSN (last 4)", idPlaceholder: "e.g. 1234",
+    stateLabel: "State", statePlaceholder: "e.g. NY",
+    postalPlaceholder: "e.g. 10001",
+    addressPlaceholder: "e.g. 123 Main St",
+    cityPlaceholder: "e.g. New York",
+    plaidCode: "US", transfersEnabled: true,
+  },
+  CA: {
+    currency: "CAD", locale: "en-CA", prefix: "CA$",
+    idLabel: "SIN", idPlaceholder: "e.g. 123-456-789",
+    stateLabel: "Province", statePlaceholder: "e.g. ON",
+    postalPlaceholder: "e.g. K1A 0A9",
+    addressPlaceholder: "e.g. 123 Maple Ave",
+    cityPlaceholder: "e.g. Toronto",
+    plaidCode: "CA", transfersEnabled: false,
+  },
+  UK: {
+    currency: "GBP", locale: "en-GB", prefix: "\u00a3",
+    idLabel: "NI Number", idPlaceholder: "e.g. QQ 12 34 56 C",
+    stateLabel: "County", statePlaceholder: "e.g. Greater London",
+    postalPlaceholder: "e.g. SW1A 1AA",
+    addressPlaceholder: "e.g. 10 Downing Street",
+    cityPlaceholder: "e.g. London",
+    plaidCode: "GB", transfersEnabled: false,
+  },
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -203,17 +235,67 @@ export const getTransactionStatus = (date: Date) => {
 };
 
 export const authFormSchema = (type: string) => z.object({
-  // sign up
-  firstName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  lastName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  address1: type === 'sign-in' ? z.string().optional() : z.string().max(50),
-  city: type === 'sign-in' ? z.string().optional() : z.string().max(50),
-  country: type === 'sign-in' ? z.string().optional() : z.string().min(2),
-  state: type === 'sign-in' ? z.string().optional() : z.string().min(2).max(50),
-  postalCode: type === 'sign-in' ? z.string().optional() : z.string().min(3).max(10),
-  dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  ssn: type === 'sign-in' ? z.string().optional() : z.string().min(3),
+  // sign up only
+  firstName:   type === 'sign-in' ? z.string().optional() : z.string().min(2, 'At least 2 characters'),
+  lastName:    type === 'sign-in' ? z.string().optional() : z.string().min(2, 'At least 2 characters'),
+  address1:    type === 'sign-in' ? z.string().optional() : z.string().min(5, 'Enter a valid address').max(50),
+  city:        type === 'sign-in' ? z.string().optional() : z.string().min(2, 'Enter a valid city').max(50),
+  country:     type === 'sign-in' ? z.string().optional() : z.string().min(2, 'Please select a country'),
+  state:       type === 'sign-in' ? z.string().optional() : z.string().min(2, 'Required').max(50),
+  postalCode:  type === 'sign-in' ? z.string().optional() : z.string().min(3, 'Enter a valid postal code').max(10),
+  dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3, 'Enter your date of birth'),
+  ssn:         type === 'sign-in' ? z.string().optional() : z.string().min(1, 'Required'),
   // both
-  email: z.string().email(),
-  password: z.string().min(8),
+  email:    z.string().email('Enter a valid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+}).superRefine((data, ctx) => {
+  if (type === 'sign-in') return;
+
+  const country = data.country || 'US';
+
+  // ── Postal code ──────────────────────────────────────────
+  const postalRules: Record<string, { regex: RegExp; message: string }> = {
+    US: { regex: /^\d{5}(-\d{4})?$/,                                       message: 'Use format: 10001 or 10001-1234' },
+    CA: { regex: /^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$/,                  message: 'Use format: K1A 0A9' },
+    UK: { regex: /^[A-Za-z]{1,2}\d[A-Za-z\d]?[ ]?\d[A-Za-z]{2}$/,        message: 'Use format: SW1A 1AA' },
+  };
+  if (data.postalCode && postalRules[country] && !postalRules[country].regex.test(data.postalCode)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: postalRules[country].message, path: ['postalCode'] });
+  }
+
+  // ── ID number (SSN / SIN / NI) ───────────────────────────
+  const idRules: Record<string, { regex: RegExp; message: string }> = {
+    US: { regex: /^\d{4}$/,                                                        message: 'Enter last 4 digits of SSN, e.g. 1234' },
+    CA: { regex: /^\d{3}-\d{3}-\d{3}$/,                                           message: 'Use format: 123-456-789' },
+    UK: { regex: /^[A-Za-z]{2}[ ]?\d{2}[ ]?\d{2}[ ]?\d{2}[ ]?[A-Za-z]$/,        message: 'Use format: QQ 12 34 56 C' },
+  };
+  if (data.ssn && idRules[country] && !idRules[country].regex.test(data.ssn)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: idRules[country].message, path: ['ssn'] });
+  }
+
+  // ── State / Province (US & CA need 2-letter code) ────────
+  const stateRules: Record<string, { regex: RegExp; message: string }> = {
+    US: { regex: /^[A-Z]{2}$/, message: 'Use 2-letter state code, e.g. NY' },
+    CA: { regex: /^[A-Z]{2}$/, message: 'Use 2-letter province code, e.g. ON' },
+  };
+  if (data.state && stateRules[country] && !stateRules[country].regex.test(data.state.toUpperCase())) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: stateRules[country].message, path: ['state'] });
+  }
+
+  // ── Date of birth ─────────────────────────────────────────
+  if (data.dateOfBirth) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(data.dateOfBirth)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Use YYYY-MM-DD format, e.g. 1990-01-15', path: ['dateOfBirth'] });
+    } else {
+      const dob = new Date(data.dateOfBirth);
+      const age = new Date().getFullYear() - dob.getFullYear();
+      if (isNaN(dob.getTime())) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Enter a valid date', path: ['dateOfBirth'] });
+      } else if (age < 18) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'You must be at least 18 years old', path: ['dateOfBirth'] });
+      } else if (age > 120) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Enter a valid date of birth', path: ['dateOfBirth'] });
+      }
+    }
+  }
 })

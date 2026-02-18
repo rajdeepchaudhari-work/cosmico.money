@@ -11,31 +11,33 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import CustomInput from './CustomInput';
 import { authFormSchema, COUNTRY_CONFIG } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
+import { Loader2, AlertCircle, X, CheckCircle2 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const resetSuccess = type === 'sign-in' && searchParams.get('reset') === 'success';
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
+      mode: 'onBlur',
       defaultValues: {
         email: "",
         password: ''
@@ -48,10 +50,9 @@ const AuthForm = ({ type }: { type: string }) => {
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
       setIsLoading(true);
+      setAuthError(null);
 
       try {
-        // Sign up with Appwrite & create plaid token
-
         if(type === 'sign-up') {
           const userData = {
             firstName: data.firstName!,
@@ -68,7 +69,6 @@ const AuthForm = ({ type }: { type: string }) => {
           }
 
           const newUser = await signUp(userData);
-
           setUser(newUser);
         }
 
@@ -80,8 +80,23 @@ const AuthForm = ({ type }: { type: string }) => {
 
           if(response) router.push('/')
         }
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        // Appwrite puts the code in error.type e.g. "user_invalid_credentials"
+        const combined = `${error?.message ?? ''} ${error?.type ?? ''}`.toLowerCase();
+
+        if (type === 'sign-in') {
+          if (combined.includes('invalid') || combined.includes('credentials') || combined.includes('password')) {
+            setAuthError('Incorrect email or password. Please try again.');
+          } else {
+            setAuthError('Sign in failed. Please check your details and try again.');
+          }
+        } else {
+          if (combined.includes('already exists') || combined.includes('conflict')) {
+            setAuthError('An account with this email already exists. Try signing in instead.');
+          } else {
+            setAuthError('Sign up failed. Please check your details and try again.');
+          }
+        }
       } finally {
         setIsLoading(false);
       }
@@ -150,17 +165,17 @@ const AuthForm = ({ type }: { type: string }) => {
                     )}
                   />
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' />
-                    <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your first name' />
+                    <CustomInput control={form.control} name='firstName' label="First Name" placeholder='e.g. John' />
+                    <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='e.g. Smith' />
                   </div>
-                  <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' />
-                  <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' />
+                  <CustomInput control={form.control} name='address1' label="Address" placeholder={countryConfig.addressPlaceholder} />
+                  <CustomInput control={form.control} name='city' label="City" placeholder={countryConfig.cityPlaceholder} />
                   <div className="flex gap-4">
                     <CustomInput control={form.control} name='state' label={countryConfig.stateLabel} placeholder={countryConfig.statePlaceholder} />
-                    <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' />
+                    <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder={countryConfig.postalPlaceholder} />
                   </div>
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' />
+                    <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='e.g. 1990-01-15' />
                     <CustomInput control={form.control} name='ssn' label={countryConfig.idLabel} placeholder={countryConfig.idPlaceholder} />
                   </div>
                 </>
@@ -168,7 +183,35 @@ const AuthForm = ({ type }: { type: string }) => {
 
               <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
 
-              <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
+              <div className="flex flex-col gap-1">
+                <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
+                {type === 'sign-in' && (
+                  <Link href="/forgot-password" className="text-12 text-right text-blue-600 hover:underline mt-1 self-end">
+                    Forgot password?
+                  </Link>
+                )}
+              </div>
+
+              {resetSuccess && (
+                <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
+                  <p className="text-sm text-green-700">Password updated successfully. Please sign in.</p>
+                </div>
+              )}
+
+              {authError && (
+                <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                  <p className="flex-1 text-sm text-red-700">{authError}</p>
+                  <button
+                    type="button"
+                    onClick={() => setAuthError(null)}
+                    className="text-red-400 hover:text-red-600 transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
 
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">

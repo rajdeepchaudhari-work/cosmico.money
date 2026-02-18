@@ -2,7 +2,7 @@
 
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { COUNTRY_CONFIG, encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
 import {
   CountryCode,
@@ -54,6 +54,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     return parseStringify(user);
   } catch (error) {
     console.error("Error", error);
+    throw error;
   }
 };
 
@@ -113,6 +114,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     return parseStringify(newUser);
   } catch (error) {
     console.error("Error", error);
+    throw error;
   }
 };
 
@@ -290,6 +292,29 @@ export const getBank = async ({ documentId }: getBankProps) => {
     return parseStringify(bank.documents[0]);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const sendPasswordRecovery = async (email: string) => {
+  try {
+    const { account } = await createAdminClient();
+    const origin = headers().get('origin') || 'http://localhost:3000';
+    await account.createRecovery(email, `${origin}/reset-password`);
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (userId: string, secret: string, password: string) => {
+  try {
+    const { account } = await createAdminClient();
+    await account.updateRecovery(userId, secret, password);
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
 
