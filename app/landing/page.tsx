@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import DisclaimerModal from '@/components/DisclaimerModal'
+import ChatWidget from '@/components/ChatWidget'
 
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-white font-inter overflow-x-hidden">
       <DisclaimerModal />
+      <ChatWidget />
 
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
@@ -48,7 +50,7 @@ export default function LandingPage() {
                 className="w-2 h-2 rounded-full animate-pulse"
                 style={{ background: '#FC5C3A' }}
               />
-              Beta Launch — Limited Early Access
+              ✦ AI-Powered Banking · Beta
             </div>
 
             <h1 className="text-5xl lg:text-[3.75rem] font-bold text-gray-900 leading-tight mb-6 font-ibm-plex-serif">
@@ -60,12 +62,12 @@ export default function LandingPage() {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                works for you
+                thinks for you
               </span>
             </h1>
 
             <p className="text-lg text-gray-500 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              Cosmico connects all your bank accounts, tracks your spending in real-time, and lets you send money globally — from one beautiful dashboard.
+              Cosmico connects all your bank accounts, analyses your spending with AI-powered charts, and rewards you for smart financial habits — all from one intelligent dashboard.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
@@ -162,30 +164,6 @@ export default function LandingPage() {
       </div>
 
       {/* ────────────────────────────────────────
-          STATS BAR
-      ──────────────────────────────────────── */}
-      <div className="py-14 px-6 bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { value: '2,000+', label: 'Beta Users' },
-            { value: '3', label: 'Countries Supported' },
-            { value: '256-bit', label: 'Encryption' },
-            { value: '$0', label: 'Monthly Fees' },
-          ].map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-1">
-              <span
-                className="text-4xl font-bold font-ibm-plex-serif"
-                style={{ color: '#368DFF' }}
-              >
-                {stat.value}
-              </span>
-              <span className="text-sm font-medium text-gray-500">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ────────────────────────────────────────
           SECTION 2 — Features
       ──────────────────────────────────────── */}
       <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
@@ -200,14 +178,14 @@ export default function LandingPage() {
               Why Cosmico
             </p>
             <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
-              Everything you need, nothing you don't
+              Everything you need, nothing you don&apos;t
             </h2>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              A complete financial OS designed for modern life — secure, fast, and effortlessly simple.
+              A complete AI-powered financial OS designed for modern life — secure, fast, and effortlessly intelligent.
             </p>
           </div>
 
-          {/* Cards grid */}
+          {/* Main cards grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* Card 1 — Instant Transfers */}
@@ -253,11 +231,11 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Bank-grade Security</h3>
               <p className="text-gray-500 leading-relaxed text-sm">
-                Your data is encrypted end-to-end. We use the same security standards as the world's top financial institutions — so your money is always safe.
+                Your data is encrypted end-to-end. We use the same security standards as the world&apos;s top financial institutions — so your money is always safe.
               </p>
             </div>
 
-            {/* Card 3 — Smart Insights */}
+            {/* Card 3 — Spending Analysis */}
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
               <div
                 className="rounded-2xl p-5 mb-6"
@@ -265,15 +243,358 @@ export default function LandingPage() {
               >
                 <Image
                   src="/icons/Hero/undraw_mobile-payments_uate.svg"
-                  alt="Smart Spending Insights"
+                  alt="Spending Analysis"
                   width={150}
                   height={120}
                 />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Spending Insights</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Spending Analysis</h3>
               <p className="text-gray-500 leading-relaxed text-sm">
-                Visualise exactly where your money goes with automatic categorisation, reward tracking, and real-time budget alerts.
+                Monzo-style interactive charts show exactly where your money goes — category doughnuts, monthly bars, and daily spend trends, all in real time.
               </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────
+          Cosmico AI Spotlight
+      ──────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+
+          <div className="text-center mb-14">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
+              style={{ background: 'rgba(252,92,58,0.1)', color: '#FC5C3A' }}
+            >
+              ✦ Powered by GPT-4o-mini
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
+              Meet{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #FC5C3A 0%, #368DFF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Cosmico AI
+              </span>
+            </h2>
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
+              Your personal AI banker, available 24/7. Ask questions, get spending summaries, and understand your finances like never before.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            {/* Left — chat preview mockup */}
+            <div
+              className="rounded-3xl overflow-hidden shadow-xl border"
+              style={{ borderColor: 'rgba(252,92,58,0.15)' }}
+            >
+              {/* Chat header */}
+              <div
+                className="px-5 py-4 flex items-center gap-3"
+                style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+              >
+                <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-sm">
+                  C
+                </div>
+                <div>
+                  <p className="text-white font-bold text-sm">Cosmico AI</p>
+                  <p className="text-white/70 text-xs">Always online · GPT-4o-mini</p>
+                </div>
+                <div className="ml-auto w-2 h-2 rounded-full bg-green-300 animate-pulse" />
+              </div>
+
+              {/* Chat messages */}
+              <div className="bg-gray-50 p-5 flex flex-col gap-4">
+
+                {/* AI message */}
+                <div className="flex gap-3 items-start">
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5"
+                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+                  >
+                    C
+                  </div>
+                  <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-xs">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      Hi! 👋 I&apos;ve analysed your accounts. You&apos;ve spent <strong>£284</strong> this month — mostly on food &amp; dining. Want some tips to cut back?
+                    </p>
+                  </div>
+                </div>
+
+                {/* User message */}
+                <div className="flex gap-3 items-start justify-end">
+                  <div
+                    className="rounded-2xl rounded-tr-none px-4 py-3 max-w-xs"
+                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+                  >
+                    <p className="text-white text-sm leading-relaxed">
+                      Yes please! What&apos;s my top merchant this month?
+                    </p>
+                  </div>
+                </div>
+
+                {/* AI message 2 */}
+                <div className="flex gap-3 items-start">
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5"
+                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+                  >
+                    C
+                  </div>
+                  <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-xs">
+                    <p className="text-gray-800 text-sm leading-relaxed">
+                      Your top merchant is <strong>Tesco</strong> at £62 spent. You also have an active Quest to earn <strong>£5 cashback</strong> there — you&apos;re 60% of the way! 🎯
+                    </p>
+                  </div>
+                </div>
+
+                {/* Input bar */}
+                <div className="flex gap-2 mt-2">
+                  <div className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-400">
+                    Ask anything about your finances...
+                  </div>
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+                  >
+                    ↑
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Right — feature list */}
+            <div className="flex flex-col gap-5 justify-center">
+              {[
+                {
+                  icon: '💬',
+                  color: '#FC5C3A',
+                  title: 'Contextual spending chat',
+                  desc: 'Cosmico AI reads your live transaction data before every response — so answers are always about your real finances, not generic advice.',
+                },
+                {
+                  icon: '🎯',
+                  color: '#368DFF',
+                  title: 'Personalised AI rewards',
+                  desc: 'GPT-4o-mini analyses your spending patterns and generates tailored merchant challenges. Earn gift cards and cashback for habits you already have.',
+                },
+                {
+                  icon: '📊',
+                  color: '#8b5cf6',
+                  title: 'Spending analysis on demand',
+                  desc: 'Ask "where did my money go last month?" or navigate to Spending Analysis for full Monzo-style charts — doughnuts, bar charts, and trend lines.',
+                },
+                {
+                  icon: '⚡',
+                  color: '#10b981',
+                  title: 'Floating widget — always there',
+                  desc: 'Cosmico AI lives in the bottom corner of your dashboard. One click to open, instant answers — no page navigation required.',
+                },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-4 items-start">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
+                    style={{ background: `${item.color}18` }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 mb-1">{item.title}</h4>
+                    <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────
+          Rewards Quest Board Spotlight
+      ──────────────────────────────────────── */}
+      <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
+        <div className="max-w-6xl mx-auto">
+
+          <div className="text-center mb-14">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
+              style={{ background: 'rgba(54,141,255,0.1)', color: '#368DFF' }}
+            >
+              ✦ AI-Generated · Personalised to you
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
+              Earn rewards for spending{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #368DFF 0%, #FC5C3A 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                you already do
+              </span>
+            </h2>
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
+              GPT-4o-mini studies your real transaction history and builds a personalised Quest Board of merchant challenges — complete them to win cashback and gift cards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            {/* Left — feature list */}
+            <div className="flex flex-col gap-5 justify-center">
+              {[
+                {
+                  icon: '🤖',
+                  color: '#368DFF',
+                  title: 'AI builds your quests',
+                  desc: 'Every challenge is generated fresh by GPT-4o-mini based on your actual spending — not a one-size-fits-all list. Tesco shopper? You get a Tesco quest.',
+                },
+                {
+                  icon: '📈',
+                  color: '#FC5C3A',
+                  title: 'XP progress tracking',
+                  desc: 'Each quest has a live progress bar that fills as you spend. Watch your XP grow toward the reward threshold — no manual tracking needed.',
+                },
+                {
+                  icon: '🎁',
+                  color: '#8b5cf6',
+                  title: 'Real prizes, real merchants',
+                  desc: 'Rewards include Amazon vouchers, cashback, and gift cards from brands you actually use — unlocked automatically when you complete a quest.',
+                },
+                {
+                  icon: '🔄',
+                  color: '#10b981',
+                  title: 'Fresh quests, always',
+                  desc: 'Complete your board and new AI-generated challenges appear. Your spending habits evolve — your Quest Board evolves with them.',
+                },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-4 items-start">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
+                    style={{ background: `${item.color}18` }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 mb-1">{item.title}</h4>
+                    <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Right — Quest Board mockup */}
+            <div
+              className="rounded-3xl overflow-hidden shadow-xl border"
+              style={{ borderColor: 'rgba(54,141,255,0.15)' }}
+            >
+              {/* Board header */}
+              <div
+                className="px-5 py-4 flex items-center justify-between"
+                style={{ background: 'linear-gradient(135deg, #1e3a5f, #1e293b)' }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+                    style={{ background: 'rgba(54,141,255,0.25)' }}>
+                    🎯
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-sm">Quest Board</p>
+                    <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-xs">Powered by Cosmico AI</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(54,141,255,0.2)', color: '#60a5fa' }}>3 Active</div>
+                  <div className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(16,185,129,0.2)', color: '#34d399' }}>1 Done</div>
+                </div>
+              </div>
+
+              {/* Quest cards */}
+              <div className="bg-gray-50 p-4 flex flex-col gap-3">
+
+                {/* Quest 1 — active */}
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #FC5C3A, #ff7958)' }} />
+                  <div className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-orange-50">🛒</div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-900">Tesco Challenge</p>
+                          <p className="text-xs text-gray-500">Spend £80 at Tesco this month</p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-xs font-bold" style={{ color: '#FC5C3A' }}>£5 cashback</p>
+                        <p className="text-[10px] text-gray-400">+120 XP</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                        <div className="h-1.5 rounded-full" style={{ width: '60%', background: 'linear-gradient(90deg, #FC5C3A, #ff7958)' }} />
+                      </div>
+                      <span className="text-[10px] font-bold text-gray-500">£48 / £80</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quest 2 — active */}
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #368DFF, #60a5fa)' }} />
+                  <div className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-blue-50">☕</div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-900">Costa Coffee Run</p>
+                          <p className="text-xs text-gray-500">Visit Costa 5 times this month</p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-xs font-bold" style={{ color: '#368DFF' }}>Free drink</p>
+                        <p className="text-[10px] text-gray-400">+80 XP</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                        <div className="h-1.5 rounded-full" style={{ width: '40%', background: 'linear-gradient(90deg, #368DFF, #60a5fa)' }} />
+                      </div>
+                      <span className="text-[10px] font-bold text-gray-500">2 / 5 visits</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quest 3 — completed */}
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 opacity-75">
+                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #10b981, #34d399)' }} />
+                  <div className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-green-50">🎬</div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-900">Cinema Weekend</p>
+                          <p className="text-xs text-gray-500">Spend £20 at Vue Cinema</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'rgba(16,185,129,0.1)' }}>
+                        <span style={{ color: '#10b981' }} className="text-xs font-bold">✓ Completed</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
 
           </div>
@@ -379,7 +700,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Track &amp; transfer</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                See all your spending in one dashboard, earn rewards for hitting goals, and send money globally — all from one place.
+                Let Cosmico AI analyse your spending, generate personalised rewards quests, and help you make smarter financial moves — every day.
               </p>
             </div>
 
@@ -422,14 +743,16 @@ export default function LandingPage() {
               Your complete financial picture
             </h2>
             <p className="text-gray-500 text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single, beautiful dashboard — so you always know exactly where you stand.
+              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single intelligent dashboard — powered by AI insights so you always know exactly where you stand.
             </p>
             <ul className="space-y-4 text-left max-w-md mx-auto lg:mx-0">
               {[
                 { icon: '💳', text: 'Multi-bank account aggregation with real-time balances' },
-                { icon: '🏆', text: 'Spending rewards and merchant challenges to earn gift cards' },
+                { icon: '📊', text: 'Monzo-style Spending Analysis — category charts, monthly bars, daily trends' },
+                { icon: '🤖', text: 'Cosmico AI assistant — chat about your finances, get instant answers' },
+                { icon: '🎯', text: 'AI-generated Quest Board rewards personalised to your spending habits' },
                 { icon: '↗️', text: 'Instant ACH transfers to anyone — no bank charges' },
-                { icon: '🔔', text: 'Smart categorisation and budget alerts' },
+                { icon: '⚙️', text: 'Full profile & settings control — tax residency, address, connected banks' },
               ].map((item) => (
                 <li key={item.text} className="flex items-start gap-3">
                   <span className="text-xl shrink-0">{item.icon}</span>
@@ -452,7 +775,7 @@ export default function LandingPage() {
       </section>
 
       {/* ────────────────────────────────────────
-          SECTION 5 — Beta CTA
+          SECTION 6 — Beta CTA
       ──────────────────────────────────────── */}
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
@@ -484,7 +807,7 @@ export default function LandingPage() {
                 <span style={{ color: '#FC5C3A' }}>to experience it.</span>
               </h2>
               <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Cosmico is launching soon. Create a free account today and help shape the future of personal banking.
+                Cosmico is launching soon. Create a free account today and get access to AI-powered spending insights, Quest Board rewards, and your personal AI banker — all for free.
               </p>
               <Link
                 href="/sign-up"
@@ -529,7 +852,7 @@ export default function LandingPage() {
                 </span>
               </div>
               <p className="text-sm leading-relaxed max-w-sm text-gray-500">
-                A developer sandbox project demonstrating modern open banking concepts — multi-bank aggregation, instant transfers, and spending rewards in one dashboard.
+                A developer sandbox project demonstrating modern open banking concepts — multi-bank aggregation, AI-powered insights, instant transfers, spending analysis, and personalised rewards in one dashboard.
               </p>
               <div className="mt-6">
                 <Image
@@ -551,7 +874,19 @@ export default function LandingPage() {
                 <li><Link href="/sign-in" className="hover:text-white transition-colors">Sign In</Link></li>
                 <li>
                   <span className="flex items-center gap-2">
-                    Rewards
+                    Spending Analysis
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(54,141,255,0.15)', color: '#368DFF' }}>New</span>
+                  </span>
+                </li>
+                <li>
+                  <span className="flex items-center gap-2">
+                    Cosmico AI
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>GPT-4o</span>
+                  </span>
+                </li>
+                <li>
+                  <span className="flex items-center gap-2">
+                    AI Rewards
                     <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
                   </span>
                 </li>
@@ -609,7 +944,7 @@ export default function LandingPage() {
           {/* Bottom bar */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
             <span>© 2026 Cosmico · All rights reserved · Sandbox build</span>
-            <span>Built with Next.js · Plaid · Dwolla · Appwrite</span>
+            <span>Built with Next.js · Plaid · Dwolla · Appwrite · OpenAI</span>
           </div>
 
         </div>
