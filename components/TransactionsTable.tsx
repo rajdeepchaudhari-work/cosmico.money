@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table"
 import { transactionCategoryStyles } from "@/constants"
 import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import MerchantLogo from "@/components/MerchantLogo"
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
   const {
@@ -51,6 +52,7 @@ const TransactionsTable = ({ transactions, country }: TransactionTableProps) => 
             <TableRow key={t.id} className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}>
               <TableCell className="max-w-[250px] pl-2 pr-10">
                 <div className="flex items-center gap-3">
+                  <MerchantLogo name={t.name} size={36} />
                   <h1 className="text-14 truncate font-semibold text-[#344054]">
                     {removeSpecialCharacters(t.name)}
                   </h1>
