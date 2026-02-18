@@ -1,9 +1,8 @@
-import Image from "next/image";
-
 import { rewardCategoryStyles } from "@/constants";
 import { cn } from "@/lib/utils";
 import { formatAmount } from "@/lib/utils";
 import { Progress } from "./ui/progress";
+import MerchantLogo from "./MerchantLogo";
 
 const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
   const styles =
@@ -13,9 +12,7 @@ const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
   return (
     <div className={cn("reward-card", styles.bg)}>
       <div className="reward-card_header">
-        <figure className={cn("flex-center size-10 rounded-full", styles.circleBg)}>
-          <Image src={styles.icon} width={20} height={20} alt={reward.merchantName} />
-        </figure>
+        <MerchantLogo name={reward.merchantName} size={40} />
         <div className="flex flex-1 items-center justify-between">
           <div>
             <h3 className={cn("text-14 font-medium", styles.text.main)}>
