@@ -44,107 +44,65 @@ const Rewards = async () => {
   return (
     <div className="rewards">
 
-      {/* Quest Board Hero Header */}
+      {/* Quest Board Header */}
       <div
         style={{
-          background: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)",
-          borderRadius: 20,
-          padding: "28px 28px 24px",
-          border: "1px solid rgba(99,102,241,0.2)",
-          position: "relative",
-          overflow: "hidden",
+          background: "#ffffff",
+          borderRadius: 16,
+          padding: "24px 24px 20px",
+          border: "1px solid #e8ecf0",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
         }}
       >
-        {/* Background grid decoration */}
-        <div
+        {/* AI Badge */}
+        <span
           style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-            pointerEvents: "none",
+            background: "rgba(252,92,58,0.08)",
+            color: "#FC5C3A",
+            border: "1px solid rgba(252,92,58,0.2)",
+            fontSize: 11,
+            fontWeight: 700,
+            padding: "4px 12px",
+            borderRadius: 99,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            letterSpacing: "0.04em",
+            marginBottom: 12,
           }}
-        />
+        >
+          ✦ Powered by Cosmico AI
+        </span>
 
-        {/* Glow orbs */}
-        <div
-          style={{
-            position: "absolute",
-            top: -40,
-            right: -40,
-            width: 160,
-            height: 160,
-            background: "radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: -30,
-            left: 80,
-            width: 120,
-            height: 120,
-            background: "radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
+        {/* Title + subtitle */}
+        <h1 style={{ color: "#111827", fontSize: 26, fontWeight: 800, lineHeight: 1.1 }}>
+          Quest Board
+        </h1>
+        <p style={{ color: "#6b7280", fontSize: 14, marginTop: 6, marginBottom: 20 }}>
+          Complete spending challenges at your favourite merchants to unlock rewards.
+        </p>
 
-        <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* AI Badge */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span
+        {/* Stats row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+          {[
+            { label: "Active Quests", value: activeRewards.length, color: "#368DFF", bg: "rgba(54,141,255,0.07)", border: "rgba(54,141,255,0.15)" },
+            { label: "Completed", value: completedRewards.length, color: "#059669", bg: "rgba(5,150,105,0.07)", border: "rgba(5,150,105,0.15)" },
+            { label: "Total Prizes", value: `£${totalRewardValue}`, color: "#FC5C3A", bg: "rgba(252,92,58,0.07)", border: "rgba(252,92,58,0.15)" },
+          ].map(({ label, value, color, bg, border }) => (
+            <div
+              key={label}
               style={{
-                background: "rgba(99,102,241,0.2)",
-                color: "#a5b4fc",
-                border: "1px solid rgba(99,102,241,0.4)",
-                fontSize: 11,
-                fontWeight: 700,
-                padding: "4px 12px",
-                borderRadius: 99,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                letterSpacing: "0.04em",
+                background: bg,
+                border: `1px solid ${border}`,
+                borderRadius: 12,
+                padding: "12px 10px",
+                textAlign: "center",
               }}
             >
-              ✦ Powered by Cosmico AI
-            </span>
-          </div>
-
-          {/* Title */}
-          <div>
-            <h1 style={{ color: "#f8fafc", fontSize: 28, fontWeight: 800, lineHeight: 1.1 }}>
-              Quest Board
-            </h1>
-            <p style={{ color: "#94a3b8", fontSize: 14, marginTop: 6 }}>
-              Complete spending challenges at your favourite merchants to unlock rewards.
-            </p>
-          </div>
-
-          {/* Stats row */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginTop: 4 }}>
-            {[
-              { label: "Active Quests", value: activeRewards.length, color: "#818cf8" },
-              { label: "Completed", value: completedRewards.length, color: "#4ade80" },
-              { label: "Total Prizes", value: `£${totalRewardValue}`, color: "#fbbf24" },
-            ].map(({ label, value, color }) => (
-              <div
-                key={label}
-                style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: 14,
-                  padding: "14px 12px",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ color, fontSize: 22, fontWeight: 800, lineHeight: 1 }}>{value}</div>
-                <div style={{ color: "#64748b", fontSize: 11, marginTop: 4, fontWeight: 600 }}>{label}</div>
-              </div>
-            ))}
-          </div>
+              <div style={{ color, fontSize: 22, fontWeight: 800, lineHeight: 1 }}>{value}</div>
+              <div style={{ color: "#9ca3af", fontSize: 11, marginTop: 4, fontWeight: 600 }}>{label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -156,9 +114,9 @@ const Rewards = async () => {
             <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0f172a" }}>Active Quests</h2>
             <span
               style={{
-                background: "rgba(99,102,241,0.1)",
-                color: "#6366f1",
-                border: "1px solid rgba(99,102,241,0.2)",
+                background: "rgba(54,141,255,0.1)",
+                color: "#368DFF",
+                border: "1px solid rgba(54,141,255,0.2)",
                 fontSize: 11,
                 fontWeight: 700,
                 padding: "2px 10px",

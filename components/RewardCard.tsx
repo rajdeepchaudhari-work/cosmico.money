@@ -1,93 +1,85 @@
 import { formatAmount } from "@/lib/utils";
 import MerchantLogo from "./MerchantLogo";
 
-// Per-category game colour themes
+// Per-category accents using the Cosmico brand palette
 const CATEGORY_THEME: Record<string, {
-  bg: string;
   stripe: string;
-  accent: string;
-  accentSoft: string;
-  border: string;
-  label: string;
-  labelText: string;
-  glow: string;
+  badge: string;
+  badgeText: string;
+  bar: string;
+  prizeBox: string;
+  prizeBoxBorder: string;
+  prizeText: string;
 }> = {
   "Food and Drink": {
-    bg: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)",
-    stripe: "linear-gradient(90deg, #6366f1, #818cf8)",
-    accent: "#6366f1",
-    accentSoft: "rgba(99,102,241,0.15)",
-    border: "rgba(99,102,241,0.3)",
-    label: "rgba(99,102,241,0.2)",
-    labelText: "#a5b4fc",
-    glow: "0 0 10px rgba(99,102,241,0.7)",
+    stripe: "linear-gradient(90deg, #FC5C3A, #ff7958)",
+    badge: "rgba(252,92,58,0.1)",
+    badgeText: "#FC5C3A",
+    bar: "linear-gradient(90deg, #FC5C3A, #ff7958)",
+    prizeBox: "rgba(252,92,58,0.06)",
+    prizeBoxBorder: "rgba(252,92,58,0.2)",
+    prizeText: "#FC5C3A",
   },
   Travel: {
-    bg: "linear-gradient(135deg, #052e16 0%, #134e4a 100%)",
-    stripe: "linear-gradient(90deg, #10b981, #34d399)",
-    accent: "#10b981",
-    accentSoft: "rgba(16,185,129,0.15)",
-    border: "rgba(16,185,129,0.3)",
-    label: "rgba(16,185,129,0.2)",
-    labelText: "#6ee7b7",
-    glow: "0 0 10px rgba(16,185,129,0.7)",
+    stripe: "linear-gradient(90deg, #368DFF, #60a5fa)",
+    badge: "rgba(54,141,255,0.1)",
+    badgeText: "#368DFF",
+    bar: "linear-gradient(90deg, #368DFF, #60a5fa)",
+    prizeBox: "rgba(54,141,255,0.06)",
+    prizeBoxBorder: "rgba(54,141,255,0.2)",
+    prizeText: "#368DFF",
   },
   Shopping: {
-    bg: "linear-gradient(135deg, #1f0011 0%, #3b0764 100%)",
-    stripe: "linear-gradient(90deg, #ec4899, #a855f7)",
-    accent: "#ec4899",
-    accentSoft: "rgba(236,72,153,0.15)",
-    border: "rgba(236,72,153,0.3)",
-    label: "rgba(236,72,153,0.2)",
-    labelText: "#f9a8d4",
-    glow: "0 0 10px rgba(236,72,153,0.7)",
+    stripe: "linear-gradient(90deg, #8b5cf6, #a78bfa)",
+    badge: "rgba(139,92,246,0.1)",
+    badgeText: "#7c3aed",
+    bar: "linear-gradient(90deg, #8b5cf6, #a78bfa)",
+    prizeBox: "rgba(139,92,246,0.06)",
+    prizeBoxBorder: "rgba(139,92,246,0.2)",
+    prizeText: "#7c3aed",
   },
   default: {
-    bg: "linear-gradient(135deg, #1c0f00 0%, #2d1a00 100%)",
-    stripe: "linear-gradient(90deg, #f97316, #fbbf24)",
-    accent: "#f97316",
-    accentSoft: "rgba(249,115,22,0.15)",
-    border: "rgba(249,115,22,0.3)",
-    label: "rgba(249,115,22,0.2)",
-    labelText: "#fed7aa",
-    glow: "0 0 10px rgba(249,115,22,0.7)",
+    stripe: "linear-gradient(90deg, #10b981, #34d399)",
+    badge: "rgba(16,185,129,0.1)",
+    badgeText: "#059669",
+    bar: "linear-gradient(90deg, #10b981, #34d399)",
+    prizeBox: "rgba(16,185,129,0.06)",
+    prizeBoxBorder: "rgba(16,185,129,0.2)",
+    prizeText: "#059669",
   },
 };
 
 const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
-  const theme =
-    CATEGORY_THEME[reward.category] ?? CATEGORY_THEME.default;
+  const theme = CATEGORY_THEME[reward.category] ?? CATEGORY_THEME.default;
 
   return (
     <div
       style={{
-        background: theme.bg,
-        border: `1px solid ${theme.border}`,
-        borderRadius: 20,
+        background: "#ffffff",
+        border: "1px solid #e8ecf0",
+        borderRadius: 16,
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        gap: 0,
-        position: "relative",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
       }}
     >
-      {/* Glowing top stripe */}
-      <div style={{ background: theme.stripe, height: 3 }} />
+      {/* Category colour stripe */}
+      <div style={{ background: theme.stripe, height: 4 }} />
 
-      <div style={{ padding: "18px 18px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ padding: "16px 16px 18px", display: "flex", flexDirection: "column", gap: 14 }}>
 
-        {/* Top row: category badge + status */}
+        {/* Top row: category + status */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span
             style={{
-              background: theme.label,
-              color: theme.labelText,
-              border: `1px solid ${theme.border}`,
+              background: theme.badge,
+              color: theme.badgeText,
               fontSize: 10,
               fontWeight: 700,
               padding: "3px 10px",
               borderRadius: 99,
-              letterSpacing: "0.08em",
+              letterSpacing: "0.06em",
               textTransform: "uppercase",
             }}
           >
@@ -97,9 +89,8 @@ const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
           {reward.isCompleted ? (
             <span
               style={{
-                background: "rgba(250,204,21,0.15)",
-                color: "#fbbf24",
-                border: "1px solid rgba(250,204,21,0.3)",
+                background: "rgba(5,150,105,0.08)",
+                color: "#059669",
                 fontSize: 10,
                 fontWeight: 700,
                 padding: "3px 10px",
@@ -114,9 +105,8 @@ const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
           ) : (
             <span
               style={{
-                background: "rgba(74,222,128,0.1)",
-                color: "#4ade80",
-                border: "1px solid rgba(74,222,128,0.2)",
+                background: "rgba(107,114,128,0.08)",
+                color: "#6b7280",
                 fontSize: 10,
                 fontWeight: 700,
                 padding: "3px 10px",
@@ -130,77 +120,76 @@ const RewardCard = ({ reward, country = "UK" }: RewardCardProps) => {
 
         {/* Merchant row */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <MerchantLogo name={reward.merchantName} size={46} />
+          <MerchantLogo name={reward.merchantName} size={44} />
           <div>
-            <h3 style={{ color: "#f1f5f9", fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>
+            <h3 style={{ color: "#111827", fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>
               {reward.merchantName}
             </h3>
-            <p style={{ color: "#94a3b8", fontSize: 12, marginTop: 2 }}>
+            <p style={{ color: "#6b7280", fontSize: 12, marginTop: 2 }}>
               {reward.rewardLabel}
             </p>
           </div>
         </div>
 
-        {/* XP Progress bar */}
+        {/* Progress */}
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ color: "#64748b", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <span style={{ color: "#9ca3af", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Progress
             </span>
-            <span style={{ color: "#e2e8f0", fontSize: 13, fontWeight: 700 }}>
+            <span style={{ color: "#374151", fontSize: 13, fontWeight: 700 }}>
               {reward.progressPercent}%
             </span>
           </div>
 
-          {/* Track */}
-          <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden" }}>
+          {/* XP bar */}
+          <div style={{ background: "#f1f5f9", borderRadius: 99, height: 7, overflow: "hidden" }}>
             <div
               style={{
                 width: `${reward.progressPercent}%`,
-                background: theme.stripe,
+                background: reward.isCompleted
+                  ? "linear-gradient(90deg, #059669, #34d399)"
+                  : theme.bar,
                 borderRadius: 99,
                 height: "100%",
-                boxShadow: reward.progressPercent > 0 ? theme.glow : "none",
                 transition: "width 0.6s ease",
               }}
             />
           </div>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ color: "#64748b", fontSize: 11 }}>
+            <span style={{ color: "#9ca3af", fontSize: 11 }}>
               {formatAmount(reward.currentAmount, country)} spent
             </span>
-            <span style={{ color: "#64748b", fontSize: 11 }}>
+            <span style={{ color: "#9ca3af", fontSize: 11 }}>
               {formatAmount(reward.targetAmount, country)} target
             </span>
           </div>
         </div>
 
-        {/* Reward prize box */}
+        {/* Prize box */}
         <div
           style={{
-            background: reward.isCompleted
-              ? "rgba(250,204,21,0.1)"
-              : theme.accentSoft,
-            border: `1px solid ${reward.isCompleted ? "rgba(250,204,21,0.25)" : theme.border}`,
-            borderRadius: 12,
-            padding: "10px 14px",
+            background: reward.isCompleted ? "rgba(5,150,105,0.06)" : theme.prizeBox,
+            border: `1px solid ${reward.isCompleted ? "rgba(5,150,105,0.2)" : theme.prizeBoxBorder}`,
+            borderRadius: 10,
+            padding: "9px 12px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <span style={{ color: "#64748b", fontSize: 12 }}>
+          <span style={{ color: "#9ca3af", fontSize: 11, fontWeight: 500 }}>
             {reward.isCompleted ? "Reward earned" : "Unlock reward"}
           </span>
           <span
             style={{
-              color: reward.isCompleted ? "#fbbf24" : theme.labelText,
-              fontSize: 13,
+              color: reward.isCompleted ? "#059669" : theme.prizeText,
+              fontSize: 12,
               fontWeight: 700,
               display: "flex",
               alignItems: "center",
-              gap: 5,
+              gap: 4,
             }}
           >
             {reward.isCompleted ? "🎁" : "🔒"} {reward.rewardLabel}
