@@ -337,3 +337,40 @@ export const getBankByAccountId = async ({
     console.log(error);
   }
 };
+
+export const updateUserProfile = async (
+  userId: string,
+  data: {
+    firstName?: string;
+    lastName?: string;
+    address1?: string;
+    city?: string;
+    postalCode?: string;
+    country?: string;
+  }
+): Promise<{ success: boolean }> => {
+  try {
+    const { database } = await createAdminClient();
+    await database.updateDocument(DATABASE_ID!, USER_COLLECTION_ID!, userId, data);
+    revalidatePath("/settings");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return { success: false };
+  }
+};
+
+export const disconnectBank = async (
+  bankDocumentId: string
+): Promise<{ success: boolean }> => {
+  try {
+    const { database } = await createAdminClient();
+    await database.deleteDocument(DATABASE_ID!, BANK_COLLECTION_ID!, bankDocumentId);
+    revalidatePath("/settings");
+    revalidatePath("/my-banks");
+    return { success: true };
+  } catch (error) {
+    console.error("Error disconnecting bank:", error);
+    return { success: false };
+  }
+};

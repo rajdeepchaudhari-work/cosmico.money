@@ -29,6 +29,11 @@ export const sidebarLinks = [
     route: "/assistant",
     label: "Cosmico AI",
   },
+  {
+    imgURL: "/icons/settings.svg",
+    route: "/settings",
+    label: "Settings",
+  },
 ];
 
 // good_user / good_password - Bank of America
