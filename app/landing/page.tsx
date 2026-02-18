@@ -229,21 +229,30 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Card 2 — Security (accent card) */}
+            {/* Card 2 — Security (featured card) */}
             <div
-              className="rounded-2xl p-8 shadow-sm flex flex-col items-center text-center"
-              style={{ background: 'linear-gradient(160deg, #368DFF 0%, #1a6fd4 100%)' }}
+              className="bg-white rounded-2xl p-8 flex flex-col items-center text-center relative"
+              style={{ boxShadow: '0 4px 24px rgba(252,92,58,0.13)', border: '1.5px solid rgba(252,92,58,0.18)' }}
             >
-              <div className="rounded-2xl p-5 mb-6 bg-white/10">
+              <div
+                className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white whitespace-nowrap"
+                style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
+              >
+                Our Priority
+              </div>
+              <div
+                className="rounded-2xl p-5 mb-6"
+                style={{ background: 'rgba(252,92,58,0.07)' }}
+              >
                 <Image
-                  src="/icons/Hero/undraw_vault_tyfh.svg"
+                  src="/icons/Hero/undraw_server-cluster_7ugi.svg"
                   alt="Bank-grade Security"
                   width={150}
                   height={120}
                 />
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Bank-grade Security</h3>
-              <p className="text-blue-100 leading-relaxed text-sm">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Bank-grade Security</h3>
+              <p className="text-gray-500 leading-relaxed text-sm">
                 Your data is encrypted end-to-end. We use the same security standards as the world's top financial institutions — so your money is always safe.
               </p>
             </div>
