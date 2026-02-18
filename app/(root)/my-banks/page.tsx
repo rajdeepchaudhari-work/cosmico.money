@@ -12,12 +12,17 @@ const MyBanks = async () => {
     userId: loggedIn.$id
   })
 
+  const isUK = loggedIn?.country === "UK";
+
   return (
     <section className='flex'>
       <div className="my-banks">
-        <HeaderBox 
+        <HeaderBox
           title="My Bank Accounts"
-          subtext="Effortlessly manage your banking activites."
+          subtext={isUK
+            ? "Your connected UK bank accounts via Plaid Open Banking."
+            : "Effortlessly manage your banking activites."
+          }
         />
 
         <div className="space-y-4">
@@ -31,6 +36,7 @@ const MyBanks = async () => {
                 account={a}
                 userName={loggedIn?.firstName}
                 country={loggedIn?.country}
+                showBalance={!isUK}
               />
             ))}
           </div>

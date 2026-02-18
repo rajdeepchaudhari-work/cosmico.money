@@ -263,6 +263,20 @@ declare interface PaymentTransferFormProps {
   accounts: Account[];
 }
 
+declare interface UKPaymentTransferFormProps {
+  accounts: Account[];
+  user: User;
+}
+
+declare interface GoCardlessPaymentParams {
+  gcCustomerId: string;
+  sortCode: string;
+  accountNumber: string;
+  accountHolderName: string;
+  amount: string;
+  description?: string;
+}
+
 // Actions
 declare interface getAccountsProps {
   userId: string;
