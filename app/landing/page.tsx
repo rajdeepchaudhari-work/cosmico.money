@@ -111,6 +111,55 @@ export default function LandingPage() {
       </section>
 
       {/* ────────────────────────────────────────
+          COUNTRIES STRIP
+      ──────────────────────────────────────── */}
+      <div className="py-10 px-6 border-y border-gray-100">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">
+            Available in
+          </p>
+          <div className="flex items-center gap-4 sm:gap-8 flex-wrap justify-center">
+
+            {/* US */}
+            <div className="flex items-center gap-2.5">
+              <Image src="/icons/US.png" alt="United States" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
+              <span className="text-sm font-semibold text-gray-700">United States</span>
+            </div>
+
+            {/* UK */}
+            <div className="flex items-center gap-2.5">
+              <Image src="/icons/UK.png" alt="United Kingdom" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
+              <span className="text-sm font-semibold text-gray-700">United Kingdom</span>
+            </div>
+
+            {/* CA */}
+            <div className="flex items-center gap-2.5">
+              <Image src="/icons/CA.png" alt="Canada" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
+              <span className="text-sm font-semibold text-gray-700">Canada</span>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden sm:block w-px h-6 bg-gray-200" />
+
+            {/* EU — Coming Soon */}
+            <div className="flex items-center gap-2.5 opacity-45">
+              <Image src="/icons/european-union.png" alt="European Union" width={32} height={22} className="rounded-sm shadow-sm object-cover grayscale" />
+              <div className="flex flex-col leading-none">
+                <span className="text-sm font-semibold text-gray-500">Europe</span>
+                <span
+                  className="text-[10px] font-bold uppercase tracking-wide mt-0.5"
+                  style={{ color: '#FC5C3A' }}
+                >
+                  Coming soon
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* ────────────────────────────────────────
           SECTION 2 — Features
       ──────────────────────────────────────── */}
       <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
@@ -262,9 +311,19 @@ export default function LandingPage() {
             <span className="font-bold text-gray-700 font-ibm-plex-serif">Cosmico</span>
             <span className="text-gray-400 text-sm ml-1">© 2026 · Beta</span>
           </div>
-          <div className="flex items-center gap-6 text-sm text-gray-400">
-            <Link href="/sign-in" className="hover:text-gray-700 transition-colors">Sign In</Link>
-            <Link href="/sign-up" className="hover:text-gray-700 transition-colors">Sign Up</Link>
+          <div className="flex items-center gap-6">
+            <Image
+              src="/icons/gdpr.png"
+              alt="GDPR Compliant"
+              width={48}
+              height={48}
+              className="opacity-60 hover:opacity-100 transition-opacity"
+              title="GDPR Compliant"
+            />
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+              <Link href="/sign-in" className="hover:text-gray-700 transition-colors">Sign In</Link>
+              <Link href="/sign-up" className="hover:text-gray-700 transition-colors">Sign Up</Link>
+            </div>
           </div>
         </div>
       </footer>
