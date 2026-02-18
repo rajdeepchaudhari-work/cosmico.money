@@ -2,6 +2,7 @@ import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import Image from 'next/image';
 import React from 'react'
 
 const Transfer = async () => {
@@ -22,6 +23,12 @@ const Transfer = async () => {
           subtext="Fund transfers are currently only available for US accounts."
         />
         <div className="flex flex-col items-center justify-center gap-4 pt-10">
+          <Image
+            src="/icons/undraw_access-denied_krem.svg"
+            alt="Access Denied"
+            width={300}
+            height={300}
+          />
           <p className="text-16 text-gray-600">
             Dwolla-powered transfers are not available in your region ({loggedIn.country}).
           </p>
