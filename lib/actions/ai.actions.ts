@@ -2,6 +2,8 @@
 
 import OpenAI from "openai";
 import { UK_MERCHANT_CHALLENGES } from "@/constants";
+import { getLoggedInUser } from "./user.actions";
+import { getAccounts, getAccount } from "./bank.actions";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -84,5 +86,114 @@ Rules:
     console.error("generateAIRewards failed, using fallback:", error);
     // Return static challenges as fallback so the page never breaks
     return UK_MERCHANT_CHALLENGES;
+  }
+};
+
+export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+/**
+ * Cosmico AI Chat Assistant
+ *
+ * Answers banking questions and analyses the user's spending.
+ * Injects a live spending summary into the system prompt so the AI
+ * can give personalised insights on every message.
+ */
+export const chatWithAssistant = async (
+  messages: ChatMessage[]
+): Promise<string> => {
+  try {
+    const loggedIn = await getLoggedInUser();
+
+    // Build a spending summary for the system prompt
+    let spendingSummary = "No transaction data is available yet.";
+
+    if (loggedIn) {
+      try {
+        const accounts = await getAccounts({ userId: loggedIn.$id });
+        const allTransactions: Transaction[] = [];
+
+        if (accounts?.data?.length) {
+          const results = await Promise.allSettled(
+            accounts.data.map((acc: Account) =>
+              getAccount({ appwriteItemId: acc.appwriteItemId })
+            )
+          );
+          for (const r of results) {
+            if (r.status === "fulfilled" && r.value?.transactions) {
+              allTransactions.push(...r.value.transactions);
+            }
+          }
+        }
+
+        if (allTransactions.length > 0) {
+          // Top merchants by spend
+          const merchantSpend: Record<string, number> = {};
+          let totalSpend = 0;
+          for (const txn of allTransactions) {
+            if (txn.amount > 0 && txn.name) {
+              const key = txn.name.toLowerCase();
+              merchantSpend[key] = (merchantSpend[key] || 0) + txn.amount;
+              totalSpend += txn.amount;
+            }
+          }
+          const top5 = Object.entries(merchantSpend)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([name, amt]) => `  • ${name}: £${amt.toFixed(2)}`)
+            .join("\n");
+
+          const totalBalance = accounts.data.reduce(
+            (s: number, a: Account) => s + (a.currentBalance ?? 0),
+            0
+          );
+
+          spendingSummary = `The user has ${accounts.data.length} connected account(s).
+Total balance: £${totalBalance.toFixed(2)}
+Total transactions analysed: ${allTransactions.length}
+Total spend: £${totalSpend.toFixed(2)}
+Top merchants by spend:
+${top5}`;
+        }
+      } catch {
+        // Non-fatal — proceed without spending data
+      }
+    }
+
+    const systemPrompt = `You are Cosmico AI, the intelligent banking assistant inside Cosmico — a UK digital banking app.
+
+You help customers:
+- Understand their account balances and transactions
+- Analyse and explain their spending habits
+- Learn about Cosmico features (Dashboard, Rewards Quest Board, Transaction History, Payment Transfer)
+- Get general UK personal finance advice
+
+Cosmico features:
+- Dashboard: live balance overview for all connected bank accounts
+- Transaction History: searchable list with merchant logos
+- Rewards: AI-generated spending challenges at UK merchants (Tesco, Costa, M&S, TfL, etc.)
+- Payment Transfer: send money between accounts
+- Multi-bank: connect multiple accounts via Plaid (sandbox mode)
+
+Current user spending context:
+${spendingSummary}
+
+Tone: friendly, concise, helpful. Use British English. Always remind users this is a sandbox demo for educational purposes if asked about real money.`;
+
+    const response = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...messages,
+      ],
+      max_tokens: 500,
+    });
+
+    return (
+      response.choices[0]?.message?.content ??
+      "Sorry, I couldn't process that. Please try again."
+    );
+  } catch (error) {
+    console.error("chatWithAssistant error:", error);
+    return "I'm having trouble connecting right now. Please try again in a moment.";
   }
 };
