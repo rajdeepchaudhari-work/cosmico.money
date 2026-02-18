@@ -54,9 +54,10 @@ const ResetPassword = () => {
   };
 
   return (
+    <section className="flex-center size-full max-sm:px-6">
     <section className="auth-form">
       <header className="flex flex-col gap-5 md:gap-8">
-        <Link href="/" className="cursor-pointer flex items-center gap-1">
+        <Link href="/landing" className="cursor-pointer flex items-center gap-1">
           <Image src="/icons/logo.svg" width={34} height={34} alt="Cosmico logo" />
           <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Cosmico</h1>
         </Link>
@@ -125,6 +126,7 @@ const ResetPassword = () => {
         <p className="text-14 font-normal text-gray-600">Remember your password?</p>
         <Link href="/sign-in" className="form-link">Sign in</Link>
       </footer>
+    </section>
     </section>
   );
 };

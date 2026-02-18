@@ -1,7 +1,7 @@
 import HeaderBox from "@/components/HeaderBox";
 import RewardCard from "@/components/RewardCard";
 import { getAccounts, getAccount } from "@/lib/actions/bank.actions";
-import { getRewards, seedRewards } from "@/lib/actions/reward.actions";
+import { getRewards, seedAIRewards } from "@/lib/actions/reward.actions";
 import { calculateRewardProgress } from "@/lib/utils/rewards";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 
@@ -11,14 +11,7 @@ const Rewards = async () => {
 
   const accounts = await getAccounts({ userId: loggedIn.$id });
 
-  // Auto-seed rewards if collection is empty
-  let rewards = await getRewards();
-  if (rewards.length === 0) {
-    await seedRewards();
-    rewards = await getRewards();
-  }
-
-  // Fetch transactions from ALL connected accounts
+  // Fetch transactions FIRST — the AI engine needs them to personalise challenges
   let allTransactions: Transaction[] = [];
   if (accounts?.data?.length) {
     const results = await Promise.allSettled(
@@ -32,6 +25,13 @@ const Rewards = async () => {
         allTransactions.push(...result.value.transactions);
       }
     }
+  }
+
+  // Auto-seed AI-generated rewards if collection is empty
+  let rewards = await getRewards();
+  if (rewards.length === 0) {
+    await seedAIRewards(allTransactions);
+    rewards = await getRewards();
   }
 
   const rewardsWithProgress = calculateRewardProgress(rewards, allTransactions);
