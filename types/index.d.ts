@@ -335,3 +335,26 @@ declare interface getBankProps {
 declare interface getBankByAccountIdProps {
   accountId: string;
 }
+
+// Rewards
+declare type Reward = {
+  $id: string;
+  merchantName: string;
+  merchantMatch: string;
+  targetAmount: number;
+  rewardAmount: number;
+  rewardLabel: string;
+  category: string;
+};
+
+declare type RewardWithProgress = Reward & {
+  currentAmount: number;
+  progressPercent: number;
+  isCompleted: boolean;
+};
+
+declare interface RewardCardProps {
+  reward: RewardWithProgress;
+  country?: string;
+}
+

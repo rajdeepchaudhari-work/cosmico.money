@@ -375,4 +375,38 @@
   .sidebar-label {
     @apply text-16 font-semibold text-black-2 max-xl:hidden;
   }
+
+  /* Rewards */
+  .rewards {
+    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
+  }
+
+  .rewards-header {
+    @apply flex w-full flex-col items-start justify-between gap-8;
+  }
+
+  .rewards-grid {
+    @apply grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .reward-card {
+    @apply flex flex-col gap-3 rounded-xl p-4;
+  }
+
+  .reward-card_header {
+    @apply flex items-center gap-3;
+  }
+
+  .reward-card_info {
+    @apply flex w-full flex-1 flex-col gap-2;
+  }
+
+  .reward-card_badge {
+    @apply flex-center rounded-full bg-success-100 px-2 py-0.5 text-10 font-semibold text-success-900;
+  }
+
+  .reward-card_amounts {
+    @apply flex justify-between text-12;
+  }
+
 }

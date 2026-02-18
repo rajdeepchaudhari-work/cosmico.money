@@ -15,6 +15,11 @@ export const sidebarLinks = [
     label: "Transaction History",
   },
   {
+    imgURL: "/icons/coins.svg",
+    route: "/rewards",
+    label: "Rewards",
+  },
+  {
     imgURL: "/icons/money-send.svg",
     route: "/payment-transfer",
     label: "Transfer Funds",
@@ -141,3 +146,51 @@ export const transactionCategoryStyles = {
     chipBackgroundColor: "bg-inherit",
   },
 };
+
+export const rewardCategoryStyles: Record<string, {
+  bg: string;
+  circleBg: string;
+  text: { main: string; count: string };
+  progress: { bg: string; indicator: string };
+  icon: string;
+}> = {
+  "Food and Drink": {
+    bg: "bg-blue-25",
+    circleBg: "bg-blue-100",
+    text: { main: "text-blue-900", count: "text-blue-700" },
+    progress: { bg: "bg-blue-100", indicator: "bg-blue-700" },
+    icon: "/icons/monitor.svg",
+  },
+  Travel: {
+    bg: "bg-success-25",
+    circleBg: "bg-success-100",
+    text: { main: "text-success-900", count: "text-success-700" },
+    progress: { bg: "bg-success-100", indicator: "bg-success-700" },
+    icon: "/icons/coins.svg",
+  },
+  Shopping: {
+    bg: "bg-pink-25",
+    circleBg: "bg-pink-100",
+    text: { main: "text-pink-900", count: "text-pink-700" },
+    progress: { bg: "bg-pink-100", indicator: "bg-pink-700" },
+    icon: "/icons/shopping-bag.svg",
+  },
+  default: {
+    bg: "bg-green-25",
+    circleBg: "bg-green-100",
+    text: { main: "text-green-900", count: "text-green-700" },
+    progress: { bg: "bg-green-100", indicator: "bg-green-700" },
+    icon: "/icons/coins.svg",
+  },
+};
+
+export const UK_MERCHANT_CHALLENGES = [
+  { merchantName: "Sainsbury's", merchantMatch: "sainsbury", targetAmount: 1000, rewardAmount: 10, rewardLabel: "£10 Sainsbury's Gift Card", category: "Food and Drink" },
+  { merchantName: "Tesco", merchantMatch: "tesco", targetAmount: 800, rewardAmount: 8, rewardLabel: "£8 Tesco Gift Card", category: "Food and Drink" },
+  { merchantName: "Costa Coffee", merchantMatch: "costa", targetAmount: 200, rewardAmount: 5, rewardLabel: "£5 Costa Gift Card", category: "Food and Drink" },
+  { merchantName: "Greggs", merchantMatch: "greggs", targetAmount: 150, rewardAmount: 5, rewardLabel: "£5 Greggs Gift Card", category: "Food and Drink" },
+  { merchantName: "M&S", merchantMatch: "marks & spencer", targetAmount: 500, rewardAmount: 10, rewardLabel: "£10 M&S Gift Card", category: "Shopping" },
+  { merchantName: "Boots", merchantMatch: "boots", targetAmount: 300, rewardAmount: 5, rewardLabel: "£5 Boots Gift Card", category: "Shopping" },
+  { merchantName: "TfL", merchantMatch: "tfl", targetAmount: 500, rewardAmount: 10, rewardLabel: "£10 TfL Credit", category: "Travel" },
+  { merchantName: "JD Sports", merchantMatch: "jd sports", targetAmount: 400, rewardAmount: 10, rewardLabel: "£10 JD Sports Gift Card", category: "Shopping" },
+];
