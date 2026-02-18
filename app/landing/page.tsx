@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import DisclaimerModal from '@/components/DisclaimerModal'
 
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-white font-inter overflow-x-hidden">
+      <DisclaimerModal />
 
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
@@ -160,6 +162,30 @@ export default function LandingPage() {
       </div>
 
       {/* ────────────────────────────────────────
+          STATS BAR
+      ──────────────────────────────────────── */}
+      <div className="py-14 px-6 bg-white">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { value: '2,000+', label: 'Beta Users' },
+            { value: '3', label: 'Countries Supported' },
+            { value: '256-bit', label: 'Encryption' },
+            { value: '$0', label: 'Monthly Fees' },
+          ].map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center gap-1">
+              <span
+                className="text-4xl font-bold font-ibm-plex-serif"
+                style={{ color: '#368DFF' }}
+              >
+                {stat.value}
+              </span>
+              <span className="text-sm font-medium text-gray-500">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ────────────────────────────────────────
           SECTION 2 — Features
       ──────────────────────────────────────── */}
       <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
@@ -246,7 +272,178 @@ export default function LandingPage() {
       </section>
 
       {/* ────────────────────────────────────────
-          SECTION 3 — Beta CTA
+          SECTION 3 — How it works
+      ──────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+
+          {/* Heading */}
+          <div className="text-center mb-16">
+            <p
+              className="text-xs font-bold uppercase tracking-widest mb-3"
+              style={{ color: '#FC5C3A' }}
+            >
+              Getting Started
+            </p>
+            <h2 className="text-4xl font-bold text-gray-900 font-ibm-plex-serif">
+              Up and running in 3 steps
+            </h2>
+          </div>
+
+          {/* Steps */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative mb-6">
+                <span
+                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
+                  style={{ background: '#FC5C3A' }}
+                >
+                  1
+                </span>
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ background: 'rgba(252,92,58,0.07)' }}
+                >
+                  <Image
+                    src="/icons/Hero/undraw_wallet_diag.svg"
+                    alt="Create your account"
+                    width={160}
+                    height={130}
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Create your account</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Sign up in under two minutes — no paperwork, no branch visits. Just your email and a few details to get started.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative mb-6">
+                <span
+                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
+                  style={{ background: '#FC5C3A' }}
+                >
+                  2
+                </span>
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ background: 'rgba(54,141,255,0.07)' }}
+                >
+                  <Image
+                    src="/icons/Hero/undraw_online-payments_d5ef.svg"
+                    alt="Connect your banks"
+                    width={160}
+                    height={130}
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Connect your banks</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Securely link all your existing bank accounts in seconds using Plaid — read-only access, zero risk to your money.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="relative mb-6">
+                <span
+                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
+                  style={{ background: '#FC5C3A' }}
+                >
+                  3
+                </span>
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ background: 'rgba(252,92,58,0.07)' }}
+                >
+                  <Image
+                    src="/icons/Hero/undraw_online-transactions_8chx.svg"
+                    alt="Track and transfer"
+                    width={160}
+                    height={130}
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Track &amp; transfer</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                See all your spending in one dashboard, earn rewards for hitting goals, and send money globally — all from one place.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────
+          SECTION 4 — Full financial picture
+      ──────────────────────────────────────── */}
+      <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+
+          {/* Illustration */}
+          <div className="flex-1 flex justify-center lg:justify-start">
+            <div className="relative">
+              <div
+                className="absolute inset-0 rounded-3xl blur-3xl opacity-20 scale-110"
+                style={{ background: 'linear-gradient(135deg, #368DFF, #FC5C3A)' }}
+              />
+              <Image
+                src="/icons/Hero/undraw_credit-card-payment_3zqz.svg"
+                alt="Full financial picture"
+                width={460}
+                height={360}
+                className="relative z-10 drop-shadow-xl"
+              />
+            </div>
+          </div>
+
+          {/* Copy */}
+          <div className="flex-1 text-center lg:text-left">
+            <p
+              className="text-xs font-bold uppercase tracking-widest mb-3"
+              style={{ color: '#368DFF' }}
+            >
+              All in one place
+            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6 font-ibm-plex-serif leading-tight">
+              Your complete financial picture
+            </h2>
+            <p className="text-gray-500 text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single, beautiful dashboard — so you always know exactly where you stand.
+            </p>
+            <ul className="space-y-4 text-left max-w-md mx-auto lg:mx-0">
+              {[
+                { icon: '💳', text: 'Multi-bank account aggregation with real-time balances' },
+                { icon: '🏆', text: 'Spending rewards and merchant challenges to earn gift cards' },
+                { icon: '↗️', text: 'Instant ACH transfers to anyone — no bank charges' },
+                { icon: '🔔', text: 'Smart categorisation and budget alerts' },
+              ].map((item) => (
+                <li key={item.text} className="flex items-start gap-3">
+                  <span className="text-xl shrink-0">{item.icon}</span>
+                  <span className="text-gray-600 text-sm leading-relaxed">{item.text}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              <Link
+                href="/sign-up"
+                className="px-7 py-3.5 rounded-xl text-white font-semibold shadow-lg hover:scale-105 transition-transform text-sm"
+                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)' }}
+              >
+                Start for Free →
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────
+          SECTION 5 — Beta CTA
       ──────────────────────────────────────── */}
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
@@ -304,27 +501,108 @@ export default function LandingPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="py-8 px-6 border-t border-gray-100">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Image src="/icons/logo.svg" alt="Cosmico" width={22} height={22} />
-            <span className="font-bold text-gray-700 font-ibm-plex-serif">Cosmico</span>
-            <span className="text-gray-400 text-sm ml-1">© 2026 · Beta</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <Image
-              src="/icons/gdpr.png"
-              alt="GDPR Compliant"
-              width={48}
-              height={48}
-              className="opacity-60 hover:opacity-100 transition-opacity"
-              title="GDPR Compliant"
-            />
-            <div className="flex items-center gap-6 text-sm text-gray-400">
-              <Link href="/sign-in" className="hover:text-gray-700 transition-colors">Sign In</Link>
-              <Link href="/sign-up" className="hover:text-gray-700 transition-colors">Sign Up</Link>
+      <footer className="bg-gray-950 text-gray-400 pt-16 pb-10 px-6">
+        <div className="max-w-6xl mx-auto">
+
+          {/* Top row — brand + nav columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
+
+            {/* Brand */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <Image src="/icons/logo.svg" alt="Cosmico" width={26} height={26} />
+                <span className="text-white font-bold text-lg font-ibm-plex-serif">Cosmico</span>
+                <span
+                  className="text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ml-1"
+                  style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}
+                >
+                  Beta
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed max-w-sm text-gray-500">
+                A developer sandbox project demonstrating modern open banking concepts — multi-bank aggregation, instant transfers, and spending rewards in one dashboard.
+              </p>
+              <div className="mt-6">
+                <Image
+                  src="/icons/gdpr.png"
+                  alt="GDPR Compliant"
+                  width={44}
+                  height={44}
+                  className="opacity-50 hover:opacity-80 transition-opacity"
+                  title="GDPR Compliant"
+                />
+              </div>
             </div>
+
+            {/* Product links */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Product</p>
+              <ul className="space-y-3 text-sm">
+                <li><Link href="/sign-up" className="hover:text-white transition-colors">Get Early Access</Link></li>
+                <li><Link href="/sign-in" className="hover:text-white transition-colors">Sign In</Link></li>
+                <li>
+                  <span className="flex items-center gap-2">
+                    Rewards
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
+                  </span>
+                </li>
+                <li>
+                  <span className="flex items-center gap-2">
+                    Mobile App
+                    <span className="text-[10px] font-semibold text-gray-600">Coming soon</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Supported countries */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Supported Regions</p>
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-center gap-2">
+                  <Image src="/icons/US.png" alt="US" width={20} height={14} className="rounded-sm object-cover" />
+                  United States
+                </li>
+                <li className="flex items-center gap-2">
+                  <Image src="/icons/UK.png" alt="UK" width={20} height={14} className="rounded-sm object-cover" />
+                  United Kingdom
+                </li>
+                <li className="flex items-center gap-2">
+                  <Image src="/icons/CA.png" alt="CA" width={20} height={14} className="rounded-sm object-cover" />
+                  Canada
+                </li>
+                <li className="flex items-center gap-2 opacity-40">
+                  <Image src="/icons/european-union.png" alt="EU" width={20} height={14} className="rounded-sm object-cover grayscale" />
+                  Europe
+                  <span className="text-[10px] font-semibold" style={{ color: '#FC5C3A' }}>Soon</span>
+                </li>
+              </ul>
+            </div>
+
           </div>
+
+          {/* Sandbox / regulatory disclaimer */}
+          <div className="mt-8 rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-5 py-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-yellow-500/80 mb-2">
+              Sandbox — Not a regulated financial service
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Cosmico is a <strong className="text-gray-400">portfolio and demonstration project</strong> built for educational purposes only. It operates entirely in sandbox / test mode using simulated data from Plaid Sandbox, Dwolla Sandbox, and Appwrite. No real money is moved, no real bank accounts are accessed, and no real financial data is processed.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed mt-2">
+              Cosmico is <strong className="text-gray-400">not authorised or regulated by the Financial Conduct Authority (FCA)</strong>, the Financial Industry Regulatory Authority (FINRA), or any other financial regulatory body. It does not provide financial advice, payment services, or any regulated financial activity. It should not be relied upon for any real-world financial decisions.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed mt-2">
+              If you are looking for a regulated banking service, please use a provider authorised by the FCA, FDIC, or the appropriate regulator in your country.
+            </p>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
+            <span>© 2026 Cosmico · All rights reserved · Sandbox build</span>
+            <span>Built with Next.js · Plaid · Dwolla · Appwrite</span>
+          </div>
+
         </div>
       </footer>
 
