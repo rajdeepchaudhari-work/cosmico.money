@@ -16,11 +16,17 @@ const Settings = async () => {
     const accounts = await getAccounts({ userId: loggedIn.$id });
     if (accounts?.data?.length) {
       enrichedBanks = banks.map((bank: any) => {
+        // account.appwriteItemId points back to the bank document's $id
         const match = accounts.data.find(
-          (a: any) => a.appwriteItemId === bank.appwriteItemId
+          (a: any) => a.appwriteItemId === bank.$id
         );
         return match
-          ? { ...bank, officialName: match.officialName, mask: match.mask, name: match.name }
+          ? {
+              ...bank,
+              officialName: match.officialName ?? match.name,
+              mask: match.mask,
+              name: match.name,
+            }
           : bank;
       });
     }
