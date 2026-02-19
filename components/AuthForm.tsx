@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import CustomInput from './CustomInput';
+import AddressAutocomplete from './AddressAutocomplete';
 import { authFormSchema, COUNTRY_CONFIG } from '@/lib/utils';
 import { Loader2, AlertCircle, X, CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -189,7 +190,30 @@ const AuthForm = ({ type }: { type: string }) => {
                     <CustomInput control={form.control} name='firstName' label="First Name" placeholder='e.g. John' />
                     <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='e.g. Smith' />
                   </div>
-                  <CustomInput control={form.control} name='address1' label="Address" placeholder={countryConfig.addressPlaceholder} />
+                  <FormField
+                    control={form.control}
+                    name="address1"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">Address</FormLabel>
+                        <FormControl>
+                          <AddressAutocomplete
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            onSelect={({ address1, city, state, postalCode }) => {
+                              form.setValue('address1', address1, { shouldValidate: true });
+                              form.setValue('city', city, { shouldValidate: true });
+                              form.setValue('state', state, { shouldValidate: true });
+                              form.setValue('postalCode', postalCode, { shouldValidate: true });
+                            }}
+                            countryCode={selectedCountry === 'UK' ? 'gb' : selectedCountry.toLowerCase()}
+                            placeholder={countryConfig.addressPlaceholder}
+                          />
+                        </FormControl>
+                        <FormMessage className="form-message mt-2" />
+                      </FormItem>
+                    )}
+                  />
                   <CustomInput control={form.control} name='city' label="City" placeholder={countryConfig.cityPlaceholder} />
                   <div className="flex gap-4">
                     <CustomInput control={form.control} name='state' label={countryConfig.stateLabel} placeholder={countryConfig.statePlaceholder} />
