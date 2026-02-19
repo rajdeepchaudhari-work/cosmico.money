@@ -51,6 +51,7 @@ export const signIn = async ({ email, password }: signInProps) => {
       email,
       firstName: user.firstName,
       sessionSecret: session.secret,
+      isSignUp: false,
     });
 
     return parseStringify({ requiresOTP: true, userId: session.userId });
@@ -128,6 +129,7 @@ export const signUp = async (params: SignUpParams & { previousPendingUserId?: st
       email,
       firstName,
       sessionSecret: session.secret,
+      isSignUp: true,
     });
 
     return parseStringify({ requiresOTP: true, userId: session.userId });
