@@ -69,7 +69,11 @@ const AuthForm = ({ type }: { type: string }) => {
           }
 
           const newUser = await signUp(userData);
-          setUser(newUser);
+          if (newUser?.requiresOTP) {
+            router.push(`/verify-otp?uid=${btoa(newUser.userId)}`);
+          } else {
+            setUser(newUser);
+          }
         }
 
         if(type === 'sign-in') {
@@ -78,7 +82,11 @@ const AuthForm = ({ type }: { type: string }) => {
             password: data.password,
           })
 
-          if(response) router.push('/')
+          if (response?.requiresOTP) {
+            router.push(`/verify-otp?uid=${btoa(response.userId)}`);
+          } else if (response) {
+            router.push('/');
+          }
         }
       } catch (error: any) {
         // Appwrite puts the code in error.type e.g. "user_invalid_credentials"

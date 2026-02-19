@@ -14,6 +14,7 @@ import {
 import { plaidClient } from "@/lib/plaid";
 import { revalidatePath } from "next/cache";
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
+import { sendOTPAndStorePending } from "./otp.actions";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -42,16 +43,17 @@ export const signIn = async ({ email, password }: signInProps) => {
     const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
 
-    cookies().set("appwrite-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
-
     const user = await getUserInfo({ userId: session.userId });
 
-    return parseStringify(user);
+    // Don't set the session cookie yet — require OTP first
+    await sendOTPAndStorePending({
+      userId: session.userId,
+      email,
+      firstName: user.firstName,
+      sessionSecret: session.secret,
+    });
+
+    return parseStringify({ requiresOTP: true, userId: session.userId });
   } catch (error) {
     console.error("Error", error);
     throw error;
@@ -104,14 +106,15 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     const session = await account.createEmailPasswordSession(email, password);
 
-    cookies().set("appwrite-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
+    // Don't set the session cookie yet — require OTP first
+    await sendOTPAndStorePending({
+      userId: session.userId,
+      email,
+      firstName,
+      sessionSecret: session.secret,
     });
 
-    return parseStringify(newUser);
+    return parseStringify({ requiresOTP: true, userId: session.userId });
   } catch (error) {
     console.error("Error", error);
     throw error;
