@@ -20,9 +20,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import CustomInput from './CustomInput';
 import AddressAutocomplete from './AddressAutocomplete';
 import { authFormSchema, COUNTRY_CONFIG } from '@/lib/utils';
-import { Loader2, AlertCircle, X, CheckCircle2 } from 'lucide-react';
+import { Loader2, AlertCircle, X, CheckCircle2, ArrowLeft, RotateCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, signUp } from '@/lib/actions/user.actions';
+import { verifyOTP, resendOTP } from '@/lib/actions/otp.actions';
 import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
@@ -32,6 +33,16 @@ const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+
+  // Inline OTP step (sign-up only)
+  const [otpStep, setOtpStep] = useState(false);
+  const [pendingUserId, setPendingUserId] = useState('');
+  const [pendingEmail, setPendingEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   const formSchema = authFormSchema(type);
 
@@ -82,9 +93,16 @@ const AuthForm = ({ type }: { type: string }) => {
             password: data.password
           }
 
-          const newUser = await signUp(userData);
+          const newUser = await signUp({
+            ...userData,
+            ...(pendingUserId ? { previousPendingUserId: pendingUserId } : {}),
+          } as any);
           if (newUser?.requiresOTP) {
-            router.push(`/verify-otp?uid=${btoa(newUser.userId)}`);
+            setPendingUserId(newUser.userId);
+            setPendingEmail(data.email);
+            setOtp('');
+            setOtpError(null);
+            setOtpStep(true);
           } else {
             setUser(newUser);
           }
@@ -124,6 +142,41 @@ const AuthForm = ({ type }: { type: string }) => {
       }
     }
 
+  const handleOtpVerify = async () => {
+    if (otp.length !== 6) return;
+    setIsVerifying(true);
+    setOtpError(null);
+    try {
+      await verifyOTP(otp, pendingUserId);
+      router.push('/');
+    } catch (err: any) {
+      setOtpError(err.message || 'Verification failed. Please try again.');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleOtpResend = async () => {
+    setIsResending(true);
+    setOtpError(null);
+    setResendSuccess(false);
+    try {
+      await resendOTP(pendingUserId);
+      setResendSuccess(true);
+      setOtp('');
+      setTimeout(() => setResendSuccess(false), 4000);
+    } catch (err: any) {
+      setOtpError(err.message || 'Failed to resend code. Please try again.');
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  // Masked email for display
+  const maskedEmail = pendingEmail
+    ? pendingEmail.replace(/(.{2})(.*)(@.*)/, (_, a, b, c) => a + '*'.repeat(b.length) + c)
+    : 'your email';
+
   return (
     <section className="auth-form">
       <header className='flex flex-col gap-5 md:gap-8'>
@@ -139,26 +192,86 @@ const AuthForm = ({ type }: { type: string }) => {
 
           <div className="flex flex-col gap-1 md:gap-3">
             <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
-              {user 
+              {user
                 ? 'Link Account'
-                : type === 'sign-in'
-                  ? 'Sign In'
-                  : 'Sign Up'
+                : otpStep
+                  ? 'Verify your email'
+                  : type === 'sign-in'
+                    ? 'Sign In'
+                    : 'Sign Up'
               }
-              <p className="text-16 font-normal text-gray-600">
-                {user 
-                  ? 'Link your account to get started'
-                  : 'Please enter your details'
-                }
-              </p>  
             </h1>
+            <p className="text-16 font-normal text-gray-600">
+              {user
+                ? 'Link your account to get started'
+                : otpStep
+                  ? <>We sent a 6-digit code to <span className="font-medium text-gray-900">{maskedEmail}</span></>
+                  : 'Please enter your details'
+              }
+            </p>
           </div>
       </header>
       {user ? (
         <div className="flex flex-col gap-4">
           <PlaidLink user={user} variant="primary" />
         </div>
-      ): (
+      ) : otpStep ? (
+        /* ── Inline OTP step (sign-up only) ── */
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <label className="form-label">Verification code</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              value={otp}
+              onChange={(e) => { setOtp(e.target.value.replace(/\D/g, '')); setOtpError(null); }}
+              onKeyDown={(e) => e.key === 'Enter' && handleOtpVerify()}
+              placeholder="000000"
+              style={{
+                fontSize: 28, fontWeight: 700, letterSpacing: 16, textAlign: 'center',
+                padding: '14px 20px',
+                border: otpError ? '1.5px solid #ef4444' : '1.5px solid #e2e8f0',
+                borderRadius: 10, outline: 'none', background: '#f8fafc',
+                color: '#111827', width: '100%',
+              }}
+            />
+            {otpError && <p className="text-12 text-red-500">{otpError}</p>}
+          </div>
+
+          <Button onClick={handleOtpVerify} disabled={otp.length !== 6 || isVerifying} className="form-btn">
+            {isVerifying ? <><Loader2 size={20} className="animate-spin" /> &nbsp; Verifying...</> : 'Verify'}
+          </Button>
+
+          <div className="flex flex-col items-center gap-2">
+            {resendSuccess ? (
+              <p className="text-14 text-green-600 font-medium">New code sent to your email.</p>
+            ) : (
+              <p className="text-14 text-gray-500">
+                Didn&apos;t receive it?{' '}
+                <button
+                  type="button"
+                  onClick={handleOtpResend}
+                  disabled={isResending}
+                  className="text-[#FC5C3A] font-semibold hover:underline disabled:opacity-50 inline-flex items-center gap-1"
+                >
+                  {isResending ? <Loader2 size={12} className="animate-spin" /> : <RotateCcw size={12} />}
+                  Resend code
+                </button>
+              </p>
+            )}
+            <p className="text-12 text-gray-400">Code expires in 10 minutes</p>
+            <button
+              type="button"
+              onClick={() => { setOtpStep(false); setOtp(''); setOtpError(null); }}
+              className="mt-1 inline-flex items-center gap-1.5 text-14 text-blue-600 hover:underline font-medium"
+            >
+              <ArrowLeft size={14} />
+              Wrong email? Go back to correct it
+            </button>
+          </div>
+        </div>
+      ) : (
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

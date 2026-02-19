@@ -74,7 +74,7 @@ export const sendOTPAndStorePending = async ({
   email: string;
   firstName: string;
   sessionSecret: string;
-}) => {
+}): Promise<void> => {
   const otp = generateOTP();
   const otpHash = hashOTP(otp);
   const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
@@ -83,7 +83,7 @@ export const sendOTPAndStorePending = async ({
   await user.updatePrefs(userId, { otpHash, expires, sessionSecret, email, firstName });
 
   await resend.emails.send({
-    from: "Cosmico Bank <onboarding@resend.dev>",
+    from: "Cosmico Bank <noreply@cosmico.money>",
     to: email,
     subject: `${otp} is your Cosmico Bank verification code`,
     html: otpEmailHtml(firstName, otp),

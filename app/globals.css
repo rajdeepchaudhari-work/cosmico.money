@@ -46,6 +46,28 @@
 @layer utilities {
   .input-class {
     @apply text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .input-class[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: white;
+    color: #111827;
+    min-height: 44px;
+    display: block;
+    width: 100%;
+  }
+
+  .input-class[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+    min-height: 1.5em;
+  }
+
+  .input-class[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.5;
+    cursor: pointer;
   }
 
   .sheet-content button {

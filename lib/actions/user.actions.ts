@@ -60,13 +60,29 @@ export const signIn = async ({ email, password }: signInProps) => {
   }
 };
 
-export const signUp = async ({ password, ...userData }: SignUpParams) => {
+export const signUp = async (params: SignUpParams & { previousPendingUserId?: string }) => {
+  const { password, previousPendingUserId, ...userData } = params as any;
   const { email, firstName, lastName, country } = userData;
 
   let newUserAccount;
 
   try {
-    const { account, database } = await createAdminClient();
+    const { account, database, user: adminUser } = await createAdminClient();
+
+    // If user went back to fix their email, clean up the previous unverified account
+    if (previousPendingUserId) {
+      try {
+        const docs = await database.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!, [
+          Query.equal("userId", [previousPendingUserId]),
+        ]);
+        for (const doc of docs.documents) {
+          await database.deleteDocument(DATABASE_ID!, USER_COLLECTION_ID!, doc.$id);
+        }
+        await adminUser.delete(previousPendingUserId);
+      } catch {
+        // Ignore — account may have already been cleaned up
+      }
+    }
 
     newUserAccount = await account.create(
       ID.unique(),
@@ -92,7 +108,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
     }
 
-    const newUser = await database.createDocument(
+    await database.createDocument(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
       ID.unique(),
