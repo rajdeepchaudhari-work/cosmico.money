@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, ShieldCheck, RotateCcw } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Loader2, RotateCcw } from "lucide-react";
 import { Button } from "./ui/button";
 import { verifyOTP, resendOTP } from "@/lib/actions/otp.actions";
 
@@ -52,27 +54,16 @@ const OTPVerifyForm = ({ email, userId }: { email: string; userId: string }) => 
 
   return (
     <section className="auth-form">
-      {/* Header */}
       <header className="flex flex-col gap-5 md:gap-8">
-        <div className="flex items-center gap-3">
-          <div
-            style={{
-              background: "linear-gradient(135deg, #FC5C3A, #ff7958)",
-              borderRadius: 12,
-              width: 44,
-              height: 44,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}
-          >
-            <ShieldCheck size={22} color="#fff" />
-          </div>
-          <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-            Cosmico
-          </h1>
-        </div>
+        <Link href="/" className="cursor-pointer flex items-center gap-1">
+          <Image
+            src="/icons/logo.svg"
+            width={34}
+            height={34}
+            alt="Cosmico logo"
+          />
+          <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Cosmico</h1>
+        </Link>
 
         <div className="flex flex-col gap-1 md:gap-3">
           <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
@@ -88,7 +79,7 @@ const OTPVerifyForm = ({ email, userId }: { email: string; userId: string }) => 
       {/* OTP input */}
       <div className="flex flex-col gap-6 mt-2">
         <div className="flex flex-col gap-2">
-          <label className="text-14 font-medium text-gray-700">
+          <label className="form-label">
             Verification code
           </label>
           <input

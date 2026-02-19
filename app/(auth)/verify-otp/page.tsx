@@ -27,5 +27,9 @@ export default async function VerifyOTPPage({
     redirect("/sign-in");
   }
 
-  return <OTPVerifyForm email={email} userId={userId} />;
+  return (
+    <section className="flex-center size-full max-sm:px-6">
+      <OTPVerifyForm email={email} userId={userId} />
+    </section>
+  );
 }
