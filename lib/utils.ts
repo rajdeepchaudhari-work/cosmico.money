@@ -246,6 +246,9 @@ export const authFormSchema = (type: string) => z.object({
   dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3, 'Enter your date of birth'),
   ssn:         type === 'sign-in' ? z.string().optional() : z.string().min(1, 'Required'),
   confirmPassword: type === 'sign-in' ? z.string().optional() : z.string().min(8, 'Password must be at least 8 characters'),
+  agreeToTerms: type === 'sign-in'
+    ? z.boolean().optional()
+    : z.boolean().refine(val => val === true, { message: 'You must accept the Terms & Conditions and Privacy Policy' }),
   // both
   email:    z.string().email('Enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),

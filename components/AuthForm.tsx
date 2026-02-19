@@ -241,6 +241,39 @@ const AuthForm = ({ type }: { type: string }) => {
                 <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Re-enter your password' />
               )}
 
+              {type === 'sign-up' && (
+                <FormField
+                  control={form.control}
+                  name="agreeToTerms"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-start gap-3">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            id="agreeToTerms"
+                            checked={field.value || false}
+                            onChange={field.onChange}
+                            className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-blue-600 cursor-pointer shrink-0"
+                          />
+                        </FormControl>
+                        <FormLabel htmlFor="agreeToTerms" className="text-14 text-gray-600 leading-snug font-normal cursor-pointer">
+                          I have read and agree to the{' '}
+                          <Link href="/terms" target="_blank" className="text-blue-600 hover:underline font-medium">
+                            Terms &amp; Conditions
+                          </Link>
+                          {' '}and the{' '}
+                          <Link href="/privacy" target="_blank" className="text-blue-600 hover:underline font-medium">
+                            Privacy Policy
+                          </Link>
+                        </FormLabel>
+                      </div>
+                      <FormMessage className="form-message mt-1" />
+                    </FormItem>
+                  )}
+                />
+              )}
+
               {resetSuccess && (
                 <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
