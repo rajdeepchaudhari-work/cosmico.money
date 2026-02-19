@@ -12,10 +12,12 @@ interface CustomInput {
   control: Control<z.infer<typeof formSchema>>,
   name: FieldPath<z.infer<typeof formSchema>>,
   label: string,
-  placeholder: string
+  placeholder: string,
+  disabled?: boolean,
+  type?: string,
 }
 
-const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+const CustomInput = ({ control, name, label, placeholder, disabled, type }: CustomInput) => {
   return (
     <FormField
       control={control}
@@ -27,10 +29,11 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
           </FormLabel>
           <div className="flex w-full flex-col">
             <FormControl>
-              <Input 
+              <Input
                 placeholder={placeholder}
                 className="input-class"
-                type={name === 'password' ? 'password' : 'text'}
+                type={type ?? (name === 'password' ? 'password' : 'text')}
+                disabled={disabled}
                 {...field}
               />
             </FormControl>

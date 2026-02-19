@@ -245,11 +245,17 @@ export const authFormSchema = (type: string) => z.object({
   postalCode:  type === 'sign-in' ? z.string().optional() : z.string().min(3, 'Enter a valid postal code').max(10),
   dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3, 'Enter your date of birth'),
   ssn:         type === 'sign-in' ? z.string().optional() : z.string().min(1, 'Required'),
+  confirmPassword: type === 'sign-in' ? z.string().optional() : z.string().min(8, 'Password must be at least 8 characters'),
   // both
   email:    z.string().email('Enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 }).superRefine((data, ctx) => {
   if (type === 'sign-in') return;
+
+  // ── Confirm password ──────────────────────────────────────
+  if (data.password !== data.confirmPassword) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Passwords don't match", path: ['confirmPassword'] });
+  }
 
   const country = data.country || 'US';
 
@@ -284,10 +290,16 @@ export const authFormSchema = (type: string) => z.object({
 
   // ── Date of birth ─────────────────────────────────────────
   if (data.dateOfBirth) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(data.dateOfBirth)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Use YYYY-MM-DD format, e.g. 1990-01-15', path: ['dateOfBirth'] });
+    // Accept YYYY-MM-DD (native date input) or DD-MM-YYYY
+    const isIso = /^\d{4}-\d{2}-\d{2}$/.test(data.dateOfBirth);
+    const isDMY = /^\d{2}-\d{2}-\d{4}$/.test(data.dateOfBirth);
+    if (!isIso && !isDMY) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Select a valid date of birth', path: ['dateOfBirth'] });
     } else {
-      const dob = new Date(data.dateOfBirth);
+      const normalized = isDMY
+        ? data.dateOfBirth.split('-').reverse().join('-')
+        : data.dateOfBirth;
+      const dob = new Date(normalized);
       const age = new Date().getFullYear() - dob.getFullYear();
       if (isNaN(dob.getTime())) {
         ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Enter a valid date', path: ['dateOfBirth'] });

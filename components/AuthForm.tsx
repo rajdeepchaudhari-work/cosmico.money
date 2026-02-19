@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -40,12 +40,25 @@ const AuthForm = ({ type }: { type: string }) => {
       mode: 'onBlur',
       defaultValues: {
         email: "",
-        password: ''
+        password: '',
+        country: 'UK',
       },
     })
-   
-    const selectedCountry = form.watch('country') || 'US';
+
+    const selectedCountry = form.watch('country') || 'UK';
     const countryConfig = COUNTRY_CONFIG[selectedCountry] || COUNTRY_CONFIG.US;
+
+    // Auto-fill demo ID number when country changes (sandbox only)
+    const DEMO_IDS: Record<string, string> = {
+      US: '1234',
+      CA: '123-456-789',
+      UK: 'QQ 12 34 56 C',
+    };
+    useEffect(() => {
+      if (type === 'sign-up') {
+        form.setValue('ssn', DEMO_IDS[selectedCountry] ?? '');
+      }
+    }, [selectedCountry, type]);
 
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -183,8 +196,8 @@ const AuthForm = ({ type }: { type: string }) => {
                     <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder={countryConfig.postalPlaceholder} />
                   </div>
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='e.g. 1990-01-15' />
-                    <CustomInput control={form.control} name='ssn' label={countryConfig.idLabel} placeholder={countryConfig.idPlaceholder} />
+                    <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='' type="date" />
+                    <CustomInput control={form.control} name='ssn' label={countryConfig.idLabel} placeholder={countryConfig.idPlaceholder} disabled />
                   </div>
                 </>
               )}
@@ -199,6 +212,10 @@ const AuthForm = ({ type }: { type: string }) => {
                   </Link>
                 )}
               </div>
+
+              {type === 'sign-up' && (
+                <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Re-enter your password' />
+              )}
 
               {resetSuccess && (
                 <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">

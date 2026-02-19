@@ -152,6 +152,12 @@ const OTPVerifyForm = ({ email, userId }: { email: string; userId: string }) => 
             </p>
           )}
           <p className="text-12 text-gray-400">Code expires in 10 minutes</p>
+          <p className="text-12 text-gray-400">
+            Wrong email?{" "}
+            <Link href="/sign-in" className="text-blue-600 hover:underline font-medium">
+              Go back and correct it
+            </Link>
+          </p>
         </div>
       </div>
     </section>
