@@ -351,7 +351,7 @@ const AuthForm = ({ type }: { type: string }) => {
               </div>
 
               {type === 'sign-up' && (
-                <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Re-enter your password' />
+                <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Re-enter your password' type="password" />
               )}
 
               {type === 'sign-up' && (
