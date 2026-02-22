@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes float {
+  0%, 100% { transform: rotateX(6deg) rotateY(-14deg) translateY(0px); }
+  50%       { transform: rotateX(6deg) rotateY(-14deg) translateY(-14px); }
+}
+
+@keyframes float-badge-top {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes float-badge-bottom {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(8px); }
+}
+
+.hero-mockup {
+  animation: float 5s ease-in-out infinite;
+}
+
+.hero-badge-top {
+  animation: float-badge-top 5s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+.hero-badge-bottom {
+  animation: float-badge-bottom 5s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
 * {
   margin: 0;
   padding: 0;

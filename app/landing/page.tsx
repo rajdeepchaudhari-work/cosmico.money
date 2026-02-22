@@ -120,7 +120,7 @@ export default function LandingPage() {
                   style={{ background: 'linear-gradient(135deg, #FC5C3A, #368DFF)' }} />
 
                 {/* Main card */}
-                <div className="relative" style={{
+                <div className="relative hero-mockup" style={{
                   transform: 'rotateX(6deg) rotateY(-14deg)',
                   width: 380,
                   background: '#13131e',
@@ -187,13 +187,13 @@ export default function LandingPage() {
                 </div>
 
                 {/* Floating notification */}
-                <div className="absolute" style={{ top: -16, right: -22, background: 'white', borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: 155 }}>
+                <div className="absolute hero-badge-top" style={{ top: -16, right: -22, background: 'white', borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: 155 }}>
                   <p style={{ fontSize: 12, fontWeight: 700, color: '#111827', margin: '0 0 2px' }}>💸 Transfer sent</p>
                   <p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>£250 to John D. · Just now</p>
                 </div>
 
                 {/* Floating AI badge */}
-                <div className="absolute" style={{ bottom: -14, left: -22, borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(252,92,58,0.3)', background: 'linear-gradient(135deg,#FC5C3A,#ff7958)', minWidth: 148 }}>
+                <div className="absolute hero-badge-bottom" style={{ bottom: -14, left: -22, borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(252,92,58,0.3)', background: 'linear-gradient(135deg,#FC5C3A,#ff7958)', minWidth: 148 }}>
                   <p style={{ fontSize: 12, fontWeight: 700, color: 'white', margin: '0 0 2px' }}>🤖 Cosmico AI</p>
                   <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.8)', margin: 0 }}>You could save £180/mo</p>
                 </div>
