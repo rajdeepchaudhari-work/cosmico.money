@@ -560,9 +560,12 @@ export default function LandingPage() {
                   style={{ background: step.color, boxShadow: `0 0 20px ${step.color}50` }}>
                   {step.num}
                 </div>
-                <div className="rounded-2xl p-6 mb-5 w-full" style={{ background: '#13131e', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <Image src={step.icon} alt={step.title} width={160} height={120} className="mx-auto opacity-75"
-                    style={{ filter: `drop-shadow(0 0 14px ${step.color}35)` }} />
+                <div className="rounded-2xl p-6 mb-5 w-full flex items-center justify-center"
+                  style={{ background: '#13131e', border: '1px solid rgba(255,255,255,0.06)', height: 200 }}>
+                  <div className="relative w-full" style={{ height: 148 }}>
+                    <Image src={step.icon} alt={step.title} fill className="opacity-75"
+                      style={{ objectFit: 'contain', filter: `drop-shadow(0 0 14px ${step.color}50)` }} />
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
