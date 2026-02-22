@@ -22,7 +22,7 @@ import AddressAutocomplete from './AddressAutocomplete';
 import { authFormSchema, COUNTRY_CONFIG } from '@/lib/utils';
 import { Loader2, AlertCircle, X, CheckCircle2, ArrowLeft, RotateCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn, signUp } from '@/lib/actions/user.actions';
+import { signIn, signUp, getLoggedInUser } from '@/lib/actions/user.actions';
 import { verifyOTP, resendOTP } from '@/lib/actions/otp.actions';
 import PlaidLink from './PlaidLink';
 
@@ -46,101 +46,98 @@ const AuthForm = ({ type }: { type: string }) => {
 
   const formSchema = authFormSchema(type);
 
-    // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      mode: 'onBlur',
-      defaultValues: {
-        email: "",
-        password: '',
-        country: 'UK',
-      },
-    })
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: "",
+      password: '',
+      country: 'UK',
+    },
+  })
 
-    const selectedCountry = form.watch('country') || 'UK';
-    const countryConfig = COUNTRY_CONFIG[selectedCountry] || COUNTRY_CONFIG.US;
+  const selectedCountry = form.watch('country') || 'UK';
+  const countryConfig = COUNTRY_CONFIG[selectedCountry] || COUNTRY_CONFIG.US;
 
-    // Auto-fill demo ID number when country changes (sandbox only)
-    const DEMO_IDS: Record<string, string> = {
-      US: '1234',
-      CA: '123-456-789',
-      UK: 'QQ 12 34 56 C',
-    };
-    useEffect(() => {
-      if (type === 'sign-up') {
-        form.setValue('ssn', DEMO_IDS[selectedCountry] ?? '');
-      }
-    }, [selectedCountry, type]);
-
-    // 2. Define a submit handler.
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-      setIsLoading(true);
-      setAuthError(null);
-
-      try {
-        if(type === 'sign-up') {
-          const userData = {
-            firstName: data.firstName!,
-            lastName: data.lastName!,
-            address1: data.address1!,
-            city: data.city!,
-            state: data.state!,
-            postalCode: data.postalCode!,
-            dateOfBirth: data.dateOfBirth!,
-            country: data.country!,
-            ssn: data.ssn!,
-            email: data.email,
-            password: data.password
-          }
-
-          const newUser = await signUp({
-            ...userData,
-            ...(pendingUserId ? { previousPendingUserId: pendingUserId } : {}),
-          } as any);
-          if (newUser?.requiresOTP) {
-            setPendingUserId(newUser.userId);
-            setPendingEmail(data.email);
-            setOtp('');
-            setOtpError(null);
-            setOtpStep(true);
-          } else {
-            setUser(newUser);
-          }
-        }
-
-        if(type === 'sign-in') {
-          const response = await signIn({
-            email: data.email,
-            password: data.password,
-          })
-
-          if (response?.requiresOTP) {
-            router.push(`/verify-otp?uid=${btoa(response.userId)}`);
-          } else if (response) {
-            router.push('/');
-          }
-        }
-      } catch (error: any) {
-        // Appwrite puts the code in error.type e.g. "user_invalid_credentials"
-        const combined = `${error?.message ?? ''} ${error?.type ?? ''}`.toLowerCase();
-
-        if (type === 'sign-in') {
-          if (combined.includes('invalid') || combined.includes('credentials') || combined.includes('password')) {
-            setAuthError('Incorrect email or password. Please try again.');
-          } else {
-            setAuthError('Sign in failed. Please check your details and try again.');
-          }
-        } else {
-          if (combined.includes('already exists') || combined.includes('conflict')) {
-            setAuthError('An account with this email already exists. Try signing in instead.');
-          } else {
-            setAuthError('Sign up failed. Please check your details and try again.');
-          }
-        }
-      } finally {
-        setIsLoading(false);
-      }
+  const DEMO_IDS: Record<string, string> = {
+    US: '1234',
+    CA: '123-456-789',
+    UK: 'QQ 12 34 56 C',
+  };
+  useEffect(() => {
+    if (type === 'sign-up') {
+      form.setValue('ssn', DEMO_IDS[selectedCountry] ?? '');
     }
+  }, [selectedCountry, type]);
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      if (type === 'sign-up') {
+        const userData = {
+          firstName: data.firstName!,
+          lastName: data.lastName!,
+          address1: data.address1!,
+          city: data.city!,
+          state: data.state!,
+          postalCode: data.postalCode!,
+          dateOfBirth: data.dateOfBirth!,
+          country: data.country!,
+          ssn: data.ssn!,
+          email: data.email,
+          password: data.password
+        }
+
+        const newUser = await signUp({
+          ...userData,
+          ...(pendingUserId ? { previousPendingUserId: pendingUserId } : {}),
+        } as any);
+
+        if (newUser?.requiresOTP) {
+          setPendingUserId(newUser.userId);
+          setPendingEmail(data.email);
+          setOtp('');
+          setOtpError(null);
+          setOtpStep(true);
+        } else {
+          setUser(newUser);
+        }
+      }
+
+      if (type === 'sign-in') {
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        })
+
+        if (response?.requiresOTP) {
+          router.push(`/verify-otp?uid=${btoa(response.userId)}`);
+        } else if (response) {
+          router.push('/');
+        }
+      }
+    } catch (error: any) {
+      const combined = `${error?.message ?? ''} ${error?.type ?? ''}`.toLowerCase();
+
+      if (type === 'sign-in') {
+        if (combined.includes('invalid') || combined.includes('credentials') || combined.includes('password')) {
+          setAuthError('Incorrect email or password. Please try again.');
+        } else {
+          setAuthError('Sign in failed. Please check your details and try again.');
+        }
+      } else {
+        if (combined.includes('already exists') || combined.includes('conflict')) {
+          setAuthError('An account with this email already exists. Try signing in instead.');
+        } else {
+          setAuthError('Sign up failed. Please check your details and try again.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleOtpVerify = async () => {
     if (otp.length !== 6) return;
@@ -148,7 +145,14 @@ const AuthForm = ({ type }: { type: string }) => {
     setOtpError(null);
     try {
       await verifyOTP(otp, pendingUserId);
-      router.push('/');
+      // After OTP verified, fetch user and show PlaidLink for bank connection
+      const loggedInUser = await getLoggedInUser();
+      if (loggedInUser) {
+        setUser(loggedInUser);
+        setOtpStep(false);
+      } else {
+        router.push('/');
+      }
     } catch (err: any) {
       setOtpError(err.message || 'Verification failed. Please try again.');
     } finally {
@@ -172,54 +176,51 @@ const AuthForm = ({ type }: { type: string }) => {
     }
   };
 
-  // Masked email for display
   const maskedEmail = pendingEmail
     ? pendingEmail.replace(/(.{2})(.*)(@.*)/, (_, a, b, c) => a + '*'.repeat(b.length) + c)
     : 'your email';
 
   return (
-    <section className="auth-form">
+    <section className="auth-form auth-dark">
       <header className='flex flex-col gap-5 md:gap-8'>
-          <Link href="/" className="cursor-pointer flex items-center gap-1">
-            <Image 
-              src="/icons/logo.svg"
-              width={34}
-              height={34}
-              alt="Cosmico logo"
-            />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Cosmico</h1>
-          </Link>
+        <Link href="/landing" className="cursor-pointer flex items-center gap-2">
+          <Image src="/icons/logo.svg" width={34} height={34} alt="Cosmico logo" />
+          <h1 className="text-26 font-ibm-plex-serif font-bold text-white">Cosmico</h1>
+        </Link>
 
-          <div className="flex flex-col gap-1 md:gap-3">
-            <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
-              {user
-                ? 'Link Account'
-                : otpStep
-                  ? 'Verify your email'
-                  : type === 'sign-in'
-                    ? 'Sign In'
-                    : 'Sign Up'
-              }
-            </h1>
-            <p className="text-16 font-normal text-gray-600">
-              {user
-                ? 'Link your account to get started'
-                : otpStep
-                  ? <>We sent a 6-digit code to <span className="font-medium text-gray-900">{maskedEmail}</span></>
-                  : 'Please enter your details'
-              }
-            </p>
-          </div>
+        <div className="flex flex-col gap-1 md:gap-3">
+          <h1 className="text-24 lg:text-36 font-semibold text-white">
+            {user
+              ? 'Link Account'
+              : otpStep
+                ? 'Verify your email'
+                : type === 'sign-in'
+                  ? 'Sign In'
+                  : 'Sign Up'
+            }
+          </h1>
+          <p className="text-16 font-normal" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            {user
+              ? 'Link your account to get started'
+              : otpStep
+                ? <>We sent a 6-digit code to <span className="font-medium text-white">{maskedEmail}</span></>
+                : 'Please enter your details'
+            }
+          </p>
+        </div>
       </header>
+
       {user ? (
         <div className="flex flex-col gap-4">
           <PlaidLink user={user} variant="primary" />
         </div>
       ) : otpStep ? (
-        /* ── Inline OTP step (sign-up only) ── */
+        /* ── Inline OTP step ── */
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <label className="form-label">Verification code</label>
+            <label style={{ color: 'rgba(255,255,255,0.65)', fontSize: 14, fontWeight: 500 }}>
+              Verification code
+            </label>
             <input
               type="text"
               inputMode="numeric"
@@ -231,12 +232,13 @@ const AuthForm = ({ type }: { type: string }) => {
               style={{
                 fontSize: 28, fontWeight: 700, letterSpacing: 16, textAlign: 'center',
                 padding: '14px 20px',
-                border: otpError ? '1.5px solid #ef4444' : '1.5px solid #e2e8f0',
-                borderRadius: 10, outline: 'none', background: '#f8fafc',
-                color: '#111827', width: '100%',
+                border: otpError ? '1.5px solid #f87171' : '1.5px solid rgba(255,255,255,0.1)',
+                borderRadius: 10, outline: 'none',
+                background: 'rgba(255,255,255,0.05)',
+                color: 'white', width: '100%',
               }}
             />
-            {otpError && <p className="text-12 text-red-500">{otpError}</p>}
+            {otpError && <p style={{ color: '#f87171', fontSize: 12 }}>{otpError}</p>}
           </div>
 
           <Button onClick={handleOtpVerify} disabled={otp.length !== 6 || isVerifying} className="form-btn">
@@ -245,26 +247,28 @@ const AuthForm = ({ type }: { type: string }) => {
 
           <div className="flex flex-col items-center gap-2">
             {resendSuccess ? (
-              <p className="text-14 text-green-600 font-medium">New code sent to your email.</p>
+              <p className="text-14 font-medium" style={{ color: '#34d399' }}>New code sent to your email.</p>
             ) : (
-              <p className="text-14 text-gray-500">
+              <p className="text-14" style={{ color: 'rgba(255,255,255,0.45)' }}>
                 Didn&apos;t receive it?{' '}
                 <button
                   type="button"
                   onClick={handleOtpResend}
                   disabled={isResending}
-                  className="text-[#FC5C3A] font-semibold hover:underline disabled:opacity-50 inline-flex items-center gap-1"
+                  className="font-semibold hover:underline disabled:opacity-50 inline-flex items-center gap-1"
+                  style={{ color: '#FC5C3A' }}
                 >
                   {isResending ? <Loader2 size={12} className="animate-spin" /> : <RotateCcw size={12} />}
                   Resend code
                 </button>
               </p>
             )}
-            <p className="text-12 text-gray-400">Code expires in 10 minutes</p>
+            <p className="text-12" style={{ color: 'rgba(255,255,255,0.3)' }}>Code expires in 10 minutes</p>
             <button
               type="button"
               onClick={() => { setOtpStep(false); setOtp(''); setOtpError(null); }}
-              className="mt-1 inline-flex items-center gap-1.5 text-14 text-blue-600 hover:underline font-medium"
+              className="mt-1 inline-flex items-center gap-1.5 text-14 font-medium hover:underline"
+              style={{ color: 'rgba(255,255,255,0.45)' }}
             >
               <ArrowLeft size={14} />
               Wrong email? Go back to correct it
@@ -289,10 +293,10 @@ const AuthForm = ({ type }: { type: string }) => {
                               <SelectValue placeholder="Select your country" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent className="bg-white">
-                            <SelectItem value="US">United States</SelectItem>
-                            <SelectItem value="CA">Canada</SelectItem>
-                            <SelectItem value="UK">United Kingdom</SelectItem>
+                          <SelectContent style={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}>
+                            <SelectItem value="US" style={{ color: 'rgba(255,255,255,0.85)' }}>United States</SelectItem>
+                            <SelectItem value="CA" style={{ color: 'rgba(255,255,255,0.85)' }}>Canada</SelectItem>
+                            <SelectItem value="UK" style={{ color: 'rgba(255,255,255,0.85)' }}>United Kingdom</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage className="form-message mt-2" />
@@ -344,7 +348,9 @@ const AuthForm = ({ type }: { type: string }) => {
               <div className="flex flex-col gap-1">
                 <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
                 {type === 'sign-in' && (
-                  <Link href="/forgot-password" className="text-12 text-right text-blue-600 hover:underline mt-1 self-end">
+                  <Link href="/forgot-password"
+                    className="text-12 text-right mt-1 self-end hover:underline"
+                    style={{ color: '#FC5C3A' }}>
                     Forgot password?
                   </Link>
                 )}
@@ -367,16 +373,23 @@ const AuthForm = ({ type }: { type: string }) => {
                             id="agreeToTerms"
                             checked={field.value || false}
                             onChange={field.onChange}
-                            className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-blue-600 cursor-pointer shrink-0"
+                            className="mt-0.5 h-4 w-4 rounded cursor-pointer shrink-0"
+                            style={{ accentColor: '#FC5C3A' }}
                           />
                         </FormControl>
-                        <FormLabel htmlFor="agreeToTerms" className="text-14 text-gray-600 leading-snug font-normal cursor-pointer">
+                        <FormLabel htmlFor="agreeToTerms"
+                          className="text-14 leading-snug font-normal cursor-pointer"
+                          style={{ color: 'rgba(255,255,255,0.5)' }}>
                           I have read and agree to the{' '}
-                          <Link href="/terms" target="_blank" className="text-blue-600 hover:underline font-medium">
+                          <Link href="/terms" target="_blank"
+                            className="font-medium hover:underline"
+                            style={{ color: '#FC5C3A' }}>
                             Terms &amp; Conditions
                           </Link>
                           {' '}and the{' '}
-                          <Link href="/privacy" target="_blank" className="text-blue-600 hover:underline font-medium">
+                          <Link href="/privacy" target="_blank"
+                            className="font-medium hover:underline"
+                            style={{ color: '#FC5C3A' }}>
                             Privacy Policy
                           </Link>
                         </FormLabel>
@@ -388,20 +401,23 @@ const AuthForm = ({ type }: { type: string }) => {
               )}
 
               {resetSuccess && (
-                <div className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-                  <p className="text-sm text-green-700">Password updated successfully. Please sign in.</p>
+                <div className="flex items-start gap-3 rounded-lg px-4 py-3"
+                  style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: '#34d399' }} />
+                  <p className="text-sm" style={{ color: '#34d399' }}>Password updated successfully. Please sign in.</p>
                 </div>
               )}
 
               {authError && (
-                <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
-                  <p className="flex-1 text-sm text-red-700">{authError}</p>
+                <div className="flex items-start gap-3 rounded-lg px-4 py-3"
+                  style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: '#f87171' }} />
+                  <p className="flex-1 text-sm" style={{ color: '#f87171' }}>{authError}</p>
                   <button
                     type="button"
                     onClick={() => setAuthError(null)}
-                    className="text-red-400 hover:text-red-600 transition-colors"
+                    className="transition-opacity hover:opacity-100 opacity-60"
+                    style={{ color: '#f87171' }}
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -415,7 +431,7 @@ const AuthForm = ({ type }: { type: string }) => {
                       <Loader2 size={20} className="animate-spin" /> &nbsp;
                       Loading...
                     </>
-                  ) : type === 'sign-in' 
+                  ) : type === 'sign-in'
                     ? 'Sign In' : 'Sign Up'}
                 </Button>
               </div>
@@ -423,10 +439,10 @@ const AuthForm = ({ type }: { type: string }) => {
           </Form>
 
           <footer className="flex justify-center gap-1">
-            <p className="text-14 font-normal text-gray-600">
+            <p className="text-14 font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}>
               {type === 'sign-in'
-              ? "Don't have an account?"
-              : "Already have an account?"}
+                ? "Don't have an account?"
+                : "Already have an account?"}
             </p>
             <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="form-link">
               {type === 'sign-in' ? 'Sign up' : 'Sign in'}

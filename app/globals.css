@@ -350,6 +350,45 @@
     @apply text-14 cursor-pointer font-medium text-bankGradient;
   }
 
+  /* ── Dark Auth Theme ── */
+  .auth-dark.auth-form {
+    min-height: auto;
+  }
+
+  .auth-dark .form-label {
+    color: rgba(255, 255, 255, 0.65) !important;
+    max-width: 100%;
+  }
+
+  .auth-dark .input-class {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+  }
+
+  .auth-dark .input-class::placeholder {
+    color: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  .auth-dark .input-class[type="date"] {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .auth-dark .form-btn {
+    background: linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%) !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 24px rgba(252, 92, 58, 0.3) !important;
+  }
+
+  .auth-dark .form-link {
+    color: #FC5C3A !important;
+  }
+
+  .auth-dark .form-message {
+    color: #f87171 !important;
+  }
+
   /* Payment Transfer */
   .payment-transfer {
     @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-25 p-8 md:max-h-screen xl:py-12;

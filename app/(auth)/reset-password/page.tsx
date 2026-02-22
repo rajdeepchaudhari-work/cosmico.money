@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 const schema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirm:  z.string(),
+  confirm: z.string(),
 }).refine(d => d.password === d.confirm, {
   message: 'Passwords do not match',
   path: ['confirm'],
@@ -54,18 +54,17 @@ const ResetPassword = () => {
   };
 
   return (
-    <section className="flex-center size-full max-sm:px-6">
-    <section className="auth-form">
+    <section className="auth-form auth-dark">
       <header className="flex flex-col gap-5 md:gap-8">
-        <Link href="/landing" className="cursor-pointer flex items-center gap-1">
+        <Link href="/landing" className="cursor-pointer flex items-center gap-2">
           <Image src="/icons/logo.svg" width={34} height={34} alt="Cosmico logo" />
-          <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Cosmico</h1>
+          <h1 className="text-26 font-ibm-plex-serif font-bold text-white">Cosmico</h1>
         </Link>
         <div className="flex flex-col gap-1 md:gap-3">
-          <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
+          <h1 className="text-24 lg:text-36 font-semibold text-white">
             Set new password
           </h1>
-          <p className="text-16 font-normal text-gray-600">
+          <p className="text-16 font-normal" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Choose a strong password for your account.
           </p>
         </div>
@@ -106,9 +105,10 @@ const ResetPassword = () => {
           />
 
           {authError && (
-            <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
-              <p className="flex-1 text-sm text-red-700">{authError}</p>
+            <div className="flex items-start gap-3 rounded-lg px-4 py-3"
+              style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}>
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: '#f87171' }} />
+              <p className="flex-1 text-sm" style={{ color: '#f87171' }}>{authError}</p>
             </div>
           )}
 
@@ -123,10 +123,11 @@ const ResetPassword = () => {
       </Form>
 
       <footer className="flex justify-center gap-1">
-        <p className="text-14 font-normal text-gray-600">Remember your password?</p>
+        <p className="text-14 font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          Remember your password?
+        </p>
         <Link href="/sign-in" className="form-link">Sign in</Link>
       </footer>
-    </section>
     </section>
   );
 };
