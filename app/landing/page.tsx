@@ -6,944 +6,682 @@ import AnimatedTagline from '@/components/AnimatedTagline'
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-white font-inter overflow-x-hidden">
+    <main className="min-h-screen font-inter overflow-x-hidden" style={{ background: '#09090f' }}>
       <DisclaimerModal />
       <ChatWidget />
 
       {/* ── Navbar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{
+        background: 'rgba(9,9,15,0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      }}>
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image src="/icons/logo.svg" alt="Cosmico" width={30} height={30} />
-            <span className="text-xl font-bold text-gray-900 font-ibm-plex-serif">Cosmico</span>
+            <span className="text-xl font-bold text-white font-ibm-plex-serif">Cosmico</span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ml-1 uppercase tracking-wide"
+              style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link
-              href="/sign-in"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-3 py-2"
-            >
+            <Link href="/sign-in"
+              className="text-sm font-medium transition-colors px-3 py-2"
+              style={{ color: 'rgba(255,255,255,0.6)' }}>
               Sign In
             </Link>
-            <Link
-              href="/sign-up"
-              className="text-sm font-semibold text-white px-4 py-2 rounded-lg transition-all hover:opacity-90 shadow-sm"
-              style={{ background: '#FC5C3A' }}
-            >
+            <Link href="/sign-up"
+              className="text-sm font-semibold text-white px-5 py-2 rounded-lg transition-all hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}>
               Join Beta
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* ────────────────────────────────────────
-          SECTION 1 — Hero
-      ──────────────────────────────────────── */}
-      <section className="pt-28 pb-20 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+      {/* ══════════════════════════════════════
+          HERO — Dark gradient with 3D mockup
+      ══════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
 
-          {/* Left: copy */}
-          <div className="flex-1 text-center lg:text-left">
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-6 uppercase tracking-wide"
-              style={{ background: 'rgba(252,92,58,0.1)', color: '#FC5C3A' }}
-            >
-              <span
-                className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: '#FC5C3A' }}
-              />
-              ✦ AI-Powered Banking · Beta
-            </div>
-
-            <h1 className="text-5xl lg:text-[3.75rem] font-bold text-gray-900 leading-tight mb-6 font-ibm-plex-serif">
-              Banking that
-              <br />
-              <AnimatedTagline />
-            </h1>
-
-            <p className="text-lg text-gray-500 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              Cosmico connects all your bank accounts, analyses your spending with AI-powered charts, and rewards you for smart financial habits. One intelligent dashboard for everything.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-              <Link
-                href="/sign-up"
-                className="px-7 py-3.5 rounded-xl text-white font-semibold shadow-lg hover:scale-105 transition-transform text-sm"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)' }}
-              >
-                Get Early Access →
-              </Link>
-              <Link
-                href="/sign-in"
-                className="px-7 py-3.5 rounded-xl font-semibold text-sm border-2 hover:scale-105 transition-transform"
-                style={{ color: '#368DFF', borderColor: '#368DFF' }}
-              >
-                Sign In
-              </Link>
-            </div>
-
-            <p className="mt-6 text-sm text-gray-400">
-              Join{' '}
-              <span className="font-semibold text-gray-600">2,000+ early adopters</span>{' '}
-              already on the waitlist
-            </p>
-          </div>
-
-          {/* Right: illustration */}
-          <div className="flex-1 flex justify-center lg:justify-end">
-            <div className="relative">
-              <div
-                className="absolute inset-0 rounded-3xl blur-3xl opacity-25 scale-110"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A, #368DFF)' }}
-              />
-              <Image
-                src="/icons/Hero/undraw_finance_m6vw.svg"
-                alt="Cosmico banking dashboard"
-                width={520}
-                height={420}
-                className="relative z-10 drop-shadow-xl"
-                priority
-              />
-            </div>
-          </div>
+        {/* Background glow orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute rounded-full blur-3xl opacity-20"
+            style={{ width: 600, height: 600, top: '-10%', left: '-10%', background: 'radial-gradient(circle, #FC5C3A, transparent)' }} />
+          <div className="absolute rounded-full blur-3xl opacity-15"
+            style={{ width: 500, height: 500, bottom: '-5%', right: '5%', background: 'radial-gradient(circle, #368DFF, transparent)' }} />
+          <div className="absolute rounded-full blur-3xl opacity-10"
+            style={{ width: 400, height: 400, top: '40%', left: '40%', background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
         </div>
-      </section>
 
-      {/* ────────────────────────────────────────
-          COUNTRIES STRIP
-      ──────────────────────────────────────── */}
-      <div className="py-10 px-6 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">
-            Available in
-          </p>
-          <div className="flex items-center gap-4 sm:gap-8 flex-wrap justify-center">
+        {/* Subtle grid texture */}
+        <div className="absolute inset-0 opacity-[0.025]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }} />
 
-            {/* US */}
-            <div className="flex items-center gap-2.5">
-              <Image src="/icons/US.png" alt="United States" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
-              <span className="text-sm font-semibold text-gray-700">United States</span>
-            </div>
+        <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
 
-            {/* UK */}
-            <div className="flex items-center gap-2.5">
-              <Image src="/icons/UK.png" alt="United Kingdom" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
-              <span className="text-sm font-semibold text-gray-700">United Kingdom</span>
-            </div>
+            {/* ── Left: Copy ── */}
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8 uppercase tracking-wide"
+                style={{ background: 'rgba(252,92,58,0.12)', color: '#FC5C3A', border: '1px solid rgba(252,92,58,0.2)' }}>
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#FC5C3A' }} />
+                AI-Powered Banking · Beta
+              </div>
 
-            {/* CA */}
-            <div className="flex items-center gap-2.5">
-              <Image src="/icons/CA.png" alt="Canada" width={32} height={22} className="rounded-sm shadow-sm object-cover" />
-              <span className="text-sm font-semibold text-gray-700">Canada</span>
-            </div>
+              <h1 className="font-bold text-white leading-[1.05] mb-6 font-ibm-plex-serif"
+                style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)' }}>
+                Banking that
+                <br />
+                <AnimatedTagline />
+              </h1>
 
-            {/* Divider */}
-            <div className="hidden sm:block w-px h-6 bg-gray-200" />
+              <p className="text-lg leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0"
+                style={{ color: 'rgba(255,255,255,0.5)' }}>
+                Cosmico connects all your bank accounts, analyses spending with AI-powered charts, and rewards you for smart financial habits — one intelligent dashboard.
+              </p>
 
-            {/* EU — Coming Soon */}
-            <div className="flex items-center gap-2.5 opacity-45">
-              <Image src="/icons/european-union.png" alt="European Union" width={32} height={22} className="rounded-sm shadow-sm object-cover grayscale" />
-              <div className="flex flex-col leading-none">
-                <span className="text-sm font-semibold text-gray-500">Europe</span>
-                <span
-                  className="text-[10px] font-bold uppercase tracking-wide mt-0.5"
-                  style={{ color: '#FC5C3A' }}
-                >
-                  Coming soon
-                </span>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-12">
+                <Link href="/sign-up"
+                  className="px-8 py-4 rounded-xl text-white font-bold hover:scale-105 transition-all text-sm"
+                  style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)', boxShadow: '0 0 40px rgba(252,92,58,0.35)' }}>
+                  Get Early Access →
+                </Link>
+                <Link href="/sign-in"
+                  className="px-8 py-4 rounded-xl font-semibold text-sm hover:scale-105 transition-all"
+                  style={{ color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+                  Sign In
+                </Link>
+              </div>
+
+              {/* Stats */}
+              <div className="flex flex-wrap gap-8 justify-center lg:justify-start">
+                {[
+                  { value: '2,000+', label: 'Early adopters' },
+                  { value: '3', label: 'Countries' },
+                  { value: '£0', label: 'Fees, always' },
+                ].map(s => (
+                  <div key={s.label}>
+                    <p className="text-2xl font-bold text-white">{s.value}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{s.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
+            {/* ── Right: 3D Dashboard Mockup ── */}
+            <div className="flex-1 flex justify-center lg:justify-end">
+              <div style={{ perspective: '1200px' }} className="relative">
+
+                {/* Glow behind card */}
+                <div className="absolute inset-0 blur-3xl opacity-25 scale-90 rounded-3xl"
+                  style={{ background: 'linear-gradient(135deg, #FC5C3A, #368DFF)' }} />
+
+                {/* Main card */}
+                <div className="relative" style={{
+                  transform: 'rotateX(6deg) rotateY(-14deg)',
+                  width: 380,
+                  background: '#13131e',
+                  borderRadius: 20,
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
+                  overflow: 'hidden',
+                }}>
+                  {/* Header */}
+                  <div style={{ background: '#1a1a2e', padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 8, background: 'linear-gradient(135deg,#FC5C3A,#ff7958)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: 'white' }}>C</div>
+                      <span style={{ color: 'white', fontSize: 13, fontWeight: 700 }}>Cosmico</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }} />
+                      <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11 }}>Live</span>
+                    </div>
+                  </div>
+                  {/* Balance */}
+                  <div style={{ padding: '18px 20px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10, margin: '0 0 3px', textTransform: 'uppercase', letterSpacing: 1 }}>Total Balance</p>
+                    <p style={{ color: 'white', fontSize: 30, fontWeight: 800, margin: '0 0 3px', lineHeight: 1.1 }}>£24,891<span style={{ fontSize: 16, opacity: 0.55 }}>.50</span></p>
+                    <span style={{ color: '#10b981', fontSize: 11, fontWeight: 600 }}>↑ +£1,240 this month</span>
+                  </div>
+                  {/* Mini banks */}
+                  <div style={{ padding: '12px 20px', display: 'flex', gap: 6, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    {[{ name: 'Barclays', amt: '£12,440', c: '#1e40af' }, { name: 'Monzo', amt: '£8,200', c: '#FC5C3A' }, { name: 'Chase', amt: '£4,251', c: '#0d9488' }].map(b => (
+                      <div key={b.name} style={{ flex: 1, background: b.c + '20', border: `1px solid ${b.c}40`, borderRadius: 9, padding: '7px 9px' }}>
+                        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 9, margin: '0 0 2px', textTransform: 'uppercase' }}>{b.name}</p>
+                        <p style={{ color: 'white', fontSize: 11, fontWeight: 700, margin: 0 }}>{b.amt}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Spend bars */}
+                  <div style={{ padding: '12px 20px 8px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: 0.8 }}>Monthly Spend</p>
+                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 40 }}>
+                      {[35, 52, 41, 68, 45, 72, 58, 44, 60, 78, 55, 80].map((h, i) => (
+                        <div key={i} style={{ flex: 1, height: `${h}%`, borderRadius: 3, background: i === 11 ? 'linear-gradient(180deg,#FC5C3A,#ff7958)' : 'rgba(255,255,255,0.09)' }} />
+                      ))}
+                    </div>
+                  </div>
+                  {/* Transactions */}
+                  <div style={{ padding: '10px 20px 14px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: 0.8 }}>Recent</p>
+                    {[
+                      { icon: '🛒', name: 'Tesco', amt: '-£48.20', t: 'Today' },
+                      { icon: '☕', name: 'Costa Coffee', amt: '-£4.50', t: 'Yesterday' },
+                      { icon: '↗️', name: 'Salary', amt: '+£3,200', t: 'Mon', green: true },
+                    ].map(tx => (
+                      <div key={tx.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                          <span style={{ fontSize: 14 }}>{tx.icon}</span>
+                          <div>
+                            <p style={{ color: 'white', fontSize: 11, fontWeight: 600, margin: 0 }}>{tx.name}</p>
+                            <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9, margin: 0 }}>{tx.t}</p>
+                          </div>
+                        </div>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: tx.green ? '#10b981' : 'rgba(255,255,255,0.65)' }}>{tx.amt}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating notification */}
+                <div className="absolute" style={{ top: -16, right: -22, background: 'white', borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: 155 }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: '#111827', margin: '0 0 2px' }}>💸 Transfer sent</p>
+                  <p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>£250 to John D. · Just now</p>
+                </div>
+
+                {/* Floating AI badge */}
+                <div className="absolute" style={{ bottom: -14, left: -22, borderRadius: 12, padding: '9px 13px', boxShadow: '0 12px 40px rgba(252,92,58,0.3)', background: 'linear-gradient(135deg,#FC5C3A,#ff7958)', minWidth: 148 }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: 'white', margin: '0 0 2px' }}>🤖 Cosmico AI</p>
+                  <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.8)', margin: 0 }}>You could save £180/mo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, transparent, #09090f)' }} />
+      </section>
+
+      {/* ── Countries Strip ── */}
+      <div className="py-10 px-6" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+          <p className="text-xs font-bold uppercase tracking-widest shrink-0" style={{ color: 'rgba(255,255,255,0.2)' }}>Available in</p>
+          <div className="flex items-center gap-4 sm:gap-8 flex-wrap justify-center">
+            {[{ src: '/icons/US.png', label: 'United States' }, { src: '/icons/UK.png', label: 'United Kingdom' }, { src: '/icons/CA.png', label: 'Canada' }].map(c => (
+              <div key={c.label} className="flex items-center gap-2.5">
+                <Image src={c.src} alt={c.label} width={32} height={22} className="rounded-sm shadow-sm object-cover" />
+                <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>{c.label}</span>
+              </div>
+            ))}
+            <div className="hidden sm:block w-px h-6" style={{ background: 'rgba(255,255,255,0.07)' }} />
+            <div className="flex items-center gap-2.5 opacity-35">
+              <Image src="/icons/european-union.png" alt="EU" width={32} height={22} className="rounded-sm shadow-sm object-cover grayscale" />
+              <div className="flex flex-col leading-none">
+                <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>Europe</span>
+                <span className="text-[10px] font-bold uppercase tracking-wide mt-0.5" style={{ color: '#FC5C3A' }}>Soon</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ────────────────────────────────────────
-          SECTION 2 — Features
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
+      {/* ══════════════════════════════════════
+          BENTO FEATURES GRID
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#0d0d17' }}>
         <div className="max-w-6xl mx-auto">
-
-          {/* Heading */}
-          <div className="text-center mb-14">
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-3"
-              style={{ color: '#368DFF' }}
-            >
-              Why Cosmico
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
-              Everything you need, nothing you don&apos;t
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#FC5C3A' }}>Why Cosmico</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-5 font-ibm-plex-serif leading-tight">
+              Everything in one{' '}
+              <span style={{ background: 'linear-gradient(135deg, #FC5C3A, #368DFF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                intelligent platform
+              </span>
             </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              A complete AI-powered financial OS designed for modern life. Secure, fast, and effortlessly intelligent.
+            <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              A complete AI-powered financial OS. Secure, fast, and effortlessly intelligent.
             </p>
           </div>
 
-          {/* Main cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            {/* Card 1 — Instant Transfers */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-              <div
-                className="rounded-2xl p-5 mb-6"
-                style={{ background: 'rgba(252,92,58,0.07)' }}
-              >
-                <Image
-                  src="/icons/Hero/undraw_transfer-money_h9s3.svg"
-                  alt="Instant Transfers"
-                  width={150}
-                  height={120}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Large — AI Analytics */}
+            <div className="md:col-span-2 rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
+              style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.06)', minHeight: 280 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(252,92,58,0.07), transparent 65%)' }} />
+              <div className="p-8 flex flex-col h-full">
+                <div className="flex items-start justify-between mb-5">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-3"
+                      style={{ background: 'rgba(252,92,58,0.12)', color: '#FC5C3A' }}>✦ GPT-4o-mini</div>
+                    <h3 className="text-2xl font-bold text-white mb-2">AI-powered insights</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', maxWidth: 320 }}>
+                      Your personal AI banker reads your live transaction data and gives you spending summaries, savings tips, and financial advice — 24/7.
+                    </p>
+                  </div>
+                  <Image src="/icons/undraw/Analytics.svg" alt="Analytics" width={110} height={85}
+                    className="hidden sm:block opacity-75 shrink-0"
+                    style={{ filter: 'drop-shadow(0 0 18px rgba(252,92,58,0.35))' }} />
+                </div>
+                <div className="flex flex-wrap gap-2 mt-auto">
+                  {['Spending breakdowns', 'Monthly trends', 'Category charts', 'AI summaries'].map(tag => (
+                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full font-medium"
+                      style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Transfers</h3>
-              <p className="text-gray-500 leading-relaxed text-sm">
-                Send money to anyone, anywhere in seconds. No hidden fees, no delays. Just seamless ACH-powered transfers at your fingertips.
-              </p>
             </div>
 
-            {/* Card 2 — Security (featured card) */}
-            <div
-              className="bg-white rounded-2xl p-8 flex flex-col items-center text-center relative"
-              style={{ boxShadow: '0 4px 24px rgba(252,92,58,0.13)', border: '1.5px solid rgba(252,92,58,0.18)' }}
-            >
-              <div
-                className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white whitespace-nowrap"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-              >
-                Our Priority
+            {/* Security */}
+            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default flex flex-col"
+              style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.06)', minHeight: 280 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'radial-gradient(ellipse at 50% 30%, rgba(54,141,255,0.07), transparent 65%)' }} />
+              <div className="p-8 flex flex-col flex-1">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                  style={{ background: 'rgba(54,141,255,0.1)' }}>🔐</div>
+                <h3 className="text-xl font-bold text-white mb-2">Bank-grade security</h3>
+                <p className="text-sm leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  End-to-end encryption, 2FA on every sign-in, and the same standards used by top financial institutions.
+                </p>
+                <Image src="/icons/undraw/Secure server.svg" alt="Security" width={130} height={95}
+                  className="mt-auto opacity-70"
+                  style={{ filter: 'drop-shadow(0 0 14px rgba(54,141,255,0.3))' }} />
               </div>
-              <div
-                className="rounded-2xl p-5 mb-6"
-                style={{ background: 'rgba(252,92,58,0.07)' }}
-              >
-                <Image
-                  src="/icons/Hero/undraw_server-cluster_7ugi.svg"
-                  alt="Bank-grade Security"
-                  width={150}
-                  height={120}
-                />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Bank-grade Security</h3>
-              <p className="text-gray-500 leading-relaxed text-sm">
-                Your data is encrypted end-to-end. We use the same security standards as the world&apos;s top financial institutions, so your money is always safe.
-              </p>
             </div>
 
-            {/* Card 3 — Spending Analysis */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-              <div
-                className="rounded-2xl p-5 mb-6"
-                style={{ background: 'rgba(54,141,255,0.07)' }}
-              >
-                <Image
-                  src="/icons/Hero/undraw_mobile-payments_uate.svg"
-                  alt="Spending Analysis"
-                  width={150}
-                  height={120}
-                />
+            {/* Transfers */}
+            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
+              style={{ background: 'linear-gradient(135deg, #1a1040, #111120)', border: '1px solid rgba(139,92,246,0.12)', minHeight: 200 }}>
+              <div className="p-8">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                  style={{ background: 'rgba(139,92,246,0.12)' }}>💸</div>
+                <h3 className="text-xl font-bold text-white mb-2">Instant transfers</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  ACH-powered transfers with zero fees. Send money anywhere in seconds.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Spending Analysis</h3>
-              <p className="text-gray-500 leading-relaxed text-sm">
-                Monzo-style interactive charts show exactly where your money goes: category doughnuts, monthly bars, and daily spend trends, all in real time.
-              </p>
             </div>
 
+            {/* Multi-bank */}
+            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
+              style={{ background: 'linear-gradient(135deg, #0f1f3d, #111120)', border: '1px solid rgba(54,141,255,0.12)', minHeight: 200 }}>
+              <div className="p-8">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                  style={{ background: 'rgba(54,141,255,0.1)' }}>🏦</div>
+                <h3 className="text-xl font-bold text-white mb-2">Multi-bank view</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  Link all your banks via Plaid. Every account, balance, and transaction in one place.
+                </p>
+              </div>
+            </div>
+
+            {/* Rewards */}
+            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
+              style={{ background: 'linear-gradient(135deg, #1f1810, #111120)', border: '1px solid rgba(252,92,58,0.12)', minHeight: 200 }}>
+              <div className="p-8">
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
+                  style={{ background: 'rgba(252,92,58,0.1)' }}>🏆</div>
+                <h3 className="text-xl font-bold text-white mb-2">AI Rewards</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  GPT-4o-mini builds personalised quests from your spending. Complete them to earn cashback and gift cards.
+                </p>
+              </div>
+            </div>
           </div>
-
         </div>
       </section>
 
-      {/* ────────────────────────────────────────
-          Cosmico AI Spotlight
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
+      {/* ══════════════════════════════════════
+          AI SPOTLIGHT
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#09090f' }}>
         <div className="max-w-6xl mx-auto">
-
-          <div className="text-center mb-14">
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
-              style={{ background: 'rgba(252,92,58,0.1)', color: '#FC5C3A' }}
-            >
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
+              style={{ background: 'rgba(252,92,58,0.1)', color: '#FC5C3A', border: '1px solid rgba(252,92,58,0.15)' }}>
               ✦ Powered by GPT-4o-mini
             </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-5 font-ibm-plex-serif">
               Meet{' '}
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #FC5C3A 0%, #368DFF 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
+              <span style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #368DFF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Cosmico AI
               </span>
             </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              Your personal AI banker, available 24/7. Ask questions, get spending summaries, and understand your finances like never before.
+            <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Your personal AI banker, available 24/7.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-
-            {/* Left — chat preview mockup */}
-            <div
-              className="rounded-3xl overflow-hidden shadow-xl border"
-              style={{ borderColor: 'rgba(252,92,58,0.15)' }}
-            >
-              {/* Chat header */}
-              <div
-                className="px-5 py-4 flex items-center gap-3"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-              >
-                <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-sm">
-                  C
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            {/* Chat mockup */}
+            <div className="rounded-3xl overflow-hidden" style={{
+              background: '#13131e', border: '1px solid rgba(255,255,255,0.07)',
+              boxShadow: '0 0 80px rgba(252,92,58,0.06)',
+            }}>
+              <div className="px-5 py-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}>
+                <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-sm">C</div>
                 <div>
                   <p className="text-white font-bold text-sm">Cosmico AI</p>
-                  <p className="text-white/70 text-xs">Always online · GPT-4o-mini</p>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>Always online · GPT-4o-mini</p>
                 </div>
                 <div className="ml-auto w-2 h-2 rounded-full bg-green-300 animate-pulse" />
               </div>
-
-              {/* Chat messages */}
-              <div className="bg-gray-50 p-5 flex flex-col gap-4">
-
-                {/* AI message */}
-                <div className="flex gap-3 items-start">
-                  <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5"
-                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-                  >
-                    C
+              <div className="p-5 flex flex-col gap-4" style={{ background: '#0f0f1a' }}>
+                {[
+                  { ai: true, msg: "Hi! 👋 I've analysed your accounts. You've spent **£284** this month — mostly food & dining. Want tips to cut back?" },
+                  { ai: false, msg: "Yes please! What's my top merchant this month?" },
+                  { ai: true, msg: "Your top merchant is **Tesco** at £62. You also have a Quest there — you're 60% towards a **£5 cashback** reward! 🎯" },
+                ].map((m, i) => (
+                  <div key={i} className={`flex gap-3 items-start ${!m.ai ? 'justify-end' : ''}`}>
+                    {m.ai && (
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
+                        style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}>C</div>
+                    )}
+                    <div className="rounded-2xl px-4 py-3 max-w-xs text-sm leading-relaxed"
+                      style={{
+                        background: m.ai ? 'rgba(255,255,255,0.06)' : 'linear-gradient(135deg, #FC5C3A, #ff7958)',
+                        border: m.ai ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                        borderTopLeftRadius: m.ai ? 4 : 16,
+                        borderTopRightRadius: m.ai ? 16 : 4,
+                        color: m.ai ? 'rgba(255,255,255,0.8)' : 'white',
+                      }}>
+                      {m.msg.replace(/\*\*(.*?)\*\*/g, '$1')}
+                    </div>
                   </div>
-                  <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-xs">
-                    <p className="text-gray-800 text-sm leading-relaxed">
-                      Hi! 👋 I&apos;ve analysed your accounts. You&apos;ve spent <strong>£284</strong> this month — mostly on food &amp; dining. Want some tips to cut back?
-                    </p>
-                  </div>
-                </div>
-
-                {/* User message */}
-                <div className="flex gap-3 items-start justify-end">
-                  <div
-                    className="rounded-2xl rounded-tr-none px-4 py-3 max-w-xs"
-                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-                  >
-                    <p className="text-white text-sm leading-relaxed">
-                      Yes please! What&apos;s my top merchant this month?
-                    </p>
-                  </div>
-                </div>
-
-                {/* AI message 2 */}
-                <div className="flex gap-3 items-start">
-                  <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5"
-                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-                  >
-                    C
-                  </div>
-                  <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-xs">
-                    <p className="text-gray-800 text-sm leading-relaxed">
-                      Your top merchant is <strong>Tesco</strong> at £62 spent. You also have an active Quest to earn <strong>£5 cashback</strong> there — you&apos;re 60% of the way! 🎯
-                    </p>
-                  </div>
-                </div>
-
-                {/* Input bar */}
-                <div className="flex gap-2 mt-2">
-                  <div className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-400">
+                ))}
+                <div className="flex gap-2 mt-1">
+                  <div className="flex-1 rounded-xl px-4 py-2.5 text-sm"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.25)' }}>
                     Ask anything about your finances...
                   </div>
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}
-                  >
-                    ↑
-                  </div>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}>↑</div>
                 </div>
-
               </div>
             </div>
 
-            {/* Right — feature list */}
-            <div className="flex flex-col gap-5 justify-center">
+            {/* Features list */}
+            <div className="flex flex-col gap-6">
               {[
-                {
-                  icon: '💬',
-                  color: '#FC5C3A',
-                  title: 'Contextual spending chat',
-                  desc: 'Cosmico AI reads your live transaction data before every response, so answers are always about your real finances, not generic advice.',
-                },
-                {
-                  icon: '🎯',
-                  color: '#368DFF',
-                  title: 'Personalised AI rewards',
-                  desc: 'GPT-4o-mini analyses your spending patterns and generates tailored merchant challenges. Earn gift cards and cashback for habits you already have.',
-                },
-                {
-                  icon: '📊',
-                  color: '#8b5cf6',
-                  title: 'Spending analysis on demand',
-                  desc: 'Ask "where did my money go last month?" or navigate to Spending Analysis for full Monzo-style charts: doughnuts, bar charts, and trend lines.',
-                },
-                {
-                  icon: '⚡',
-                  color: '#10b981',
-                  title: 'Floating widget — always there',
-                  desc: 'Cosmico AI lives in the bottom corner of your dashboard. One click to open, instant answers with no page navigation required.',
-                },
-              ].map((item) => (
+                { icon: '💬', color: '#FC5C3A', title: 'Contextual spending chat', desc: 'Reads your live transaction data before every response — answers about your real finances, not generic advice.' },
+                { icon: '🎯', color: '#368DFF', title: 'Personalised AI rewards', desc: 'GPT-4o-mini analyses your spending patterns and generates tailored merchant challenges to earn cashback.' },
+                { icon: '📊', color: '#8b5cf6', title: 'Spending analysis on demand', desc: 'Ask "where did my money go?" — get instant Monzo-style charts: doughnuts, bar charts, trend lines.' },
+                { icon: '⚡', color: '#10b981', title: 'Always-on floating widget', desc: 'Lives in the corner of your dashboard. One click — instant answers, no navigation.' },
+              ].map(item => (
                 <div key={item.title} className="flex gap-4 items-start">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: `${item.color}18` }}
-                  >
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+                    style={{ background: `${item.color}14`, border: `1px solid ${item.color}22` }}>
                     {item.icon}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 mb-1">{item.title}</h4>
-                    <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-sm font-bold text-white mb-1">{item.title}</h4>
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────────────────────
-          Rewards Quest Board Spotlight
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
+      {/* ══════════════════════════════════════
+          QUEST REWARDS
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#0d0d17' }}>
         <div className="max-w-6xl mx-auto">
-
-          <div className="text-center mb-14">
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
-              style={{ background: 'rgba(54,141,255,0.1)', color: '#368DFF' }}
-            >
-              ✦ AI-Generated · Personalised to you
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-5 uppercase tracking-wide"
+              style={{ background: 'rgba(54,141,255,0.1)', color: '#368DFF', border: '1px solid rgba(54,141,255,0.15)' }}>
+              ✦ AI-Generated · Personalised
             </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-ibm-plex-serif">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-5 font-ibm-plex-serif">
               Earn rewards for spending{' '}
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #368DFF 0%, #FC5C3A 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
+              <span style={{ background: 'linear-gradient(135deg, #368DFF, #FC5C3A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 you already do
               </span>
             </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              GPT-4o-mini studies your real transaction history and builds a personalised Quest Board of merchant challenges. Complete them to win cashback and gift cards.
+            <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              GPT-4o-mini studies your transaction history and builds a personalised Quest Board.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-
-            {/* Left — feature list */}
-            <div className="flex flex-col gap-5 justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div className="flex flex-col gap-6">
               {[
-                {
-                  icon: '🤖',
-                  color: '#368DFF',
-                  title: 'AI builds your quests',
-                  desc: 'Every challenge is generated fresh by GPT-4o-mini based on your actual spending, not a one-size-fits-all list. Tesco shopper? You get a Tesco quest.',
-                },
-                {
-                  icon: '📈',
-                  color: '#FC5C3A',
-                  title: 'XP progress tracking',
-                  desc: 'Each quest has a live progress bar that fills as you spend. Watch your XP grow toward the reward threshold with no manual tracking needed.',
-                },
-                {
-                  icon: '🎁',
-                  color: '#8b5cf6',
-                  title: 'Real prizes, real merchants',
-                  desc: 'Rewards include Amazon vouchers, cashback, and gift cards from brands you actually use. They unlock automatically when you complete a quest.',
-                },
-                {
-                  icon: '🔄',
-                  color: '#10b981',
-                  title: 'Fresh quests, always',
-                  desc: 'Complete your board and new AI-generated challenges appear. Your spending habits evolve and your Quest Board evolves with them.',
-                },
-              ].map((item) => (
+                { icon: '🤖', color: '#368DFF', title: 'AI builds your quests', desc: 'Every challenge is generated fresh from your actual spending. Tesco shopper? You get a Tesco quest.' },
+                { icon: '📈', color: '#FC5C3A', title: 'XP progress tracking', desc: 'Live progress bars fill as you spend. Watch your XP grow toward the reward threshold.' },
+                { icon: '🎁', color: '#8b5cf6', title: 'Real prizes, real merchants', desc: 'Amazon vouchers, cashback, and gift cards from brands you use — unlocked automatically.' },
+                { icon: '🔄', color: '#10b981', title: 'Fresh quests, always', desc: 'Complete your board and new AI challenges appear. Your Quest Board evolves with you.' },
+              ].map(item => (
                 <div key={item.title} className="flex gap-4 items-start">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: `${item.color}18` }}
-                  >
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+                    style={{ background: `${item.color}14`, border: `1px solid ${item.color}22` }}>
                     {item.icon}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 mb-1">{item.title}</h4>
-                    <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-sm font-bold text-white mb-1">{item.title}</h4>
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Right — Quest Board mockup */}
-            <div
-              className="rounded-3xl overflow-hidden shadow-xl border"
-              style={{ borderColor: 'rgba(54,141,255,0.15)' }}
-            >
-              {/* Board header */}
-              <div
-                className="px-5 py-4 flex items-center justify-between"
-                style={{ background: 'linear-gradient(135deg, #1e3a5f, #1e293b)' }}
-              >
+            {/* Quest board */}
+            <div className="rounded-3xl overflow-hidden" style={{ background: '#13131e', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #1e3a5f, #1e293b)' }}>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
-                    style={{ background: 'rgba(54,141,255,0.25)' }}>
-                    🎯
-                  </div>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(54,141,255,0.2)' }}>🎯</div>
                   <div>
                     <p className="text-white font-bold text-sm">Quest Board</p>
-                    <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-xs">Powered by Cosmico AI</p>
+                    <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Cosmico AI</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(54,141,255,0.2)', color: '#60a5fa' }}>3 Active</div>
-                  <div className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(16,185,129,0.2)', color: '#34d399' }}>1 Done</div>
+                <div className="flex gap-2">
+                  <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(54,141,255,0.15)', color: '#60a5fa' }}>3 Active</span>
+                  <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(16,185,129,0.15)', color: '#34d399' }}>1 Done</span>
                 </div>
               </div>
-
-              {/* Quest cards */}
-              <div className="bg-gray-50 p-4 flex flex-col gap-3">
-
-                {/* Quest 1 — active */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #FC5C3A, #ff7958)' }} />
-                  <div className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-orange-50">🛒</div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900">Tesco Challenge</p>
-                          <p className="text-xs text-gray-500">Spend £80 at Tesco this month</p>
+              <div className="p-4 flex flex-col gap-3" style={{ background: '#0f0f1a' }}>
+                {[
+                  { icon: '🛒', name: 'Tesco Challenge', desc: 'Spend £80 at Tesco this month', reward: '£5 cashback', xp: '+120 XP', pct: 60, progress: '£48 / £80', color: '#FC5C3A' },
+                  { icon: '☕', name: 'Costa Coffee Run', desc: 'Visit Costa 5 times this month', reward: 'Free drink', xp: '+80 XP', pct: 40, progress: '2 / 5 visits', color: '#368DFF' },
+                ].map(q => (
+                  <div key={q.name} className="rounded-2xl overflow-hidden" style={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div className="h-0.5" style={{ background: `linear-gradient(90deg, ${q.color}, ${q.color}66)` }} />
+                    <div className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style={{ background: `${q.color}15` }}>{q.icon}</div>
+                          <div>
+                            <p className="text-sm font-bold text-white">{q.name}</p>
+                            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>{q.desc}</p>
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0 ml-2">
+                          <p className="text-xs font-bold" style={{ color: q.color }}>{q.reward}</p>
+                          <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.25)' }}>{q.xp}</p>
                         </div>
                       </div>
-                      <div className="text-right shrink-0">
-                        <p className="text-xs font-bold" style={{ color: '#FC5C3A' }}>£5 cashback</p>
-                        <p className="text-[10px] text-gray-400">+120 XP</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                        <div className="h-1.5 rounded-full" style={{ width: '60%', background: 'linear-gradient(90deg, #FC5C3A, #ff7958)' }} />
-                      </div>
-                      <span className="text-[10px] font-bold text-gray-500">£48 / £80</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quest 2 — active */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #368DFF, #60a5fa)' }} />
-                  <div className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-blue-50">☕</div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900">Costa Coffee Run</p>
-                          <p className="text-xs text-gray-500">Visit Costa 5 times this month</p>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 rounded-full h-1.5" style={{ background: 'rgba(255,255,255,0.07)' }}>
+                          <div className="h-1.5 rounded-full" style={{ width: `${q.pct}%`, background: `linear-gradient(90deg, ${q.color}, ${q.color}88)` }} />
                         </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <p className="text-xs font-bold" style={{ color: '#368DFF' }}>Free drink</p>
-                        <p className="text-[10px] text-gray-400">+80 XP</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-100 rounded-full h-1.5">
-                        <div className="h-1.5 rounded-full" style={{ width: '40%', background: 'linear-gradient(90deg, #368DFF, #60a5fa)' }} />
-                      </div>
-                      <span className="text-[10px] font-bold text-gray-500">2 / 5 visits</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quest 3 — completed */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 opacity-75">
-                  <div className="h-1" style={{ background: 'linear-gradient(90deg, #10b981, #34d399)' }} />
-                  <div className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-green-50">🎬</div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-900">Cinema Weekend</p>
-                          <p className="text-xs text-gray-500">Spend £20 at Vue Cinema</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'rgba(16,185,129,0.1)' }}>
-                        <span style={{ color: '#10b981' }} className="text-xs font-bold">✓ Completed</span>
+                        <span className="text-[10px] font-bold" style={{ color: 'rgba(255,255,255,0.3)' }}>{q.progress}</span>
                       </div>
                     </div>
                   </div>
+                ))}
+                <div className="rounded-2xl overflow-hidden opacity-45" style={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div className="h-0.5" style={{ background: 'linear-gradient(90deg, #10b981, #10b98166)' }} />
+                  <div className="p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(16,185,129,0.1)' }}>🎬</div>
+                      <div>
+                        <p className="text-sm font-bold text-white">Cinema Weekend</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>Spend £20 at Vue Cinema</p>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: 'rgba(16,185,129,0.12)', color: '#34d399' }}>✓ Done</span>
+                  </div>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────────────────────
-          SECTION 3 — How it works
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
+      {/* ══════════════════════════════════════
+          HOW IT WORKS
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#09090f' }}>
         <div className="max-w-6xl mx-auto">
-
-          {/* Heading */}
           <div className="text-center mb-16">
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-3"
-              style={{ color: '#FC5C3A' }}
-            >
-              Getting Started
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 font-ibm-plex-serif">
-              Up and running in 3 steps
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#FC5C3A' }}>Getting Started</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-white font-ibm-plex-serif">
+              Up and running in <span style={{ color: '#FC5C3A' }}>3 steps</span>
             </h2>
           </div>
-
-          {/* Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-6">
-                <span
-                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
-                  style={{ background: '#FC5C3A' }}
-                >
-                  1
-                </span>
-                <div
-                  className="rounded-2xl p-5"
-                  style={{ background: 'rgba(252,92,58,0.07)' }}
-                >
-                  <Image
-                    src="/icons/Hero/undraw_wallet_diag.svg"
-                    alt="Create your account"
-                    width={160}
-                    height={130}
-                  />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { num: 1, icon: '/icons/undraw/Savings.svg', title: 'Create your account', desc: 'Sign up in under two minutes. No paperwork, no branch visits. Email, details, done.', color: '#FC5C3A' },
+              { num: 2, icon: '/icons/undraw/Online banking.svg', title: 'Connect your banks', desc: 'Link all your accounts securely via Plaid. Read-only, zero risk, instant sync.', color: '#368DFF' },
+              { num: 3, icon: '/icons/undraw/Personal finance.svg', title: 'Track & earn rewards', desc: 'Cosmico AI analyses your spending, builds Quest Board challenges, and helps you grow.', color: '#8b5cf6' },
+            ].map(step => (
+              <div key={step.num} className="flex flex-col items-center text-center">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm mb-5"
+                  style={{ background: step.color, boxShadow: `0 0 20px ${step.color}50` }}>
+                  {step.num}
                 </div>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Create your account</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Sign up in under two minutes. No paperwork, no branch visits. Just your email and a few details to get started.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-6">
-                <span
-                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
-                  style={{ background: '#FC5C3A' }}
-                >
-                  2
-                </span>
-                <div
-                  className="rounded-2xl p-5"
-                  style={{ background: 'rgba(54,141,255,0.07)' }}
-                >
-                  <Image
-                    src="/icons/Hero/undraw_online-payments_d5ef.svg"
-                    alt="Connect your banks"
-                    width={160}
-                    height={130}
-                  />
+                <div className="rounded-2xl p-6 mb-5 w-full" style={{ background: '#13131e', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <Image src={step.icon} alt={step.title} width={160} height={120} className="mx-auto opacity-75"
+                    style={{ filter: `drop-shadow(0 0 14px ${step.color}35)` }} />
                 </div>
+                <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Connect your banks</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Securely link all your existing bank accounts in seconds using Plaid. Read-only access, zero risk to your money.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-6">
-                <span
-                  className="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold z-10"
-                  style={{ background: '#FC5C3A' }}
-                >
-                  3
-                </span>
-                <div
-                  className="rounded-2xl p-5"
-                  style={{ background: 'rgba(252,92,58,0.07)' }}
-                >
-                  <Image
-                    src="/icons/Hero/undraw_online-transactions_8chx.svg"
-                    alt="Track and transfer"
-                    width={160}
-                    height={130}
-                  />
-                </div>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Track &amp; transfer</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Let Cosmico AI analyse your spending, generate personalised rewards quests, and help you make smarter financial moves every single day.
-              </p>
-            </div>
-
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ────────────────────────────────────────
-          SECTION 4 — Full financial picture
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6" style={{ background: '#F8FAFF' }}>
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-
-          {/* Illustration */}
-          <div className="flex-1 flex justify-center lg:justify-start">
-            <div className="relative">
-              <div
-                className="absolute inset-0 rounded-3xl blur-3xl opacity-20 scale-110"
-                style={{ background: 'linear-gradient(135deg, #368DFF, #FC5C3A)' }}
-              />
-              <Image
-                src="/icons/Hero/undraw_credit-card-payment_3zqz.svg"
-                alt="Full financial picture"
-                width={460}
-                height={360}
-                className="relative z-10 drop-shadow-xl"
-              />
-            </div>
-          </div>
-
-          {/* Copy */}
-          <div className="flex-1 text-center lg:text-left">
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-3"
-              style={{ color: '#368DFF' }}
-            >
-              All in one place
+      {/* ── Security strip ── */}
+      <div className="py-12 px-6" style={{ background: '#0d0d17', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 justify-center">
+          <Image src="/icons/undraw/Secure login.svg" alt="Secure" width={80} height={60}
+            className="opacity-55" style={{ filter: 'drop-shadow(0 0 10px rgba(54,141,255,0.3))' }} />
+          <div className="text-center md:text-left">
+            <p className="text-white font-bold mb-1">Built with security in mind</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
+              2FA on every sign-in · End-to-end encryption · Read-only Plaid access · UK GDPR compliant · Appwrite cloud auth
             </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6 font-ibm-plex-serif leading-tight">
-              Your complete financial picture
-            </h2>
-            <p className="text-gray-500 text-lg mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Stop jumping between apps. Cosmico pulls all your accounts, cards, and transactions into a single intelligent dashboard powered by AI insights, so you always know exactly where you stand.
-            </p>
-            <ul className="space-y-4 text-left max-w-md mx-auto lg:mx-0">
-              {[
-                { icon: '💳', text: 'Multi-bank account aggregation with real-time balances' },
-                { icon: '📊', text: 'Monzo-style Spending Analysis with category charts, monthly bars and daily trends' },
-                { icon: '🤖', text: 'Cosmico AI assistant to chat about your finances and get instant answers' },
-                { icon: '🎯', text: 'AI-generated Quest Board rewards personalised to your spending habits' },
-                { icon: '↗️', text: 'Instant ACH transfers to anyone with no bank charges' },
-                { icon: '⚙️', text: 'Full profile and settings control for tax residency, address and connected banks' },
-              ].map((item) => (
-                <li key={item.text} className="flex items-start gap-3">
-                  <span className="text-xl shrink-0">{item.icon}</span>
-                  <span className="text-gray-600 text-sm leading-relaxed">{item.text}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-              <Link
-                href="/sign-up"
-                className="px-7 py-3.5 rounded-xl text-white font-semibold shadow-lg hover:scale-105 transition-transform text-sm"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)' }}
-              >
-                Start for Free →
-              </Link>
-            </div>
           </div>
-
+          <div className="md:ml-auto">
+            <Image src="/icons/gdpr.png" alt="GDPR" width={44} height={44} className="opacity-35 hover:opacity-60 transition-opacity" />
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ────────────────────────────────────────
-          SECTION 6 — Beta CTA
-      ──────────────────────────────────────── */}
-      <section className="py-24 px-6">
+      {/* ══════════════════════════════════════
+          CTA — Dark
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#09090f' }}>
         <div className="max-w-6xl mx-auto">
-          <div
-            className="relative rounded-3xl overflow-hidden flex flex-col lg:flex-row items-center gap-10 p-10 lg:p-16"
-            style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}
-          >
-            {/* Glow blobs */}
-            <div
-              className="absolute top-0 left-0 w-80 h-80 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ background: '#FC5C3A' }}
-            />
-            <div
-              className="absolute bottom-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-20 translate-x-1/4 translate-y-1/4 pointer-events-none"
-              style={{ background: '#368DFF' }}
-            />
-
-            {/* Text */}
+          <div className="relative rounded-3xl overflow-hidden p-12 lg:p-20 flex flex-col lg:flex-row items-center gap-12"
+            style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1a1040 50%, #1e293b 100%)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl opacity-15 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ background: '#FC5C3A' }} />
+            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-15 translate-x-1/4 translate-y-1/4 pointer-events-none"
+              style={{ background: '#368DFF' }} />
             <div className="flex-1 relative z-10 text-center lg:text-left">
-              <span
-                className="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-5"
-                style={{ background: 'rgba(252,92,58,0.2)', color: '#FC5C3A' }}
-              >
+              <span className="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6"
+                style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A', border: '1px solid rgba(252,92,58,0.2)' }}>
                 Limited Beta
               </span>
-              <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight mb-5 font-ibm-plex-serif">
+              <h2 className="text-4xl lg:text-6xl font-bold text-white leading-tight mb-6 font-ibm-plex-serif">
                 Be among the first
                 <br />
                 <span style={{ color: '#FC5C3A' }}>to experience it.</span>
               </h2>
-              <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Cosmico is launching soon. Create a free account today and get access to AI-powered spending insights, Quest Board rewards, and your personal AI banker. All completely free.
+              <p className="text-lg mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                Create a free account and get AI-powered spending insights, Quest Board rewards, and your personal AI banker — completely free.
               </p>
-              <Link
-                href="/sign-up"
-                className="inline-block px-8 py-4 rounded-xl text-white font-bold shadow-lg hover:scale-105 transition-transform text-sm"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)' }}
-              >
+              <Link href="/sign-up"
+                className="inline-block px-10 py-4 rounded-xl text-white font-bold hover:scale-105 transition-all text-sm"
+                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)', boxShadow: '0 0 50px rgba(252,92,58,0.35)' }}>
                 Create Free Account →
               </Link>
             </div>
-
-            {/* Illustration */}
             <div className="flex-1 relative z-10 flex justify-center lg:justify-end">
-              <Image
-                src="/icons/Hero/undraw_savings_d97f.svg"
-                alt="Save and grow your money"
-                width={380}
-                height={300}
-                className="drop-shadow-2xl"
-              />
+              <Image src="/icons/undraw/Investing.svg" alt="Invest" width={360} height={280}
+                className="opacity-80" style={{ filter: 'drop-shadow(0 0 30px rgba(252,92,58,0.2))' }} />
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-gray-950 text-gray-400 pt-16 pb-10 px-6">
+      <footer className="pt-16 pb-10 px-6" style={{ background: '#06060c', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-6xl mx-auto">
-
-          {/* Top row — brand + nav columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
-
-            {/* Brand */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             <div className="lg:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Image src="/icons/logo.svg" alt="Cosmico" width={26} height={26} />
                 <span className="text-white font-bold text-lg font-ibm-plex-serif">Cosmico</span>
-                <span
-                  className="text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ml-1"
-                  style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}
-                >
-                  Beta
-                </span>
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ml-1"
+                  style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
               </div>
-              <p className="text-sm leading-relaxed max-w-sm text-gray-500">
-                A developer sandbox project demonstrating modern open banking concepts — multi-bank aggregation, AI-powered insights, instant transfers, spending analysis, and personalised rewards in one dashboard.
+              <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'rgba(255,255,255,0.28)' }}>
+                A developer sandbox project demonstrating modern open banking — multi-bank aggregation, AI insights, instant transfers, spending analysis, and personalised rewards.
               </p>
               <div className="mt-6">
-                <Image
-                  src="/icons/gdpr.png"
-                  alt="GDPR Compliant"
-                  width={44}
-                  height={44}
-                  className="opacity-50 hover:opacity-80 transition-opacity"
-                  title="GDPR Compliant"
-                />
+                <Image src="/icons/gdpr.png" alt="GDPR" width={44} height={44} className="opacity-25 hover:opacity-50 transition-opacity" />
               </div>
             </div>
-
-            {/* Product links */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Product</p>
-              <ul className="space-y-3 text-sm">
+              <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.2)' }}>Product</p>
+              <ul className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
                 <li><Link href="/sign-up" className="hover:text-white transition-colors">Get Early Access</Link></li>
                 <li><Link href="/sign-in" className="hover:text-white transition-colors">Sign In</Link></li>
-                <li>
-                  <span className="flex items-center gap-2">
-                    Spending Analysis
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(54,141,255,0.15)', color: '#368DFF' }}>New</span>
-                  </span>
-                </li>
-                <li>
-                  <span className="flex items-center gap-2">
-                    Cosmico AI
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>GPT-4o</span>
-                  </span>
-                </li>
-                <li>
-                  <span className="flex items-center gap-2">
-                    AI Rewards
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
-                  </span>
-                </li>
-                <li>
-                  <span className="flex items-center gap-2">
-                    Mobile App
-                    <span className="text-[10px] font-semibold text-gray-600">Coming soon</span>
-                  </span>
-                </li>
+                <li><Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
-
-            {/* Supported countries */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Supported Regions</p>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-center gap-2">
-                  <Image src="/icons/US.png" alt="US" width={20} height={14} className="rounded-sm object-cover" />
-                  United States
-                </li>
-                <li className="flex items-center gap-2">
-                  <Image src="/icons/UK.png" alt="UK" width={20} height={14} className="rounded-sm object-cover" />
-                  United Kingdom
-                </li>
-                <li className="flex items-center gap-2">
-                  <Image src="/icons/CA.png" alt="CA" width={20} height={14} className="rounded-sm object-cover" />
-                  Canada
-                </li>
-                <li className="flex items-center gap-2 opacity-40">
+              <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.2)' }}>Regions</p>
+              <ul className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                {[{ src: '/icons/US.png', label: 'United States' }, { src: '/icons/UK.png', label: 'United Kingdom' }, { src: '/icons/CA.png', label: 'Canada' }].map(r => (
+                  <li key={r.label} className="flex items-center gap-2">
+                    <Image src={r.src} alt={r.label} width={20} height={14} className="rounded-sm object-cover" />
+                    {r.label}
+                  </li>
+                ))}
+                <li className="flex items-center gap-2 opacity-30">
                   <Image src="/icons/european-union.png" alt="EU" width={20} height={14} className="rounded-sm object-cover grayscale" />
-                  Europe
-                  <span className="text-[10px] font-semibold" style={{ color: '#FC5C3A' }}>Soon</span>
+                  Europe <span className="text-[10px]" style={{ color: '#FC5C3A' }}>Soon</span>
                 </li>
               </ul>
             </div>
-
           </div>
-
-          {/* Sandbox / regulatory disclaimer */}
-          <div className="mt-8 rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-5 py-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-yellow-500/80 mb-2">
-              Sandbox — Not a regulated financial service
-            </p>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Cosmico is a <strong className="text-gray-400">portfolio and demonstration project</strong> built for educational purposes only. It operates entirely in sandbox / test mode using simulated data from Plaid Sandbox, Dwolla Sandbox, and Appwrite. No real money is moved, no real bank accounts are accessed, and no real financial data is processed.
-            </p>
-            <p className="text-xs text-gray-500 leading-relaxed mt-2">
-              Cosmico is <strong className="text-gray-400">not authorised or regulated by the Financial Conduct Authority (FCA)</strong>, the Financial Industry Regulatory Authority (FINRA), or any other financial regulatory body. It does not provide financial advice, payment services, or any regulated financial activity. It should not be relied upon for any real-world financial decisions.
-            </p>
-            <p className="text-xs text-gray-500 leading-relaxed mt-2">
-              If you are looking for a regulated banking service, please use a provider authorised by the FCA, FDIC, or the appropriate regulator in your country.
+          <div className="mt-8 rounded-xl px-5 py-4" style={{ background: 'rgba(234,179,8,0.04)', border: '1px solid rgba(234,179,8,0.08)' }}>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(234,179,8,0.45)' }}>Sandbox — Not a regulated financial service</p>
+            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.22)' }}>
+              Cosmico is a <strong style={{ color: 'rgba(255,255,255,0.38)' }}>portfolio and demonstration project</strong> for educational purposes only. It operates in sandbox / test mode using simulated data from Plaid Sandbox, Dwolla Sandbox, and Appwrite. No real money is moved. Cosmico is <strong style={{ color: 'rgba(255,255,255,0.38)' }}>not authorised or regulated</strong> by the FCA, FINRA, or any financial regulatory body.
             </p>
           </div>
-
-          {/* Bottom bar */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.18)' }}>
             <span>© 2026 Cosmico · All rights reserved · Sandbox build</span>
-            <span>Built with Next.js · Plaid · Dwolla · Appwrite · OpenAI</span>
+            <span>Next.js · Plaid · Dwolla · Appwrite · OpenAI</span>
           </div>
-
         </div>
       </footer>
-
     </main>
   )
 }
