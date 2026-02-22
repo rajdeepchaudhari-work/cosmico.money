@@ -44,31 +44,14 @@ export default function LandingPage() {
       ══════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
 
-        {/* ── Animated 3D background lights ── */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Primary orange orb — top-left drift */}
-          <div className="bg-orb-1 absolute rounded-full blur-3xl opacity-25"
-            style={{ width: 700, height: 700, top: '-15%', left: '-12%', background: 'radial-gradient(circle at 40% 40%, #FC5C3A 0%, #ff7958 35%, transparent 70%)' }} />
-          {/* Secondary orange orb — bottom-right drift */}
-          <div className="bg-orb-2 absolute rounded-full blur-3xl opacity-15"
-            style={{ width: 550, height: 550, bottom: '-10%', right: '2%', background: 'radial-gradient(circle at 60% 60%, #FC5C3A 0%, transparent 65%)' }} />
-          {/* Deep red accent — center-right slow float */}
-          <div className="bg-orb-3 absolute rounded-full blur-3xl opacity-12"
-            style={{ width: 420, height: 420, top: '35%', right: '18%', background: 'radial-gradient(circle at 50% 50%, #c2410c 0%, transparent 65%)' }} />
-          {/* Warm amber orb — top-right */}
-          <div className="bg-orb-4 absolute rounded-full blur-3xl opacity-10"
-            style={{ width: 360, height: 360, top: '5%', right: '28%', background: 'radial-gradient(circle at 50% 50%, #ff7958 0%, transparent 70%)' }} />
-          {/* Small hot orb — bottom-center */}
-          <div className="bg-orb-5 absolute rounded-full blur-3xl opacity-18"
-            style={{ width: 280, height: 280, bottom: '8%', left: '35%', background: 'radial-gradient(circle at 50% 50%, #FC5C3A 0%, transparent 65%)' }} />
-          {/* Light beam sweep */}
-          <div className="bg-beam absolute pointer-events-none"
-            style={{
-              width: '60vw', height: '200vh',
-              top: '-50vh', left: '20%',
-              background: 'linear-gradient(105deg, transparent 30%, rgba(252,92,58,0.04) 48%, rgba(255,121,88,0.08) 52%, transparent 70%)',
-              transformOrigin: 'top center',
-            }} />
+        {/* Background glow orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute rounded-full blur-3xl opacity-20"
+            style={{ width: 600, height: 600, top: '-10%', left: '-10%', background: 'radial-gradient(circle, #FC5C3A, transparent)' }} />
+          <div className="absolute rounded-full blur-3xl opacity-15"
+            style={{ width: 500, height: 500, bottom: '-5%', right: '5%', background: 'radial-gradient(circle, #368DFF, transparent)' }} />
+          <div className="absolute rounded-full blur-3xl opacity-10"
+            style={{ width: 400, height: 400, top: '40%', left: '40%', background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
         </div>
 
         {/* Subtle grid texture */}
