@@ -48,7 +48,7 @@ export default function LandingPage() {
       <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
 
         {/* Spline 3D background */}
-        <SplineBackground />
+        <SplineBackground scene="https://prod.spline.design/doTXysbEe3OWhXpb/scene.splinecode" />
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -61,11 +61,10 @@ export default function LandingPage() {
                 AI-Powered Banking · Beta
               </div>
 
-              <h1 className="font-bold text-white leading-[1.05] mb-6 font-ibm-plex-serif"
+              <h1 className="font-bold text-white leading-[1.15] mb-6 font-ibm-plex-serif"
                 style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)' }}>
-                Banking that
-                <br />
-                <AnimatedTagline />
+                Banking that<br />
+                <span className="inline-block whitespace-nowrap"><AnimatedTagline /></span>
               </h1>
 
               <p className="text-lg leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0"
@@ -223,108 +222,213 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════
           BENTO FEATURES GRID
       ══════════════════════════════════════ */}
-      <section className="py-28 px-6" style={{ background: '#0d0d17' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#FC5C3A' }}>Why Cosmico</p>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-5 font-ibm-plex-serif leading-tight">
-              Everything in one{' '}
-              <span style={{ background: 'linear-gradient(135deg, #FC5C3A, #368DFF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                intelligent platform
-              </span>
-            </h2>
-            <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
-              A complete AI-powered financial OS. Secure, fast, and effortlessly intelligent.
-            </p>
+      <section className="py-32 px-6 relative" style={{ background: '#0a0a12' }}>
+        {/* Dot grid texture */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }} />
+
+        <div className="max-w-6xl mx-auto relative">
+
+          {/* Editorial header */}
+          <div className="mb-20">
+            <div className="flex items-center gap-3 mb-7">
+              <div className="h-px w-10" style={{ background: '#FC5C3A' }} />
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.18em]" style={{ color: '#FC5C3A' }}>Why Cosmico</span>
+            </div>
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+              <h2 className="text-5xl lg:text-6xl font-bold text-white font-ibm-plex-serif leading-[1.05]">
+                One platform.<br />
+                <span style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.22)', color: 'transparent' }}>Every edge.</span>
+              </h2>
+              <p className="text-sm leading-relaxed max-w-xs lg:text-right" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                AI-native financial infrastructure built for people who demand more from their money.
+              </p>
+            </div>
+            <div className="mt-10 h-px" style={{ background: 'linear-gradient(90deg, rgba(252,92,58,0.5), rgba(54,141,255,0.3), transparent)' }} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Large — AI Analytics */}
-            <div className="md:col-span-2 rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
-              style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.06)', minHeight: 280 }}>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(252,92,58,0.07), transparent 65%)' }} />
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+            {/* 01 — AI Insights (wide) */}
+            <div className="md:col-span-2 relative rounded-2xl overflow-hidden group cursor-default"
+              style={{ background: 'linear-gradient(140deg,#111122 0%,#0d0d1a 100%)', border: '1px solid rgba(255,255,255,0.07)', minHeight: 300 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: 'radial-gradient(ellipse at 20% 60%, rgba(252,92,58,0.09), transparent 55%)' }} />
               <div className="p-8 flex flex-col h-full">
-                <div className="flex items-start justify-between mb-5">
-                  <div>
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold mb-3"
-                      style={{ background: 'rgba(252,92,58,0.12)', color: '#FC5C3A' }}>✦ GPT-4o-mini</div>
-                    <h3 className="text-2xl font-bold text-white mb-2">AI-powered insights</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)', maxWidth: 320 }}>
-                      Your personal AI banker reads your live transaction data and gives you spending summaries, savings tips, and financial advice — 24/7.
-                    </p>
+                <div className="flex items-center justify-between mb-8">
+                  <span className="text-xs font-mono" style={{ color: 'rgba(255,255,255,0.18)' }}>— 01</span>
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(252,92,58,0.1)', border: '1px solid rgba(252,92,58,0.2)' }}>
+                    <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#FC5C3A' }} />
+                    <span className="text-xs font-bold" style={{ color: '#FC5C3A' }}>GPT-4o-mini</span>
                   </div>
-                  <Image src="/icons/undraw/Analytics.svg" alt="Analytics" width={110} height={85}
-                    className="hidden sm:block opacity-75 shrink-0"
-                    style={{ filter: 'drop-shadow(0 0 18px rgba(252,92,58,0.35))' }} />
                 </div>
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {['Spending breakdowns', 'Monthly trends', 'Category charts', 'AI summaries'].map(tag => (
-                    <span key={tag} className="text-xs px-3 py-1.5 rounded-full font-medium"
-                      style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                      {tag}
-                    </span>
+
+                <div className="flex flex-col lg:flex-row gap-8 flex-1">
+                  <div className="flex-1">
+                    <h3 className="text-3xl font-bold text-white mb-3 font-ibm-plex-serif leading-tight">
+                      AI that reads<br />your finances
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.36)' }}>
+                      Your personal AI banker analyses every transaction in real time — surfacing savings, flagging anomalies, and advising before you even notice.
+                    </p>
+                    <div className="flex gap-2 mt-6 flex-wrap">
+                      {['Spending AI', 'Trend detection', 'Smart alerts', 'Category charts'].map(t => (
+                        <span key={t} className="text-xs px-2.5 py-1 rounded-md font-mono"
+                          style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.32)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Mini AI insight widget */}
+                  <div className="shrink-0 w-full lg:w-52 rounded-xl overflow-hidden self-start"
+                    style={{ background: '#0b0b17', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="px-4 py-2.5 flex items-center gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
+                        style={{ background: 'linear-gradient(135deg,#FC5C3A,#ff7958)' }}>C</div>
+                      <span className="text-xs font-bold text-white">Cosmico AI</span>
+                      <div className="ml-auto w-1.5 h-1.5 rounded-full" style={{ background: '#34d399' }} />
+                    </div>
+                    <div className="p-4 flex flex-col gap-3">
+                      <div className="rounded-lg px-3 py-2.5 text-xs leading-relaxed"
+                        style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        Spent <span className="text-white font-bold">£284</span> this month — dining out is <span style={{ color: '#FC5C3A' }}>38%</span> of budget.
+                      </div>
+                      <div className="space-y-2">
+                        {[{ label: 'Dining', pct: 38, color: '#FC5C3A' }, { label: 'Transport', pct: 22, color: '#368DFF' }, { label: 'Groceries', pct: 28, color: '#8b5cf6' }].map(b => (
+                          <div key={b.label}>
+                            <div className="flex justify-between mb-1">
+                              <span className="text-[9px] font-mono" style={{ color: 'rgba(255,255,255,0.28)' }}>{b.label}</span>
+                              <span className="text-[9px] font-mono font-bold" style={{ color: b.color }}>{b.pct}%</span>
+                            </div>
+                            <div className="h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                              <div className="h-1 rounded-full transition-all" style={{ width: `${b.pct}%`, background: b.color }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 02 — Security */}
+            <div className="relative rounded-2xl overflow-hidden group cursor-default"
+              style={{ background: 'linear-gradient(160deg,#0c1828 0%,#0d0d1a 100%)', border: '1px solid rgba(54,141,255,0.1)', minHeight: 300 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: 'radial-gradient(ellipse at 50% 20%, rgba(54,141,255,0.1), transparent 55%)' }} />
+              <div className="p-8 flex flex-col h-full">
+                <span className="text-xs font-mono mb-8" style={{ color: 'rgba(255,255,255,0.18)' }}>— 02</span>
+                {/* Encrypted hash display */}
+                <div className="rounded-xl p-4 mb-auto font-mono"
+                  style={{ background: 'rgba(54,141,255,0.06)', border: '1px solid rgba(54,141,255,0.12)' }}>
+                  <p className="text-[9px] mb-2 uppercase tracking-widest" style={{ color: 'rgba(54,141,255,0.5)' }}>AES-256 · TLS 1.3</p>
+                  <p className="text-xs break-all leading-relaxed" style={{ color: 'rgba(54,141,255,0.65)' }}>a3f9••••b2c1••••e7d4••••91fa••••</p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#34d399' }} />
+                    <span className="text-[9px] font-bold" style={{ color: '#34d399' }}>Session verified · 2FA active</span>
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <h3 className="text-xl font-bold text-white mb-2 font-ibm-plex-serif">Bank-grade security</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.33)' }}>
+                    End-to-end encryption and 2FA on every sign-in. The same standards as tier-1 institutions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 03 — Transfers */}
+            <div className="relative rounded-2xl overflow-hidden group cursor-default"
+              style={{ background: 'linear-gradient(140deg,#0f0d22 0%,#0d0d1a 100%)', border: '1px solid rgba(139,92,246,0.1)', minHeight: 210 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: 'radial-gradient(ellipse at 30% 70%, rgba(139,92,246,0.1), transparent 55%)' }} />
+              <div className="p-8">
+                <span className="text-xs font-mono mb-7 block" style={{ color: 'rgba(255,255,255,0.18)' }}>— 03</span>
+                {/* Transfer visual */}
+                <div className="flex items-center gap-3 mb-7">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0"
+                    style={{ background: 'rgba(139,92,246,0.18)', border: '1px solid rgba(139,92,246,0.28)' }}>R</div>
+                  <div className="flex-1 relative flex items-center">
+                    <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, rgba(139,92,246,0.4), rgba(139,92,246,0.1))' }} />
+                    <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 px-2 py-0.5 rounded-md"
+                      style={{ background: '#0d0d1a', border: '1px solid rgba(139,92,246,0.25)' }}>
+                      <span className="text-xs font-mono font-bold" style={{ color: '#8b5cf6' }}>£250</span>
+                    </div>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0"
+                    style={{ background: 'rgba(139,92,246,0.18)', border: '1px solid rgba(139,92,246,0.28)' }}>J</div>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-1.5 font-ibm-plex-serif">Instant transfers</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.33)' }}>
+                  ACH-powered with zero fees. Settled in seconds.
+                </p>
+              </div>
+            </div>
+
+            {/* 04 — Multi-bank */}
+            <div className="relative rounded-2xl overflow-hidden group cursor-default"
+              style={{ background: 'linear-gradient(140deg,#091626 0%,#0d0d1a 100%)', border: '1px solid rgba(54,141,255,0.1)', minHeight: 210 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: 'radial-gradient(ellipse at 70% 30%, rgba(54,141,255,0.09), transparent 55%)' }} />
+              <div className="p-8">
+                <span className="text-xs font-mono mb-7 block" style={{ color: 'rgba(255,255,255,0.18)' }}>— 04</span>
+                {/* Bank stack */}
+                <div className="flex flex-col gap-2 mb-7">
+                  {[
+                    { name: 'Barclays', bal: '£12,440', c: '#1d4ed8' },
+                    { name: 'Monzo', bal: '£8,200', c: '#FC5C3A' },
+                    { name: 'Chase', bal: '£4,251', c: '#0d9488' },
+                  ].map(b => (
+                    <div key={b.name} className="flex items-center justify-between px-3 py-2 rounded-lg"
+                      style={{ background: `${b.c}12`, border: `1px solid ${b.c}28` }}>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full shrink-0" style={{ background: b.c }} />
+                        <span className="text-xs font-semibold text-white">{b.name}</span>
+                      </div>
+                      <span className="text-xs font-mono font-bold" style={{ color: b.c }}>{b.bal}</span>
+                    </div>
                   ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Security */}
-            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default flex flex-col"
-              style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.06)', minHeight: 280 }}>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ background: 'radial-gradient(ellipse at 50% 30%, rgba(54,141,255,0.07), transparent 65%)' }} />
-              <div className="p-8 flex flex-col flex-1">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                  style={{ background: 'rgba(54,141,255,0.1)' }}>🔐</div>
-                <h3 className="text-xl font-bold text-white mb-2">Bank-grade security</h3>
-                <p className="text-sm leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  End-to-end encryption, 2FA on every sign-in, and the same standards used by top financial institutions.
+                <h3 className="text-xl font-bold text-white mb-1.5 font-ibm-plex-serif">Multi-bank view</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.33)' }}>
+                  All accounts, balances, and transactions — unified.
                 </p>
-                <Image src="/icons/undraw/Secure server.svg" alt="Security" width={130} height={95}
-                  className="mt-auto opacity-70"
-                  style={{ filter: 'drop-shadow(0 0 14px rgba(54,141,255,0.3))' }} />
               </div>
             </div>
 
-            {/* Transfers */}
-            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
-              style={{ background: 'linear-gradient(135deg, #1a1040, #111120)', border: '1px solid rgba(139,92,246,0.12)', minHeight: 200 }}>
+            {/* 05 — AI Rewards */}
+            <div className="relative rounded-2xl overflow-hidden group cursor-default"
+              style={{ background: 'linear-gradient(140deg,#18100a 0%,#0d0d1a 100%)', border: '1px solid rgba(252,92,58,0.1)', minHeight: 210 }}>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: 'radial-gradient(ellipse at 50% 80%, rgba(252,92,58,0.1), transparent 55%)' }} />
               <div className="p-8">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                  style={{ background: 'rgba(139,92,246,0.12)' }}>💸</div>
-                <h3 className="text-xl font-bold text-white mb-2">Instant transfers</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  ACH-powered transfers with zero fees. Send money anywhere in seconds.
+                <span className="text-xs font-mono mb-7 block" style={{ color: 'rgba(255,255,255,0.18)' }}>— 05</span>
+                {/* Quest progress widget */}
+                <div className="rounded-xl p-4 mb-7"
+                  style={{ background: 'rgba(252,92,58,0.07)', border: '1px solid rgba(252,92,58,0.14)' }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-white">Tesco Challenge</span>
+                    <span className="text-xs font-mono font-bold" style={{ color: '#FC5C3A' }}>60%</span>
+                  </div>
+                  <div className="h-1.5 rounded-full mb-2" style={{ background: 'rgba(255,255,255,0.07)' }}>
+                    <div className="h-1.5 rounded-full" style={{ width: '60%', background: 'linear-gradient(90deg,#FC5C3A,#ff7958)' }} />
+                  </div>
+                  <p className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.28)' }}>£5 cashback · spend £50 at Tesco</p>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-1.5 font-ibm-plex-serif">AI Rewards</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.33)' }}>
+                  GPT-4o-mini builds personalised quests. Earn cashback for habits you already have.
                 </p>
               </div>
             </div>
 
-            {/* Multi-bank */}
-            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
-              style={{ background: 'linear-gradient(135deg, #0f1f3d, #111120)', border: '1px solid rgba(54,141,255,0.12)', minHeight: 200 }}>
-              <div className="p-8">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                  style={{ background: 'rgba(54,141,255,0.1)' }}>🏦</div>
-                <h3 className="text-xl font-bold text-white mb-2">Multi-bank view</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  Link all your banks via Plaid. Every account, balance, and transaction in one place.
-                </p>
-              </div>
-            </div>
-
-            {/* Rewards */}
-            <div className="rounded-3xl overflow-hidden relative group hover:scale-[1.01] transition-transform cursor-default"
-              style={{ background: 'linear-gradient(135deg, #1f1810, #111120)', border: '1px solid rgba(252,92,58,0.12)', minHeight: 200 }}>
-              <div className="p-8">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                  style={{ background: 'rgba(252,92,58,0.1)' }}>🏆</div>
-                <h3 className="text-xl font-bold text-white mb-2">AI Rewards</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  GPT-4o-mini builds personalised quests from your spending. Complete them to earn cashback and gift cards.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -531,148 +635,414 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════
           HOW IT WORKS
       ══════════════════════════════════════ */}
-      <section className="py-28 px-6" style={{ background: '#09090f' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#FC5C3A' }}>Getting Started</p>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white font-ibm-plex-serif">
-              Up and running in <span style={{ color: '#FC5C3A' }}>3 steps</span>
+      <section className="py-32 px-6 relative overflow-hidden" style={{ background: '#09090f' }}>
+        {/* faint horizontal rule accent */}
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)' }} />
+
+        <div className="max-w-5xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="h-px w-8" style={{ background: '#FC5C3A' }} />
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.18em]" style={{ color: '#FC5C3A' }}>Getting Started</span>
+              <div className="h-px w-8" style={{ background: '#FC5C3A' }} />
+            </div>
+            <h2 className="text-5xl lg:text-6xl font-bold text-white font-ibm-plex-serif leading-tight">
+              Up in{' '}
+              <span style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.3)', color: 'transparent' }}>3 steps.</span>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { num: 1, icon: '/icons/undraw/Savings.svg', title: 'Create your account', desc: 'Sign up in under two minutes. No paperwork, no branch visits. Email, details, done.', color: '#FC5C3A' },
-              { num: 2, icon: '/icons/undraw/Online banking.svg', title: 'Connect your banks', desc: 'Link all your accounts securely via Plaid. Read-only, zero risk, instant sync.', color: '#368DFF' },
-              { num: 3, icon: '/icons/undraw/Personal finance.svg', title: 'Track & earn rewards', desc: 'Cosmico AI analyses your spending, builds Quest Board challenges, and helps you grow.', color: '#8b5cf6' },
-            ].map(step => (
-              <div key={step.num} className="flex flex-col items-center text-center">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm mb-5"
-                  style={{ background: step.color, boxShadow: `0 0 20px ${step.color}50` }}>
-                  {step.num}
+
+          {/* Steps — horizontal timeline on desktop */}
+          <div className="relative">
+            {/* Connector line (desktop) */}
+            <div className="hidden md:block absolute top-[52px] left-[16.66%] right-[16.66%] h-px"
+              style={{ background: 'linear-gradient(90deg, rgba(252,92,58,0.4), rgba(54,141,255,0.4), rgba(139,92,246,0.4))' }} />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
+
+              {/* Step 1 */}
+              <div className="flex flex-col items-center text-center group">
+                {/* Number node */}
+                <div className="relative mb-10 z-10">
+                  <div className="w-[104px] h-[104px] rounded-2xl flex flex-col items-center justify-center"
+                    style={{ background: 'linear-gradient(135deg, #1a0e06, #0f0d1a)', border: '1px solid rgba(252,92,58,0.2)', boxShadow: '0 0 40px rgba(252,92,58,0.12)' }}>
+                    <span className="text-3xl font-bold font-ibm-plex-serif" style={{ color: '#FC5C3A' }}>01</span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest mt-1" style={{ color: 'rgba(252,92,58,0.45)' }}>Sign up</span>
+                  </div>
+                  {/* Glow ring */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ boxShadow: '0 0 0 1px rgba(252,92,58,0.4), 0 0 30px rgba(252,92,58,0.15)' }} />
                 </div>
-                <div className="rounded-2xl p-6 mb-5 w-full flex items-center justify-center"
-                  style={{ background: '#13131e', border: '1px solid rgba(255,255,255,0.06)', height: 200 }}>
-                  <div className="relative w-full" style={{ height: 148 }}>
-                    <Image src={step.icon} alt={step.title} fill className="opacity-75"
-                      style={{ objectFit: 'contain', filter: `drop-shadow(0 0 14px ${step.color}50)` }} />
+
+                {/* Card */}
+                <div className="w-full rounded-2xl p-6 mb-6"
+                  style={{ background: '#0f0f1a', border: '1px solid rgba(252,92,58,0.1)' }}>
+                  {/* Coded visual — form fields */}
+                  <div className="flex flex-col gap-2.5">
+                    <div className="h-8 rounded-lg px-3 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: 'rgba(252,92,58,0.5)' }} />
+                      <div className="h-2 rounded flex-1" style={{ background: 'rgba(255,255,255,0.08)', maxWidth: '70%' }} />
+                    </div>
+                    <div className="h-8 rounded-lg px-3 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: 'rgba(252,92,58,0.3)' }} />
+                      <div className="h-2 rounded flex-1" style={{ background: 'rgba(255,255,255,0.06)', maxWidth: '55%' }} />
+                    </div>
+                    <div className="h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white"
+                      style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)' }}>
+                      Create account →
+                    </div>
                   </div>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
+
+                <h3 className="text-lg font-bold text-white mb-2 font-ibm-plex-serif">Create your account</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  Sign up in under two minutes. No paperwork, no branch visits.
+                </p>
               </div>
-            ))}
+
+              {/* Step 2 */}
+              <div className="flex flex-col items-center text-center group">
+                <div className="relative mb-10 z-10">
+                  <div className="w-[104px] h-[104px] rounded-2xl flex flex-col items-center justify-center"
+                    style={{ background: 'linear-gradient(135deg, #081628, #0f0d1a)', border: '1px solid rgba(54,141,255,0.2)', boxShadow: '0 0 40px rgba(54,141,255,0.1)' }}>
+                    <span className="text-3xl font-bold font-ibm-plex-serif" style={{ color: '#368DFF' }}>02</span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest mt-1" style={{ color: 'rgba(54,141,255,0.45)' }}>Link banks</span>
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ boxShadow: '0 0 0 1px rgba(54,141,255,0.4), 0 0 30px rgba(54,141,255,0.12)' }} />
+                </div>
+
+                <div className="w-full rounded-2xl p-6 mb-6"
+                  style={{ background: '#0f0f1a', border: '1px solid rgba(54,141,255,0.1)' }}>
+                  {/* Bank connection visual */}
+                  <div className="flex flex-col gap-2">
+                    {[{ name: 'Barclays', c: '#1d4ed8' }, { name: 'Monzo', c: '#FC5C3A' }, { name: 'Chase', c: '#0d9488' }].map((b, i) => (
+                      <div key={b.name} className="flex items-center justify-between h-8 px-3 rounded-lg"
+                        style={{ background: `${b.c}10`, border: `1px solid ${b.c}25` }}>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full" style={{ background: b.c }} />
+                          <span className="text-xs font-semibold text-white">{b.name}</span>
+                        </div>
+                        <span className="text-[10px] font-mono font-bold" style={{ color: '#34d399' }}>✓ linked</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <h3 className="text-lg font-bold text-white mb-2 font-ibm-plex-serif">Connect your banks</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  Link accounts via Plaid. Read-only, zero risk, instant sync.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex flex-col items-center text-center group">
+                <div className="relative mb-10 z-10">
+                  <div className="w-[104px] h-[104px] rounded-2xl flex flex-col items-center justify-center"
+                    style={{ background: 'linear-gradient(135deg, #120d22, #0f0d1a)', border: '1px solid rgba(139,92,246,0.2)', boxShadow: '0 0 40px rgba(139,92,246,0.1)' }}>
+                    <span className="text-3xl font-bold font-ibm-plex-serif" style={{ color: '#8b5cf6' }}>03</span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest mt-1" style={{ color: 'rgba(139,92,246,0.45)' }}>Track &amp; earn</span>
+                  </div>
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ boxShadow: '0 0 0 1px rgba(139,92,246,0.4), 0 0 30px rgba(139,92,246,0.12)' }} />
+                </div>
+
+                <div className="w-full rounded-2xl p-6 mb-6"
+                  style={{ background: '#0f0f1a', border: '1px solid rgba(139,92,246,0.1)' }}>
+                  {/* Spend chart visual */}
+                  <div className="flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.25)' }}>Monthly Spend</span>
+                      <span className="text-xs font-mono font-bold text-white">£284</span>
+                    </div>
+                    <div className="flex items-end gap-1 h-10">
+                      {[35, 52, 41, 68, 45, 72, 58, 44, 60, 78, 55, 82].map((h, i) => (
+                        <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, background: i === 11 ? 'linear-gradient(180deg,#8b5cf6,#6d28d9)' : 'rgba(139,92,246,0.18)' }} />
+                      ))}
+                    </div>
+                    <div className="h-6 rounded-lg flex items-center px-3 gap-2"
+                      style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.18)' }}>
+                      <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#8b5cf6' }} />
+                      <span className="text-[10px] font-mono" style={{ color: 'rgba(139,92,246,0.8)' }}>Tesco quest · 60% complete</span>
+                    </div>
+                  </div>
+                </div>
+
+                <h3 className="text-lg font-bold text-white mb-2 font-ibm-plex-serif">Track &amp; earn rewards</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  AI analyses your spending, builds quests, and helps you grow your wealth.
+                </p>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Security strip ── */}
-      <div className="py-12 px-6" style={{ background: '#0d0d17', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 justify-center">
-          <Image src="/icons/undraw/Secure login.svg" alt="Secure" width={80} height={60}
-            className="opacity-55" style={{ filter: 'drop-shadow(0 0 10px rgba(54,141,255,0.3))' }} />
-          <div className="text-center md:text-left">
-            <p className="text-white font-bold mb-1">Built with security in mind</p>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
-              2FA on every sign-in · End-to-end encryption · Read-only Plaid access · UK GDPR compliant · Appwrite cloud auth
+      {/* ══════════════════════════════════════
+          SECURITY LEDGER
+      ══════════════════════════════════════ */}
+      <div className="relative px-6 py-20 overflow-hidden" style={{ background: '#060609' }}>
+        {/* subtle top rule */}
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)' }} />
+
+        <div className="max-w-6xl mx-auto">
+          {/* Heading */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+            <div>
+              <p className="text-xs font-mono uppercase tracking-[0.2em] mb-3" style={{ color: 'rgba(52,211,153,0.6)' }}>Security Infrastructure</p>
+              <h3 className="text-3xl lg:text-4xl font-bold text-white font-ibm-plex-serif">
+                Secure by design.<br />
+                <span style={{ WebkitTextStroke: '1px rgba(255,255,255,0.2)', color: 'transparent' }}>Transparent by default.</span>
+              </h3>
+            </div>
+            <p className="text-sm max-w-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.28)' }}>
+              Every layer of Cosmico is built with your data security as the primary constraint — not an afterthought.
             </p>
           </div>
-          <div className="md:ml-auto">
-            <Image src="/icons/gdpr.png" alt="GDPR" width={44} height={44} className="opacity-35 hover:opacity-60 transition-opacity" />
+
+          {/* Ledger rows */}
+          <div className="flex flex-col">
+            {[
+              { id: 'ENC-001', label: 'End-to-end encryption', value: 'AES-256 · TLS 1.3', status: 'ACTIVE', color: '#34d399' },
+              { id: 'AUTH-002', label: '2FA on every sign-in', value: 'TOTP enforced · no bypass', status: 'ACTIVE', color: '#34d399' },
+              { id: 'PLAID-003', label: 'Read-only bank access', value: 'Zero write permissions via Plaid', status: 'VERIFIED', color: '#368DFF' },
+              { id: 'GDPR-004', label: 'UK GDPR compliant', value: 'Data never sold or shared', status: 'COMPLIANT', color: '#a78bfa' },
+            ].map((row, i) => (
+              <div key={row.id} className="flex items-center gap-6 py-4 group"
+                style={{ borderTop: i === 0 ? '1px solid rgba(255,255,255,0.07)' : undefined, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                <span className="text-[10px] font-mono w-20 shrink-0" style={{ color: 'rgba(255,255,255,0.18)' }}>{row.id}</span>
+                <span className="text-sm font-semibold text-white flex-1">{row.label}</span>
+                <span className="text-xs font-mono hidden md:block flex-1" style={{ color: 'rgba(255,255,255,0.35)' }}>{row.value}</span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: row.color }} />
+                  <span className="text-[10px] font-mono font-bold" style={{ color: row.color }}>{row.status}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 mt-8">
+            <Image src="/icons/gdpr.png" alt="GDPR" width={24} height={24} className="opacity-25" />
+            <p className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.18)' }}>
+              Appwrite cloud auth · Sandbox mode · No real funds processed · Not FCA regulated
+            </p>
           </div>
         </div>
       </div>
 
       {/* ══════════════════════════════════════
-          CTA — Dark
+          CTA — Final
       ══════════════════════════════════════ */}
-      <section className="py-28 px-6" style={{ background: '#09090f' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden p-12 lg:p-20 flex flex-col lg:flex-row items-center gap-12"
-            style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1a1040 50%, #1e293b 100%)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl opacity-15 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ background: '#FC5C3A' }} />
-            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-15 translate-x-1/4 translate-y-1/4 pointer-events-none"
-              style={{ background: '#368DFF' }} />
-            <div className="flex-1 relative z-10 text-center lg:text-left">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6"
-                style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A', border: '1px solid rgba(252,92,58,0.2)' }}>
-                Limited Beta
-              </span>
-              <h2 className="text-4xl lg:text-6xl font-bold text-white leading-tight mb-6 font-ibm-plex-serif">
-                Be among the first
-                <br />
-                <span style={{ color: '#FC5C3A' }}>to experience it.</span>
+      <section className="relative px-6 py-32 overflow-hidden" style={{ background: '#060609' }}>
+        {/* Large diagonal glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute rounded-full blur-[120px]" style={{ width: 700, height: 700, top: '-20%', left: '-15%', background: 'radial-gradient(circle, rgba(252,92,58,0.12), transparent 60%)' }} />
+          <div className="absolute rounded-full blur-[120px]" style={{ width: 600, height: 600, bottom: '-20%', right: '-10%', background: 'radial-gradient(circle, rgba(54,141,255,0.1), transparent 60%)' }} />
+        </div>
+        {/* Fine dot grid */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,1) 1px, transparent 1px)',
+          backgroundSize: '22px 22px',
+        }} />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-20">
+
+            {/* Left — copy */}
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 mb-8 px-3 py-1.5 rounded-full"
+                style={{ background: 'rgba(252,92,58,0.08)', border: '1px solid rgba(252,92,58,0.18)' }}>
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#FC5C3A' }} />
+                <span className="text-xs font-mono font-bold uppercase tracking-[0.15em]" style={{ color: '#FC5C3A' }}>Limited Beta · Free Forever</span>
+              </div>
+
+              <h2 className="font-bold leading-[1.02] mb-8 font-ibm-plex-serif"
+                style={{ fontSize: 'clamp(3rem, 6vw, 5.5rem)', color: 'white' }}>
+                The bank account<br />
+                <span style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.25)', color: 'transparent' }}>you deserved</span><br />
+                all along.
               </h2>
-              <p className="text-lg mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                Create a free account and get AI-powered spending insights, Quest Board rewards, and your personal AI banker — completely free.
+
+              <p className="text-base leading-relaxed mb-10 max-w-sm mx-auto lg:mx-0" style={{ color: 'rgba(255,255,255,0.36)' }}>
+                AI insights. Instant transfers. Quest rewards. One unified view of every account — completely free.
               </p>
-              <Link href="/sign-up"
-                className="inline-block px-10 py-4 rounded-xl text-white font-bold hover:scale-105 transition-all text-sm"
-                style={{ background: 'linear-gradient(135deg, #FC5C3A 0%, #ff7958 100%)', boxShadow: '0 0 50px rgba(252,92,58,0.35)' }}>
-                Create Free Account →
-              </Link>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <Link href="/sign-up"
+                  className="px-10 py-4 rounded-xl text-white font-bold text-sm transition-all hover:scale-[1.03] hover:shadow-2xl"
+                  style={{ background: 'linear-gradient(135deg, #FC5C3A, #ff7958)', boxShadow: '0 0 50px rgba(252,92,58,0.25)' }}>
+                  Create Free Account →
+                </Link>
+                <Link href="/sign-in"
+                  className="px-10 py-4 rounded-xl text-sm font-semibold transition-all hover:scale-[1.03]"
+                  style={{ color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(255,255,255,0.02)' }}>
+                  Sign in
+                </Link>
+              </div>
+
+              {/* Trust signals */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 justify-center lg:justify-start">
+                {['No credit card', 'Sandbox mode', 'GDPR compliant', 'Free forever'].map(t => (
+                  <span key={t} className="flex items-center gap-1.5 text-xs font-mono" style={{ color: 'rgba(255,255,255,0.28)' }}>
+                    <span style={{ color: '#34d399' }}>✓</span> {t}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="flex-1 relative z-10 flex justify-center lg:justify-end">
-              <Image src="/icons/undraw/Investing.svg" alt="Invest" width={360} height={280}
-                className="opacity-80" style={{ filter: 'drop-shadow(0 0 30px rgba(252,92,58,0.2))' }} />
+
+            {/* Right — live stats dashboard */}
+            <div className="flex-1 w-full max-w-sm mx-auto lg:mx-0 flex flex-col gap-3">
+              {/* Balance */}
+              <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.28)' }}>Total Balance</span>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#34d399' }} />
+                    <span className="text-[10px] font-mono" style={{ color: '#34d399' }}>live sync</span>
+                  </div>
+                </div>
+                <p className="text-4xl font-bold text-white font-ibm-plex-serif mb-1">£24,891</p>
+                <p className="text-xs font-mono mb-5" style={{ color: '#34d399' }}>↑ +£1,240 this month</p>
+                <div className="flex items-end gap-1 h-10">
+                  {[30,42,35,52,40,58,48,62,55,70,60,80].map((h,i) => (
+                    <div key={i} className="flex-1 rounded-sm" style={{
+                      height: `${h}%`,
+                      background: i === 11 ? 'linear-gradient(180deg,#FC5C3A,#ff7958)' : 'rgba(252,92,58,0.15)'
+                    }} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl p-4" style={{ background: 'rgba(54,141,255,0.06)', border: '1px solid rgba(54,141,255,0.12)' }}>
+                  <p className="text-[9px] font-mono uppercase tracking-widest mb-3" style={{ color: 'rgba(54,141,255,0.5)' }}>AI Insights</p>
+                  <p className="text-2xl font-bold text-white font-ibm-plex-serif">12</p>
+                  <p className="text-[10px] mt-0.5 font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>this week</p>
+                </div>
+                <div className="rounded-xl p-4" style={{ background: 'rgba(252,92,58,0.06)', border: '1px solid rgba(252,92,58,0.12)' }}>
+                  <p className="text-[9px] font-mono uppercase tracking-widest mb-3" style={{ color: 'rgba(252,92,58,0.5)' }}>Cashback</p>
+                  <p className="text-2xl font-bold text-white font-ibm-plex-serif">£47</p>
+                  <p className="text-[10px] mt-0.5 font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>earned total</p>
+                </div>
+              </div>
+
+              {/* Quest */}
+              <div className="rounded-xl p-4" style={{ background: 'rgba(139,92,246,0.06)', border: '1px solid rgba(139,92,246,0.12)' }}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-white">Active Quest — Tesco</span>
+                  <span className="text-[10px] font-mono font-bold" style={{ color: '#a78bfa' }}>60%</span>
+                </div>
+                <div className="h-1.5 rounded-full mb-2" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <div className="h-1.5 rounded-full" style={{ width: '60%', background: 'linear-gradient(90deg,#8b5cf6,#a78bfa)' }} />
+                </div>
+                <p className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>£5 cashback · spend £50 at Tesco</p>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="pt-16 pb-10 px-6" style={{ background: '#06060c', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      {/* ══════════════════════════════════════
+          FOOTER
+      ══════════════════════════════════════ */}
+      <footer className="relative px-6 pt-16 pb-10 overflow-hidden" style={{ background: '#040407' }}>
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)' }} />
+
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <Image src="/icons/logo.svg" alt="Cosmico" width={26} height={26} />
-                <span className="text-white font-bold text-lg font-ibm-plex-serif">Cosmico</span>
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ml-1"
-                  style={{ background: 'rgba(252,92,58,0.15)', color: '#FC5C3A' }}>Beta</span>
+
+          {/* Top row — logo + nav */}
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-10 pb-14"
+            style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+
+            {/* Brand */}
+            <div className="max-w-xs">
+              <div className="flex items-center gap-2 mb-5">
+                <Image src="/icons/logo.svg" alt="Cosmico" width={28} height={28} />
+                <span className="text-white font-bold text-xl font-ibm-plex-serif">Cosmico</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ml-1"
+                  style={{ background: 'rgba(252,92,58,0.12)', color: '#FC5C3A', border: '1px solid rgba(252,92,58,0.2)' }}>Beta</span>
               </div>
-              <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'rgba(255,255,255,0.28)' }}>
-                A developer sandbox project demonstrating modern open banking — multi-bank aggregation, AI insights, instant transfers, spending analysis, and personalised rewards.
+              <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                Open banking infrastructure for modern financial habits. Multi-bank aggregation, AI insights, and personalised rewards — in one dashboard.
               </p>
-              <div className="mt-6">
-                <Image src="/icons/gdpr.png" alt="GDPR" width={44} height={44} className="opacity-25 hover:opacity-50 transition-opacity" />
+              <div className="mt-6 flex items-center gap-3">
+                <Image src="/icons/gdpr.png" alt="GDPR" width={32} height={32} className="opacity-20 hover:opacity-40 transition-opacity" />
+                <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.15)' }}>UK GDPR</span>
               </div>
             </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.2)' }}>Product</p>
-              <ul className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                <li><Link href="/sign-up" className="hover:text-white transition-colors">Get Early Access</Link></li>
-                <li><Link href="/sign-in" className="hover:text-white transition-colors">Sign In</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.2)' }}>Regions</p>
-              <ul className="space-y-3 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                {[{ src: '/icons/US.png', label: 'United States' }, { src: '/icons/UK.png', label: 'United Kingdom' }, { src: '/icons/CA.png', label: 'Canada' }].map(r => (
-                  <li key={r.label} className="flex items-center gap-2">
-                    <Image src={r.src} alt={r.label} width={20} height={14} className="rounded-sm object-cover" />
-                    {r.label}
+
+            {/* Nav columns */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-10">
+              <div>
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] mb-5" style={{ color: 'rgba(255,255,255,0.18)' }}>Product</p>
+                <ul className="space-y-3">
+                  {[{ label: 'Get Early Access', href: '/sign-up' }, { label: 'Sign In', href: '/sign-in' }].map(l => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="text-xs transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.35)' }}>{l.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] mb-5" style={{ color: 'rgba(255,255,255,0.18)' }}>Legal</p>
+                <ul className="space-y-3">
+                  {[{ label: 'Terms & Conditions', href: '/terms' }, { label: 'Privacy Policy', href: '/privacy' }].map(l => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="text-xs transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.35)' }}>{l.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] mb-5" style={{ color: 'rgba(255,255,255,0.18)' }}>Regions</p>
+                <ul className="space-y-3">
+                  {[{ src: '/icons/US.png', label: 'United States' }, { src: '/icons/UK.png', label: 'United Kingdom' }, { src: '/icons/CA.png', label: 'Canada' }].map(r => (
+                    <li key={r.label} className="flex items-center gap-2">
+                      <Image src={r.src} alt={r.label} width={16} height={12} className="rounded-sm object-cover opacity-70" />
+                      <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{r.label}</span>
+                    </li>
+                  ))}
+                  <li className="flex items-center gap-2 opacity-30">
+                    <Image src="/icons/european-union.png" alt="EU" width={16} height={12} className="rounded-sm object-cover grayscale" />
+                    <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Europe</span>
+                    <span className="text-[9px] font-mono font-bold" style={{ color: '#FC5C3A' }}>Soon</span>
                   </li>
-                ))}
-                <li className="flex items-center gap-2 opacity-30">
-                  <Image src="/icons/european-union.png" alt="EU" width={20} height={14} className="rounded-sm object-cover grayscale" />
-                  Europe <span className="text-[10px]" style={{ color: '#FC5C3A' }}>Soon</span>
-                </li>
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
-          <div className="mt-8 rounded-xl px-5 py-4" style={{ background: 'rgba(234,179,8,0.04)', border: '1px solid rgba(234,179,8,0.08)' }}>
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(234,179,8,0.45)' }}>Sandbox — Not a regulated financial service</p>
-            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.22)' }}>
-              Cosmico is a <strong style={{ color: 'rgba(255,255,255,0.38)' }}>portfolio and demonstration project</strong> for educational purposes only. It operates in sandbox / test mode using simulated data from Plaid Sandbox, Dwolla Sandbox, and Appwrite. No real money is moved. Cosmico is <strong style={{ color: 'rgba(255,255,255,0.38)' }}>not authorised or regulated</strong> by the FCA, FINRA, or any financial regulatory body.
+
+          {/* Sandbox disclaimer */}
+          <div className="mt-8 px-5 py-4 rounded-xl font-mono"
+            style={{ background: 'rgba(234,179,8,0.03)', border: '1px solid rgba(234,179,8,0.07)' }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: 'rgba(234,179,8,0.4)' }}>
+              ⚠ Sandbox · Not a regulated financial service
+            </p>
+            <p className="text-[10px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.18)' }}>
+              Cosmico is a portfolio &amp; demo project operating in sandbox/test mode via Plaid Sandbox, Dwolla Sandbox, and Appwrite. No real money is moved. Not authorised by the FCA, FINRA, or any financial regulatory body.
             </p>
           </div>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.18)' }}>
-            <span>© 2026 Cosmico · All rights reserved · Sandbox build</span>
-            <span>Next.js · Plaid · Dwolla · Appwrite · OpenAI</span>
+
+          {/* Bottom bar */}
+          <div className="mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.14)' }}>
+              © 2026 Cosmico · All rights reserved
+            </span>
+            <div className="flex items-center gap-2">
+              {['Next.js', 'Plaid', 'Dwolla', 'Appwrite', 'OpenAI'].map((t, i, arr) => (
+                <span key={t} className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.14)' }}>{t}</span>
+                  {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.08)' }}>·</span>}
+                </span>
+              ))}
+            </div>
           </div>
+
         </div>
       </footer>
     </main>
