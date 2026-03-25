@@ -3,6 +3,9 @@ import Link from 'next/link'
 import DisclaimerModal from '@/components/DisclaimerModal'
 import ChatWidget from '@/components/ChatWidget'
 import AnimatedTagline from '@/components/AnimatedTagline'
+import dynamic from 'next/dynamic'
+
+const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
 
 export default function LandingPage() {
   return (
@@ -44,21 +47,8 @@ export default function LandingPage() {
       ══════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
 
-        {/* Background glow orbs */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute rounded-full blur-3xl opacity-20"
-            style={{ width: 600, height: 600, top: '-10%', left: '-10%', background: 'radial-gradient(circle, #FC5C3A, transparent)' }} />
-          <div className="absolute rounded-full blur-3xl opacity-15"
-            style={{ width: 500, height: 500, bottom: '-5%', right: '5%', background: 'radial-gradient(circle, #368DFF, transparent)' }} />
-          <div className="absolute rounded-full blur-3xl opacity-10"
-            style={{ width: 400, height: 400, top: '40%', left: '40%', background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
-        </div>
-
-        {/* Subtle grid texture */}
-        <div className="absolute inset-0 opacity-[0.025]" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }} />
+        {/* Spline 3D background */}
+        <SplineBackground />
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-16">

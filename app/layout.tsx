@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
