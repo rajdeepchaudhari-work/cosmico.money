@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes float {
   0%, 100% { transform: rotateX(6deg) rotateY(-14deg) translateY(0px); }
   50%       { transform: rotateX(6deg) rotateY(-14deg) translateY(-14px); }

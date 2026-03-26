@@ -9,10 +9,10 @@ export default function SplineCard() {
   const [inView, setInView] = useState(false)
 
   useEffect(() => {
-    // Only load Spline when this section enters the viewport
+    // Only load when section scrolls near viewport
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect() } },
-      { rootMargin: '200px' }
+      { rootMargin: '150px' }
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
@@ -21,14 +21,16 @@ export default function SplineCard() {
   useEffect(() => {
     if (!inView) return
 
+    // Load self-hosted viewer script — served from our CDN, cached by Cloudflare
     if (!document.querySelector('script[data-spline-viewer]')) {
       const script = document.createElement('script')
       script.type = 'module'
-      script.src = 'https://unpkg.com/@splinetool/viewer@1.12.72/build/spline-viewer.js'
+      script.src = '/spline-viewer.js'   // self-hosted, no unpkg roundtrip
       script.setAttribute('data-spline-viewer', '1')
       document.head.appendChild(script)
     }
 
+    // Hide watermark
     let attempts = 0
     const interval = setInterval(() => {
       attempts++
@@ -48,10 +50,12 @@ export default function SplineCard() {
           position: 'absolute', top: 0, bottom: 0,
           width: `max(100%, ${MIN_VIEWER_WIDTH}px)`,
           left: '50%', transform: 'translateX(-50%)',
+          willChange: 'transform',
         }}>
           {/* @ts-ignore */}
           <spline-viewer
             url="/card-scene.splinecode"
+            loading-anim-type="none"
             style={{ width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
           />
           {/* Watermark cover */}
