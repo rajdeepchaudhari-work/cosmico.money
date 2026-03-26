@@ -31,7 +31,7 @@ export default function SplineCard() {
 
   return (
     // Outer: fills the section, clips overflow
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
       {/* Inner: always at least MIN_VIEWER_WIDTH wide, centred horizontally */}
       <div style={{
         position: 'absolute',
@@ -43,7 +43,7 @@ export default function SplineCard() {
         {/* @ts-ignore */}
         <spline-viewer
           url="https://prod.spline.design/reQJc5Rs5sxhh99Y/scene.splinecode"
-          style={{ width: '100%', height: '100%', display: 'block' }}
+          style={{ width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
         />
 
         {/* Watermark — always at bottom-right of the canvas */}
