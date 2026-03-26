@@ -50,7 +50,7 @@ export default function LandingPage() {
       <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
 
         {/* Spline 3D background */}
-        <SplineBackground scene="https://prod.spline.design/doTXysbEe3OWhXpb/scene.splinecode" />
+        <SplineBackground scene="/hero-scene.splinecode" />
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
           <div className="flex flex-col lg:flex-row items-center gap-16">

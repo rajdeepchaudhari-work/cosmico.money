@@ -51,7 +51,7 @@ export default function SplineCard() {
         }}>
           {/* @ts-ignore */}
           <spline-viewer
-            url="https://prod.spline.design/reQJc5Rs5sxhh99Y/scene.splinecode"
+            url="/card-scene.splinecode"
             style={{ width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
           />
           {/* Watermark cover */}
