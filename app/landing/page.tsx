@@ -435,8 +435,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 3D Card Section ── */}
-      <section className="relative w-full" style={{ height: '100vh', background: '#09090f', overflow: 'hidden' }}>
+      {/* ── 3D Card Section — desktop only ── */}
+      <section className="relative w-full hidden md:block" style={{ height: '100vh', background: '#09090f', overflow: 'hidden' }}>
 
         <SplineCard />
         <ScrollPassthrough />
