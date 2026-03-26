@@ -11,7 +11,7 @@ export default function SplineBackground({ scene }: Props) {
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none">
+    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ transform: 'translateZ(0)', willChange: 'opacity' }}>
       {/* Static image — shows instantly, fades out once Spline is ready */}
       <div
         className="absolute inset-0 transition-opacity duration-1000"

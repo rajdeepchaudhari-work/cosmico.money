@@ -6,6 +6,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Promote fixed/sticky elements to GPU compositor layer — prevents scroll jank */
+nav {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Prevent blurry text & subpixel jank during scroll */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Passive scroll — tells browser scroll handlers won't call preventDefault */
+html, body {
+  overscroll-behavior: none;
+}
+
 @keyframes float {
   0%, 100% { transform: rotateX(6deg) rotateY(-14deg) translateY(0px); }
   50%       { transform: rotateX(6deg) rotateY(-14deg) translateY(-14px); }
