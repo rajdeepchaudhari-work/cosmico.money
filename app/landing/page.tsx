@@ -6,6 +6,7 @@ import AnimatedTagline from '@/components/AnimatedTagline'
 import dynamic from 'next/dynamic'
 
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
+const SplineCard = dynamic(() => import('@/components/SplineCard'), { ssr: false })
 
 export default function LandingPage() {
   return (
@@ -430,6 +431,29 @@ export default function LandingPage() {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* ── 3D Card Section ── */}
+      <section className="relative w-full" style={{ height: '100vh', background: '#09090f', overflow: 'hidden' }}>
+
+        <SplineCard />
+
+        {/* Top blur + fade */}
+        <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: 160 }}>
+          <div className="absolute inset-0" style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', maskImage: 'linear-gradient(to bottom, black 40%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #09090f 30%, transparent)' }} />
+        </div>
+
+        {/* Bottom blur + fade */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none" style={{ height: 160 }}>
+          <div className="absolute inset-0" style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', maskImage: 'linear-gradient(to top, black 40%, transparent)', WebkitMaskImage: 'linear-gradient(to top, black 40%, transparent)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #09090f 30%, transparent)' }} />
+        </div>
+
+        {/* label */}
+        <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center pointer-events-none">
+          <p className="text-xs font-mono uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.15)' }}>Cosmico · Black Card</p>
         </div>
       </section>
 
