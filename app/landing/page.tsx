@@ -4,6 +4,7 @@ import DisclaimerModal from '@/components/DisclaimerModal'
 import ChatWidget from '@/components/ChatWidget'
 import AnimatedTagline from '@/components/AnimatedTagline'
 import dynamic from 'next/dynamic'
+import SmoothScroll from '@/components/SmoothScroll'
 
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
 const SplineCard = dynamic(() => import('@/components/SplineCard'), { ssr: false })
@@ -12,6 +13,7 @@ const ScrollPassthrough = dynamic(() => import('@/components/ScrollPassthrough')
 export default function LandingPage() {
   return (
     <main className="min-h-screen font-inter overflow-x-hidden" style={{ background: '#09090f' }}>
+      <SmoothScroll />
       <DisclaimerModal />
       <ChatWidget />
 
