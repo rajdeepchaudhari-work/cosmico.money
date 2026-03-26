@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
 const SplineCard = dynamic(() => import('@/components/SplineCard'), { ssr: false })
+const ScrollPassthrough = dynamic(() => import('@/components/ScrollPassthrough'), { ssr: false })
 
 export default function LandingPage() {
   return (
@@ -438,6 +439,7 @@ export default function LandingPage() {
       <section className="relative w-full" style={{ height: '100vh', background: '#09090f', overflow: 'hidden' }}>
 
         <SplineCard />
+        <ScrollPassthrough />
 
         {/* Top blur + fade */}
         <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: 160 }}>
