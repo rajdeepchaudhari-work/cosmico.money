@@ -26,7 +26,8 @@ export default function SplineBackground({ scene }: Props) {
         <img
           src="/icons/Galaxy rollercoaster@1-1710x867.jpg"
           alt=""
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: 'center 30%' }}
           fetchPriority="high"
         />
       </div>
