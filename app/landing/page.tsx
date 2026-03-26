@@ -441,17 +441,13 @@ export default function LandingPage() {
         <SplineCard />
         <ScrollPassthrough />
 
-        {/* Top blur + fade */}
-        <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: 160 }}>
-          <div className="absolute inset-0" style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', maskImage: 'linear-gradient(to bottom, black 40%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent)' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #09090f 30%, transparent)' }} />
-        </div>
+        {/* Top fade */}
+        <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
+          style={{ height: 160, background: 'linear-gradient(to bottom, #09090f 25%, transparent)' }} />
 
-        {/* Bottom blur + fade */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none" style={{ height: 160 }}>
-          <div className="absolute inset-0" style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', maskImage: 'linear-gradient(to top, black 40%, transparent)', WebkitMaskImage: 'linear-gradient(to top, black 40%, transparent)' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #09090f 30%, transparent)' }} />
-        </div>
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
+          style={{ height: 160, background: 'linear-gradient(to top, #09090f 25%, transparent)' }} />
 
         {/* label */}
         <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center pointer-events-none">
