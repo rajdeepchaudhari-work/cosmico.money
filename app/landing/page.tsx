@@ -5,6 +5,7 @@ import ChatWidget from '@/components/ChatWidget'
 import AnimatedTagline from '@/components/AnimatedTagline'
 import dynamic from 'next/dynamic'
 
+const SplashLoader = dynamic(() => import('@/components/SplashLoader'), { ssr: false })
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
 const ScrollCard = dynamic(() => import('@/components/ScrollCard'), { ssr: false })
 const CardSequence = dynamic(() => import('@/components/CardSequence'), { ssr: false })
@@ -12,6 +13,7 @@ const CardSequence = dynamic(() => import('@/components/CardSequence'), { ssr: f
 export default function LandingPage() {
   return (
     <main className="min-h-screen font-inter" style={{ background: '#09090f', overflowX: 'clip' }}>
+      <SplashLoader />
       <DisclaimerModal />
       <ChatWidget />
 
