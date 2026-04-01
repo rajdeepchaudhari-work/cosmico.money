@@ -438,7 +438,42 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Card Sequence — scroll-driven image animation, desktop only ── */}
+      {/* ══════════════════════════════════════
+          DEMO VIDEO
+      ══════════════════════════════════════ */}
+      <section className="py-28 px-6" style={{ background: '#0a0a12' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="h-px w-10" style={{ background: '#FC5C3A' }} />
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.18em]" style={{ color: '#FC5C3A' }}>Demo</span>
+              <div className="h-px w-10" style={{ background: '#FC5C3A' }} />
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-ibm-plex-serif">
+              See Cosmico in action
+            </h2>
+            <p className="text-sm max-w-md mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Watch how Cosmico brings all your bank accounts together in one intelligent dashboard.
+            </p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden" style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 0 80px rgba(252,92,58,0.06)',
+          }}>
+            <div style={{ position: 'relative', paddingBottom: '64.75%', height: 0 }}>
+              <iframe
+                src="https://www.loom.com/embed/aa97ec72d46e4a7f80fd3987106396a3"
+                frameBorder="0"
+                allowFullScreen
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Card Sequence — scroll-driven image animation ── */}
       <section className="relative w-full" style={{ background: '#09090f' }}>
         <CardSequence />
       </section>
