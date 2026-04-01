@@ -1,48 +1,124 @@
 # Cosmico Money
 
-A modern fintech banking platform built for the next generation of money management.
+A modern fintech banking platform — connect your accounts, track spending, send money, and get AI-powered financial insights.
 
-![Next.js](https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000)
+![Next.js](https://img.shields.io/badge/-Next_JS_14-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4)
 ![Appwrite](https://img.shields.io/badge/-Appwrite-black?style=for-the-badge&logoColor=white&logo=appwrite&color=FD366E)
 
 ---
 
-## Overview
-
-Cosmico is a financial SaaS platform that connects your bank accounts, tracks spending, moves money, and provides AI-powered insights — all in one place.
-
 ## Features
 
-- **Bank Account Linking** — Connect multiple bank accounts via Plaid
-- **Real-time Transactions** — View and filter transaction history across all accounts
-- **Fund Transfers** — Send money between accounts via Dwolla ACH
-- **Cosmico AI** — GPT-4o-mini powered personal finance assistant
-- **Rewards Tracking** — Earn and track rewards for everyday spending
-- **Secure by Design** — End-to-end encryption, biometric login support, SOC 2 compliance
+- **Multi-bank aggregation** — Link accounts from different banks via Plaid and view everything in one dashboard
+- **Transaction history** — Search, filter, and analyze transactions across all connected accounts
+- **Fund transfers** — ACH transfers via Dwolla (US) and Direct Debit via GoCardless (UK)
+- **Spending analytics** — Pie charts and category breakdowns (Food & Drink, Travel, Shopping)
+- **Cosmico AI** — GPT-4o-mini powered financial assistant available on every page
+- **Rewards / Quest Board** — AI-generated spending challenges that unlock rewards when targets are hit
+- **Secure auth** — Email + OTP two-factor authentication with Appwrite sessions
+- **Multi-country support** — US, UK, and Canada (US: Dwolla ACH, UK: GoCardless Direct Debit)
+
+---
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + ShadCN UI |
-| Auth & Database | Appwrite |
-| Bank Integration | Plaid (Sandbox) |
-| Payments | Dwolla (ACH transfers) |
+| Framework | Next.js 14 (App Router, Server Actions) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS + ShadCN UI (Radix UI) |
+| Forms | React Hook Form + Zod |
+| Auth & Database | Appwrite Cloud |
+| Bank Linking | Plaid SDK + react-plaid-link |
+| Payments (US) | Dwolla (ACH transfers) |
+| Payments (UK) | GoCardless (Direct Debit) |
 | AI | OpenAI GPT-4o-mini |
-| Monitoring | Sentry |
+| Email | Resend |
+| Charts | Chart.js + react-chartjs-2 |
+| 3D Graphics | Spline (@splinetool/react-spline) |
+| Monitoring | Sentry + Vercel Speed Insights |
+
+---
+
+## Pages & Routes
+
+### Public
+| Route | Description |
+|---|---|
+| `/landing` | Landing page — hero, features, card animation, AI spotlight |
+| `/sign-in` | Login with email + OTP |
+| `/sign-up` | Registration with country, personal details, OTP |
+| `/verify-otp` | OTP verification step |
+| `/forgot-password` | Password reset request |
+| `/privacy` | Privacy policy |
+| `/terms` | Terms & conditions |
+
+### Protected (requires auth)
+| Route | Description |
+|---|---|
+| `/` | Dashboard — total balance, recent transactions, right sidebar |
+| `/my-banks` | All connected bank accounts as cards |
+| `/transaction-history` | Paginated, searchable transaction table |
+| `/spending` | Spending breakdown by category with charts |
+| `/rewards` | Quest Board — AI reward challenges with progress tracking |
+| `/payment-transfer` | Send money (Dwolla for US / GoCardless for UK) |
+| `/assistant` | Full-screen Cosmico AI chat interface |
+| `/settings` | Profile, address, connected banks, account deletion |
+
+---
+
+## Project Structure
+
+```
+app/
+  (auth)/                  # Public auth pages with sidebar layout
+  (root)/                  # Protected dashboard pages
+  landing/                 # Public landing page
+components/
+  ui/                      # ShadCN components
+  Sidebar.tsx              # Main nav sidebar
+  PlaidLink.tsx            # Plaid Link modal
+  PaymentTransferForm.tsx  # US ACH transfer form
+  UKPaymentTransferForm.tsx# UK Direct Debit form
+  SpendingCharts.tsx       # Category spending charts
+  RewardCard.tsx           # Reward challenge card
+  ChatWidget.tsx           # Floating AI chat widget
+  ScrollCard.tsx           # Scroll-driven 3D card animation
+  SplineBackground.tsx     # 3D hero background
+lib/
+  actions/
+    user.actions.ts        # Auth, Plaid link, bank account CRUD
+    bank.actions.ts        # Plaid account/transaction fetching
+    transaction.actions.ts # Transfer recording in Appwrite
+    dwolla.actions.ts      # Dwolla ACH customer + transfer
+    gocardless.actions.ts  # GoCardless UK payment flow
+    rewards.actions.ts     # AI reward generation + tracking
+    assistant.actions.ts   # AI chat assistant
+  appwrite.ts              # Appwrite client (admin + session)
+  plaid.ts                 # Plaid client config
+  utils.ts                 # cn, formatAmount, formUrlQuery, parseStringify
+types/
+  index.d.ts               # Global TypeScript interfaces
+public/
+  cards/                   # Cosmico card images (front & back)
+  hero-scene.splinecode    # Self-hosted Spline 3D hero scene
+```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- Appwrite project
-- Plaid developer account
+- Appwrite Cloud project
+- Plaid developer account (sandbox)
 - Dwolla sandbox account
+- GoCardless sandbox account
+- OpenAI API key
+- Resend account
 
 ### Installation
 
@@ -54,63 +130,74 @@ npm install
 
 ### Environment Variables
 
-Create a `.env` file in the root with the following:
+Create a `.env` file in the root:
 
 ```env
 # Appwrite
-NEXT_PUBLIC_APPWRITE_ENDPOINT=
+NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 NEXT_PUBLIC_APPWRITE_PROJECT=
+NEXT_APPWRITE_KEY=
 APPWRITE_DATABASE_ID=
 APPWRITE_USER_COLLECTION_ID=
 APPWRITE_BANK_COLLECTION_ID=
 APPWRITE_TRANSACTION_COLLECTION_ID=
-NEXT_APPWRITE_KEY=
+APPWRITE_REWARDS_COLLECTION_ID=
 
 # Plaid
 PLAID_CLIENT_ID=
 PLAID_SECRET=
 PLAID_ENV=sandbox
 PLAID_PRODUCTS=auth,transactions,identity
-PLAID_COUNTRY_CODES=GB,US
+PLAID_COUNTRY_CODES=US,GB,CA
 
-# Dwolla
+# Dwolla (US ACH)
 DWOLLA_KEY=
 DWOLLA_SECRET=
 DWOLLA_BASE_URL=https://api-sandbox.dwolla.com
 DWOLLA_ENV=sandbox
+
+# GoCardless (UK Direct Debit)
+GOCARDLESS_AUTH_TOKEN=
+GOCARDLESS_ENV=sandbox
+
+# OpenAI
+OPENAI_API_KEY=
+
+# Resend (email)
+RESEND_API_KEY=
+
+# OTP
+OTP_SECRET=
+
+# Monitoring
+NEXT_PUBLIC_SENTRY_DSN=
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# Misc
+NEXT_PUBLIC_LOGO_DEV_TOKEN=
 ```
 
-### Development
+### Run
 
 ```bash
-npm run dev
+npm run dev       # Development server → localhost:3000
+npm run build     # Production build
+npm start         # Start production server
+npm run lint      # Run ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+---
 
-### Production Build
+## Auth Flow
 
-```bash
-npm run build
-npm start
-```
+1. User registers with name, address, date of birth, country, and government ID
+2. Appwrite account created → Dwolla/GoCardless customer provisioned (by country)
+3. OTP sent via Resend email → user verifies
+4. Session stored in `appwrite-session` HTTP-only cookie
+5. User links bank account via Plaid Link modal
+6. All subsequent requests validated server-side via session cookie
 
-## Project Structure
-
-```
-app/
-  (auth)/          # Sign in / Sign up pages
-  (root)/          # Protected dashboard pages
-  landing/         # Public landing page
-components/        # Reusable UI components
-lib/
-  actions/         # Server actions (Plaid, Dwolla, Appwrite, user)
-  appwrite.ts      # Appwrite client setup
-  plaid.ts         # Plaid client setup
-  utils.ts         # Utility functions
-types/             # Global TypeScript types
-public/            # Static assets
-```
+---
 
 ## License
 
