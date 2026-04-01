@@ -11,7 +11,7 @@ A modern fintech banking platform — connect your accounts, track spending, sen
 
 ---
 
-<div style="position: relative; padding-bottom: 64.74820143884892%; height: 0;"><iframe src="https://www.loom.com/embed/5bdc966bfa6b44899955b4c2bead04f4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<<iframe width="640" height="415" src="https://www.loom.com/embed/5bdc966bfa6b44899955b4c2bead04f4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 ## Features
 
