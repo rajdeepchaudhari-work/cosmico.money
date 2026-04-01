@@ -1,34 +1,37 @@
 'use client'
 
 import Spline from '@splinetool/react-spline/next'
-import { useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 
 export default function SplineBackground({ scene }: { scene: string }) {
-  const [ready, setReady] = useState(false)
   const [loaded, setLoaded] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768)
-  }, [])
-
-  // Defer WebGL init until browser is idle — avoids competing with hydration
-  useEffect(() => {
-    if (isMobile) return // mobile uses video, no Spline needed
-    const init = () => setReady(true)
-    if ('requestIdleCallback' in window) {
-      const id = (window as any).requestIdleCallback(init, { timeout: 2000 })
-      return () => (window as any).cancelIdleCallback(id)
-    } else {
-      const id = setTimeout(init, 300)
-      return () => clearTimeout(id)
-    }
-  }, [isMobile])
+  const handleLoad = () => {
+    setLoaded(true)
+    // Hide Spline watermark — it's rendered as an <a> linking to spline.design
+    setTimeout(() => {
+      const container = containerRef.current
+      if (!container) return
+      // Target all anchors/divs inside that reference spline branding
+      container.querySelectorAll('a[href*="spline.design"], [class*="logo"], [class*="watermark"]').forEach(el => {
+        (el as HTMLElement).style.display = 'none'
+      })
+      // Also check shadow roots
+      container.querySelectorAll('*').forEach(el => {
+        const shadow = (el as HTMLElement).shadowRoot
+        if (!shadow) return
+        shadow.querySelectorAll('a[href*="spline.design"], [class*="logo"], [class*="watermark"]').forEach(w => {
+          (w as HTMLElement).style.display = 'none'
+        })
+      })
+    }, 500)
+  }
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ transform: 'translateZ(0)' }}>
+    <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none">
 
-      {/* Static image — visible instantly on all devices */}
+      {/* Static image while loading */}
       <div className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: loaded ? 0 : 1 }}>
         <img
           src="/icons/galaxy-hero.jpg"
@@ -39,31 +42,14 @@ export default function SplineBackground({ scene }: { scene: string }) {
         />
       </div>
 
-      {/* Mobile — looping MP4, zero WebGL overhead */}
-      {isMobile && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          onCanPlay={() => setLoaded(true)}
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center 30%' }}
-        >
-          <source src="/hero-mobile.mp4" type="video/mp4" />
-        </video>
-      )}
-
-      {/* Desktop — Spline WebGL, deferred until idle */}
-      {!isMobile && ready && (
-        <div className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: loaded ? 1 : 0 }}>
-          <Spline
-            scene={scene}
-            onLoad={() => setLoaded(true)}
-            style={{ width: '100%', height: '100%' }}
-          />
-        </div>
-      )}
+      {/* Spline */}
+      <div className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: loaded ? 1 : 0 }}>
+        <Spline
+          scene={scene}
+          onLoad={handleLoad}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
     </div>
   )
 }
