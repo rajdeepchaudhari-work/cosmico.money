@@ -6,6 +6,7 @@ import AnimatedTagline from '@/components/AnimatedTagline'
 import dynamic from 'next/dynamic'
 
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
+const ScrollCard = dynamic(() => import('@/components/ScrollCard'), { ssr: false })
 
 export default function LandingPage() {
   return (
