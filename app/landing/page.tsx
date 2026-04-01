@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
 const ScrollCard = dynamic(() => import('@/components/ScrollCard'), { ssr: false })
+const SplineCard = dynamic(() => import('@/components/SplineCard'), { ssr: false })
 
 export default function LandingPage() {
   return (
@@ -434,8 +435,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CSS 3D Scroll Card ── */}
-      <ScrollCard />
+      {/* ── Spline 3D Card — desktop only ── */}
+      <section className="relative w-full hidden md:block" style={{ height: '100vh', background: '#09090f', overflow: 'hidden' }}>
+        <SplineCard />
+
+        {/* Top fade */}
+        <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
+          style={{ height: 160, background: 'linear-gradient(to bottom, #09090f 25%, transparent)' }} />
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
+          style={{ height: 160, background: 'linear-gradient(to top, #09090f 25%, transparent)' }} />
+
+        {/* Label */}
+        <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center pointer-events-none">
+          <p className="text-xs font-mono uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.15)' }}>Cosmico · Black Card</p>
+        </div>
+      </section>
 
       {/* ══════════════════════════════════════
           AI SPOTLIGHT
