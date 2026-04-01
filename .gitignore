@@ -45,3 +45,7 @@ next-env.d.ts
 
 # Claude Code
 .claude/
+temp-audit/
+temp-card/
+temp-video/
+temp-card-frames/
