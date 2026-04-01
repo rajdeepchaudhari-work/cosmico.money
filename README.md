@@ -1,5 +1,7 @@
 # Cosmico Money
 
+**Live at → [cosmico.money](https://www.cosmico.money/)**
+
 A modern fintech banking platform — connect your accounts, track spending, send money, and get AI-powered financial insights.
 
 ![Next.js](https://img.shields.io/badge/-Next_JS_14-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000)
