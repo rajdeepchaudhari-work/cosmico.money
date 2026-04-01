@@ -50,7 +50,7 @@ export default function SplineBackground({ scene }: { scene: string }) {
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: 'center 30%' }}
         >
-          <source src="/hero.mp4" type="video/mp4" />
+          <source src="/hero-mobile.mp4" type="video/mp4" />
         </video>
       )}
 
