@@ -12,6 +12,10 @@ A modern fintech banking platform — connect your accounts, track spending, sen
 ---
 
 
+https://github.com/user-attachments/assets/89274d08-db90-4b05-85af-9e25f572ace8
+
+
+
 ## Features
 
 - **Multi-bank aggregation** — Link accounts from different banks via Plaid and view everything in one dashboard
