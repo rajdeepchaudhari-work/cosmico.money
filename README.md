@@ -11,9 +11,7 @@ A modern fintech banking platform — connect your accounts, track spending, sen
 
 ---
 
-
-https://github.com/user-attachments/assets/89274d08-db90-4b05-85af-9e25f572ace8
-
+https://github.com/user-attachments/assets/e69f5ec3-1542-4879-acd4-7d29a95545f5
 
 
 ## Features
