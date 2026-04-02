@@ -463,10 +463,10 @@ export default function LandingPage() {
           }}>
             <div style={{ position: 'relative', paddingBottom: '64.75%', height: 0 }}>
               <iframe
-                src="https://www.loom.com/embed/aa97ec72d46e4a7f80fd3987106396a3"
-                frameBorder="0"
+                loading="lazy"
+                src="https://www.canva.com/design/DAHFsk1abCw/3VvaH-Kp2bhb8XE9bDuPMQ/watch?embed"
                 allowFullScreen
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
               />
             </div>
           </div>
