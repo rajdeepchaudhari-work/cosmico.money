@@ -7,8 +7,6 @@ import dynamic from 'next/dynamic'
 
 const SplashLoader = dynamic(() => import('@/components/SplashLoader'), { ssr: false })
 const SplineBackground = dynamic(() => import('@/components/SplineBackground'), { ssr: false })
-const ScrollCard = dynamic(() => import('@/components/ScrollCard'), { ssr: false })
-const CardSequence = dynamic(() => import('@/components/CardSequence'), { ssr: false })
 
 export default function LandingPage() {
   return (
@@ -471,11 +469,6 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* ── Card Sequence — scroll-driven image animation ── */}
-      <section className="relative w-full" style={{ background: '#09090f' }}>
-        <CardSequence />
       </section>
 
       {/* ══════════════════════════════════════
