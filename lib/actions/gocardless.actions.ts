@@ -1,3 +1,18 @@
+/**
+ * GoCardless server actions — the UK equivalent of dwolla.actions.ts.
+ *
+ * Used by UK users to send Direct Debit payments via the BACS network.
+ * GoCardless doesn't have an official Node SDK so we use the REST API
+ * directly with the bearer-token auth scheme.
+ *
+ * The createGoCardlessPayment flow is a three-step dance:
+ *   1. POST /customer_bank_accounts — register the recipient's sort code
+ *      and account number.
+ *   2. POST /mandates — create a BACS Direct Debit mandate against that
+ *      bank account.
+ *   3. POST /payments — finally, create the payment that will draw on
+ *      the mandate.
+ */
 "use server";
 
 const GC_BASE = process.env.GOCARDLESS_ENV === "production"

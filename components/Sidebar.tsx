@@ -1,3 +1,13 @@
+/**
+ * Sidebar — desktop navigation rail for the authenticated app.
+ *
+ * Links come from constants.sidebarLinks so the order/icons can be
+ * tweaked in one place. The active link is computed from usePathname
+ * with a startsWith match so nested routes (e.g. /transaction-history/
+ * with a query string) still highlight the right entry. The Connect
+ * Bank CTA is always pinned beneath the nav so users never have to
+ * hunt for the Plaid flow.
+ */
 'use client'
 
 import { sidebarLinks } from '@/constants'

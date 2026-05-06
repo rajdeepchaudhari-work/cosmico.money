@@ -1,3 +1,20 @@
+/**
+ * Dwolla server actions.
+ *
+ * Dwolla powers the US ACH transfer flow (UK uses GoCardless, Canada is
+ * disabled for now). This module wraps the dwolla-v2 SDK with the small
+ * subset of operations the app actually needs:
+ *
+ *   • createDwollaCustomer  — called during US sign-up to create the
+ *                             Dwolla-side identity record.
+ *   • addFundingSource      — called after Plaid linking to register the
+ *                             linked bank as a Dwolla funding source.
+ *   • createTransfer        — performs the actual ACH transfer between
+ *                             two funding sources.
+ *
+ * All credentials come from environment variables, and the SDK is pinned
+ * to either sandbox or production based on DWOLLA_ENV.
+ */
 "use server";
 
 import { Client } from "dwolla-v2";
@@ -23,7 +40,12 @@ const dwollaClient = new Client({
   secret: process.env.DWOLLA_SECRET as string,
 });
 
-// Create a Dwolla Funding Source using a Plaid Processor Token
+/**
+ * Registers a Plaid-linked bank with Dwolla so it can be used as a
+ * source/destination for transfers. The processor token comes from
+ * Plaid's processorTokenCreate endpoint and acts as a one-time bridge
+ * between the two systems — Dwolla never sees the raw account number.
+ */
 export const createFundingSource = async (
   options: CreateFundingSourceOptions
 ) => {
@@ -39,6 +61,11 @@ export const createFundingSource = async (
   }
 };
 
+/**
+ * Generates the on-demand ACH authorization links Dwolla needs to attach
+ * to a funding-source creation request. This is the digital equivalent
+ * of the customer agreeing to let us debit their account on demand.
+ */
 export const createOnDemandAuthorization = async () => {
   try {
     const onDemandAuthorization = await dwollaClient.post(
@@ -51,6 +78,12 @@ export const createOnDemandAuthorization = async () => {
   }
 };
 
+/**
+ * Creates a Dwolla customer record and returns the customer's resource URL.
+ * Dwolla's REST API returns the new resource URL in the Location header,
+ * so we pluck it out and pass it back to the caller, which extracts the
+ * UUID portion to store on the User document.
+ */
 export const createDwollaCustomer = async (
   newCustomer: NewDwollaCustomerParams
 ) => {
@@ -63,6 +96,11 @@ export const createDwollaCustomer = async (
   }
 };
 
+/**
+ * Performs an ACH transfer between two funding sources. The amount is in
+ * dollars (USD); Dwolla expects strings, not numbers, so make sure callers
+ * pass a string like "10.00".
+ */
 export const createTransfer = async ({
   sourceFundingSourceUrl,
   destinationFundingSourceUrl,
@@ -91,6 +129,11 @@ export const createTransfer = async ({
   }
 };
 
+/**
+ * Convenience wrapper that ties on-demand authorization + funding-source
+ * creation together so callers (in practice, exchangePublicToken) can
+ * register a Plaid-linked bank with Dwolla in a single call.
+ */
 export const addFundingSource = async ({
   dwollaCustomerId,
   processorToken,

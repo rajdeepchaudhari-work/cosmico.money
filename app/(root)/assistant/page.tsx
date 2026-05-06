@@ -1,3 +1,17 @@
+/**
+ * Assistant page (/assistant).
+ *
+ * Full-screen variant of the floating chat widget. Owns local state for
+ * the messages array, the textarea input, and the loading flag, and
+ * delegates the actual completion to the chatWithAssistant server
+ * action — which builds the user's spending summary server-side so the
+ * AI can give personalised answers.
+ *
+ * The first time the user opens the page they see a welcome message and
+ * six suggestion cards (Analyse my spending, Top merchants, etc.) that
+ * jump-start the conversation. Once the first reply lands, the cards
+ * disappear so the layout stays tight.
+ */
 "use client";
 
 import { useState, useRef, useEffect } from "react";

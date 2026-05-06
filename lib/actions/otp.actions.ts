@@ -1,3 +1,27 @@
+/**
+ * Two-factor authentication (OTP) server actions.
+ *
+ * Implements the email-OTP layer that sits between password validation and
+ * an active session. The flow is:
+ *
+ *   1. signIn / signUp validates the password and creates an Appwrite
+ *      session, but DOES NOT set the session cookie.
+ *   2. sendOTPAndStorePending stores the session secret + a hashed OTP on
+ *      the user's Appwrite "prefs" record (server-side, not in cookies)
+ *      and emails the user the plaintext OTP.
+ *   3. verifyOTP looks up the stored hash, compares it, and only on success
+ *      sets the appwrite-session cookie that makes the user "logged in".
+ *
+ * Storing the pending state in Appwrite prefs (instead of cookies) avoids
+ * the "user opens the OTP email on a different device" problem and means
+ * the OTP can't be replayed by tampering with cookies.
+ *
+ * The OTP itself is hashed with HMAC-SHA256 using OTP_SECRET so the raw
+ * code is never persisted. Codes expire after 10 minutes.
+ *
+ * This module also owns three transactional emails (OTP, welcome, sign-in
+ * alert) sent through Resend.
+ */
 "use server";
 
 import crypto from "crypto";
@@ -8,10 +32,15 @@ import { createAdminClient } from "@/lib/appwrite";
 const resend = new Resend(process.env.RESEND_API_KEY);
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://cosmico.money";
 
+// 6-digit numeric OTP. Math.random() is acceptable for demo purposes —
+// production would use crypto.randomInt for entropy guarantees.
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+// HMAC-SHA256 with a server-side secret means the raw OTP is never
+// persisted; an attacker with database access cannot reverse the hash to
+// find the code emailed to the user.
 function hashOTP(otp: string): string {
   return crypto
     .createHmac("sha256", process.env.OTP_SECRET!)
@@ -232,6 +261,11 @@ function signInAlertEmailHtml(firstName: string, details: {
     </tr>`);
 }
 
+/**
+ * Lightweight user-agent parser used to populate the sign-in alert email
+ * with "Chrome on macOS, iPhone, etc." Avoids pulling in a heavy parser
+ * library; the patterns cover the browsers and devices our users have.
+ */
 function parseUserAgent(ua: string): { device: string; browser: string; os: string } {
   let device = "Desktop";
   if (/iPhone/i.test(ua)) device = "iPhone";
@@ -257,7 +291,13 @@ function parseUserAgent(ua: string): { device: string; browser: string; os: stri
   return { device, browser, os };
 }
 
-// Store OTP state server-side in Appwrite user prefs (avoids cookie issues)
+/**
+ * Generates a fresh OTP, stashes the hash + the held-back session secret on
+ * the user's Appwrite prefs, and emails the raw OTP to the user. Storing
+ * the pending state server-side (rather than in cookies) means the user
+ * can verify on the same device the email arrived on without the cookie
+ * round-tripping.
+ */
 export const sendOTPAndStorePending = async ({
   userId,
   email,
@@ -286,7 +326,16 @@ export const sendOTPAndStorePending = async ({
   });
 };
 
-// Verify OTP — reads state from Appwrite prefs, not cookies
+/**
+ * Confirms the OTP the user typed in. On success we:
+ *   1. Wipe the pending state from prefs so the code can't be re-used.
+ *   2. Set the appwrite-session cookie (httpOnly, sameSite=lax, secure
+ *      in production) — this is the moment the user is actually logged in.
+ *   3. Send a transactional email — welcome message for new sign-ups,
+ *      "new sign-in alert" with device/browser/IP for returning users.
+ *      These are fire-and-forget so a flaky email provider can't block
+ *      the user from getting their session cookie.
+ */
 export const verifyOTP = async (otp: string, userId: string): Promise<{ success: boolean }> => {
   const { user } = await createAdminClient();
   const prefs = await user.getPrefs(userId);
@@ -352,7 +401,11 @@ export const verifyOTP = async (otp: string, userId: string): Promise<{ success:
   return { success: true };
 };
 
-// Resend OTP — reads existing session info from prefs, generates a new code
+/**
+ * Lets the user request a fresh code without re-entering their password.
+ * Reads the held-back session secret + email from prefs and asks
+ * sendOTPAndStorePending to issue a new code, overwriting the old hash.
+ */
 export const resendOTP = async (userId: string): Promise<void> => {
   const { user } = await createAdminClient();
   const prefs = await user.getPrefs(userId);

@@ -1,3 +1,14 @@
+/**
+ * Authenticated app shell.
+ *
+ * Wraps every route inside the (root) group — dashboard, transaction
+ * history, my-banks, payment-transfer, rewards, assistant, settings.
+ * Two responsibilities:
+ *   1. Auth gate — calls getLoggedInUser() and redirects to /landing
+ *      if there is no Appwrite session.
+ *   2. Renders the shared chrome: desktop sidebar, mobile nav, and the
+ *      floating ChatWidget that is available on every page.
+ */
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
 import ChatWidget from "@/components/ChatWidget";

@@ -1,3 +1,15 @@
+/**
+ * OTPVerifyForm — standalone OTP screen used at /verify-otp.
+ *
+ * Sign-up uses an inline OTP step inside AuthForm so the user can press
+ * Back to fix a typo without losing the rest of the form. Sign-in
+ * doesn't have any other fields to preserve, so it redirects to this
+ * dedicated page after the password is accepted.
+ *
+ * The form just collects the 6 digits, calls verifyOTP, and navigates
+ * to the dashboard on success. The masked email at the top is purely
+ * cosmetic so the user knows which inbox to check.
+ */
 "use client";
 
 import { useState } from "react";

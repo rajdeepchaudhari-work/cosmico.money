@@ -1,3 +1,18 @@
+/**
+ * MerchantLogo — renders a merchant's logo next to a transaction.
+ *
+ * Two-tier strategy:
+ *   1. Try logo.dev with a domain derived from the merchant name (see
+ *      lib/utils/merchants.ts). If the request succeeds the user sees
+ *      the real brand mark.
+ *   2. If the request fails (404, network error) or the logo.dev token
+ *      isn't configured, fall back to a coloured initial-circle. The
+ *      colour is hashed from the merchant name so the same merchant
+ *      always gets the same fallback colour.
+ *
+ * This keeps the transaction list visually rich without requiring a
+ * pre-curated logo dataset.
+ */
 'use client';
 
 import { useState } from 'react';

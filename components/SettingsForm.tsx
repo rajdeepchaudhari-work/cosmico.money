@@ -1,3 +1,13 @@
+/**
+ * SettingsForm — profile + connected-banks editor.
+ *
+ * Drives the /settings page. Edits flow through two server actions:
+ *   • updateUserProfile — patches the Users document in Appwrite.
+ *   • disconnectBank    — removes a Bank document, which causes the
+ *                         account to disappear from the dashboard.
+ * Both actions call revalidatePath so the next render of /settings
+ * (and /my-banks for disconnect) sees the change.
+ */
 "use client";
 
 import { useState } from "react";

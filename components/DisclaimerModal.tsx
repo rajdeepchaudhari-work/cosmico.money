@@ -1,3 +1,12 @@
+/**
+ * DisclaimerModal — the "this is a sandbox demo, no real money" popup.
+ *
+ * Shown once on first visit, then suppressed for the lifetime of the
+ * browser via a localStorage flag. The version suffix on the storage
+ * key (`_v1`) lets us bump it later if the disclaimer changes — every
+ * user will see the new wording without needing to manually clear
+ * storage.
+ */
 'use client';
 
 import { useEffect, useState } from 'react';

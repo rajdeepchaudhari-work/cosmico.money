@@ -1,3 +1,13 @@
+/**
+ * Payment Transfer page.
+ *
+ * Branches on the user's country to render the appropriate form:
+ *   • UK  → UKPaymentTransferForm (Direct Debit via GoCardless).
+ *   • US  → PaymentTransferForm (ACH via Dwolla).
+ *   • CA / others → "coming soon" placeholder (transfers disabled).
+ *
+ * All payments are sandbox — no real money moves regardless of country.
+ */
 import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import UKPaymentTransferForm from '@/components/UKPaymentTransferForm'

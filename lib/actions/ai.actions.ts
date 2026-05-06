@@ -1,3 +1,24 @@
+/**
+ * AI server actions.
+ *
+ * Two distinct AI features live here:
+ *
+ *   1. generateAIRewards — analyses the user's transaction history,
+ *      extracts their top merchants, and asks GPT-4o-mini to propose six
+ *      personalised reward challenges (e.g. "Spend £200 at Tesco for a
+ *      £10 gift card"). Used by lib/actions/reward.actions.ts when a user
+ *      first views the rewards page.
+ *
+ *   2. chatWithAssistant — powers the floating chat widget. Builds a
+ *      live spending summary (top merchants, total balance, total spend)
+ *      and injects it into the system prompt so the assistant can answer
+ *      questions like "how much did I spend on food last month?" with
+ *      data drawn from the user's actual transactions.
+ *
+ * Both features fail gracefully: rewards fall back to the static
+ * UK_MERCHANT_CHALLENGES list, and the chat returns a generic apology
+ * message rather than throwing.
+ */
 "use server";
 
 import OpenAI from "openai";

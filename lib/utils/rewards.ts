@@ -1,3 +1,10 @@
+/**
+ * Calculates progress for each reward by matching transactions against
+ * the reward's merchantMatch keyword and summing positive (debit)
+ * amounts. Important: this is deterministic, not AI-driven — the AI is
+ * only used to *generate* the challenges; how close you are to completing
+ * one is plain arithmetic, so the user can always trust the progress bar.
+ */
 export const calculateRewardProgress = (
   rewards: Reward[],
   transactions: Transaction[]

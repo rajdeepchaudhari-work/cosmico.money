@@ -1,3 +1,11 @@
+/**
+ * My Banks page (/my-banks).
+ *
+ * Renders one BankCard per linked account. UK accounts hide the balance
+ * because Plaid's Open Banking integration in the UK doesn't return
+ * per-account balances reliably in sandbox — showing nothing is better
+ * than showing a misleading zero.
+ */
 import BankCard from '@/components/BankCard';
 import HeaderBox from '@/components/HeaderBox'
 import { getAccounts } from '@/lib/actions/bank.actions';

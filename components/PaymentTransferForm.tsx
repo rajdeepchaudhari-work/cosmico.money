@@ -1,3 +1,15 @@
+/**
+ * PaymentTransferForm — US ACH transfer (Dwolla).
+ *
+ * The recipient is identified by the shareableId we hand out from
+ * encryptId() — base64 of the Plaid account ID — which lets users
+ * share an ID without exposing the underlying account ID directly.
+ *
+ * Submit flow: decrypt the shareable ID → look up the receiver's bank
+ * doc by Plaid account ID → look up the sender's bank doc by Appwrite
+ * doc ID → call Dwolla createTransfer with both funding-source URLs →
+ * record the result in the Appwrite Transactions collection.
+ */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";

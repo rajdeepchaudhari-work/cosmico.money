@@ -1,3 +1,12 @@
+/**
+ * Settings page (/settings).
+ *
+ * Joins the locally-stored Bank documents with the live Plaid account
+ * data so the form can show the official bank name + masked account
+ * number ("●●●● 1234") next to each disconnect button. The Plaid lookup
+ * is wrapped in try/catch — if Plaid is down we still render the page
+ * with the unenriched bank list rather than failing the whole page.
+ */
 import { getLoggedInUser, getBanks } from "@/lib/actions/user.actions";
 import { getAccounts } from "@/lib/actions/bank.actions";
 import SettingsForm from "@/components/SettingsForm";

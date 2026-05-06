@@ -1,3 +1,12 @@
+/**
+ * TransactionSearchTable — searchable, paginated transaction table.
+ *
+ * The full transaction list is passed in already (fetched server-side
+ * by the parent page); this component handles the client-side filter
+ * and pagination so search feels instant. Search matches against name,
+ * category, AND the formatted amount string, so a query like "£25.00"
+ * works as well as "Costa".
+ */
 "use client";
 
 import { useState, useMemo } from "react";

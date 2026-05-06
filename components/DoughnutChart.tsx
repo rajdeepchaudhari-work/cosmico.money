@@ -1,3 +1,11 @@
+/**
+ * DoughnutChart — visualises the user's bank balance split.
+ *
+ * Each slice is one connected bank (current balance only — pending
+ * balances are deliberately ignored so the chart matches the headline
+ * total). Chart.js plugins are registered at module-scope so the chart
+ * works the moment it is mounted.
+ */
 "use client"
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";

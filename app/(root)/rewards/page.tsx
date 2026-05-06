@@ -1,3 +1,17 @@
+/**
+ * Quest Board (/rewards).
+ *
+ * The flow on this page is:
+ *   1. Pull every transaction across every linked bank (used both as the
+ *      source for AI personalisation and as the data the progress bars
+ *      are calculated from).
+ *   2. If the user has no rewards yet, seed them — the seeder calls GPT
+ *      with the transactions, then falls back to a static UK challenge
+ *      list if the AI call fails.
+ *   3. Calculate progress for every reward (deterministic — see
+ *      lib/utils/rewards.ts) and split the result into Active vs
+ *      Completed sections.
+ */
 import RewardCard from "@/components/RewardCard";
 import { getAccounts, getAccount } from "@/lib/actions/bank.actions";
 import { getRewards, seedAIRewards } from "@/lib/actions/reward.actions";

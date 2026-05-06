@@ -1,3 +1,15 @@
+/**
+ * UKPaymentTransferForm — UK Direct Debit transfer (GoCardless).
+ *
+ * The UK equivalent of PaymentTransferForm. Instead of a shareableId
+ * the user types the recipient's sort code (XX-XX-XX) and 8-digit
+ * account number directly — the same details printed on a real cheque.
+ *
+ * Submit flow: create a one-off GoCardless customer for the recipient
+ * → register their bank account → create a BACS mandate → trigger the
+ * payment → log the transfer in Appwrite. All steps run server-side
+ * via the gocardless.actions module.
+ */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";

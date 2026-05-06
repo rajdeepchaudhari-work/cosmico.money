@@ -1,3 +1,15 @@
+/**
+ * Auth route group layout.
+ *
+ * Wraps the public sign-in / sign-up / OTP / password-reset pages.
+ * The layout splits the screen in two: the form on the left (taking
+ * the full width on mobile) and a marketing/brand panel on the right
+ * (desktop only) that highlights the four main features and the
+ * "2,000+ beta users" stat row.
+ *
+ * The ChatWidget is included even on auth pages so anonymous visitors
+ * can ask the assistant questions before signing up.
+ */
 import Link from "next/link";
 import Image from "next/image";
 import ChatWidget from "@/components/ChatWidget";

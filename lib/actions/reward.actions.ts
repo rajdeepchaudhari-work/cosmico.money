@@ -1,3 +1,14 @@
+/**
+ * Reward server actions.
+ *
+ * Owns the Appwrite "Rewards" collection: a per-user list of spending
+ * challenges shown on the /rewards page. Rewards are seeded once per user
+ * — either with a static UK_MERCHANT_CHALLENGES list (seedRewards) or with
+ * AI-generated challenges based on the user's actual spending
+ * (seedAIRewards). Progress against each reward is calculated on the page
+ * itself in lib/utils/rewards.ts so the AI never has to "know" how much
+ * the user has spent — the data shown to the user is always real.
+ */
 "use server";
 
 import { ID, Query } from "node-appwrite";
@@ -6,6 +17,11 @@ import { parseStringify } from "../utils";
 import { UK_MERCHANT_CHALLENGES } from "@/constants";
 import { generateAIRewards } from "./ai.actions";
 
+/**
+ * Returns up to 100 rewards belonging to the user. We cap at 100 because
+ * a single user is only ever seeded six rewards — the limit is purely
+ * defensive in case seeding ever runs twice.
+ */
 export const getRewards = async (userId: string): Promise<Reward[]> => {
   try {
     const { database } = await createAdminClient();
@@ -23,6 +39,11 @@ export const getRewards = async (userId: string): Promise<Reward[]> => {
   }
 };
 
+/**
+ * Static fallback seeder. Inserts the hard-coded UK_MERCHANT_CHALLENGES
+ * list (Tesco, Costa, M&S, etc.) for users who don't have any rewards yet.
+ * Idempotent — if the user already has at least one reward, it bails out.
+ */
 export const seedRewards = async (userId: string): Promise<{ success: boolean }> => {
   try {
     const { database } = await createAdminClient();

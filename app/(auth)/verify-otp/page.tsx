@@ -1,3 +1,13 @@
+/**
+ * OTP verification page.
+ *
+ * Reached automatically after sign-up / sign-in. Reads the base64-encoded
+ * userId from the ?uid= query string, looks up the pending email from
+ * Appwrite prefs (set by sendOTPAndStorePending), and renders the form
+ * that calls verifyOTP. Any missing/invalid uid sends the user back to
+ * /sign-in rather than showing an error — a stale link should never
+ * leak information about whether an account exists.
+ */
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/appwrite";
 import OTPVerifyForm from "@/components/OTPVerifyForm";

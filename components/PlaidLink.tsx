@@ -1,3 +1,19 @@
+/**
+ * PlaidLink button — kicks off the Plaid Link flow.
+ *
+ * On mount we ask the server for a fresh link_token (scoped to the
+ * current user + country). The react-plaid-link hook hands us back an
+ * `open()` function that pops the Plaid modal where the user picks a
+ * bank and authenticates. Plaid then calls our onSuccess callback with
+ * a one-shot public_token, which we hand to exchangePublicToken — the
+ * server action turns it into a long-lived access_token and writes the
+ * Bank document. Finally we navigate to the dashboard so the new bank
+ * is visible.
+ *
+ * The `variant` prop picks between three visual treatments so the
+ * same component can be reused on the dashboard ("Connect bank" CTA),
+ * in the sidebar (icon + label), and inline on the auth flow.
+ */
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { PlaidLinkOnSuccess, PlaidLinkOptions, usePlaidLink } from 'react-plaid-link'

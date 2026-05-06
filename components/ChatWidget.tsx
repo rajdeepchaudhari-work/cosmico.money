@@ -1,3 +1,17 @@
+/**
+ * ChatWidget — the floating Cosmico AI bubble that lives on every page.
+ *
+ * Rendered by the (root) and (auth) layouts so it follows the user
+ * across the whole app. State is local-only: the entire conversation
+ * is kept in this component and is lost on page navigation, by design
+ * (it is a quick assistant, not a persistent thread).
+ *
+ * The actual completion is handled by chatWithAssistant — a server
+ * action which has access to the user's session and injects a live
+ * spending summary into the system prompt before calling GPT-4o-mini.
+ *
+ * The full-screen variant of this same chat lives at /assistant.
+ */
 "use client";
 
 import { useState, useRef, useEffect } from "react";

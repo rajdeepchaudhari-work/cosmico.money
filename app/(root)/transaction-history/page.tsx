@@ -1,3 +1,11 @@
+/**
+ * Transaction History page (/transaction-history).
+ *
+ * Shows the full transaction list for one bank account at a time.
+ * The bank to focus on is read from `?id=` in the URL — same pattern
+ * as the dashboard — so the BankTabs row uses plain links and Next.js
+ * handles the data fetching server-side on each navigation.
+ */
 import HeaderBox from '@/components/HeaderBox'
 import TransactionSearchTable from '@/components/TransactionSearchTable';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';

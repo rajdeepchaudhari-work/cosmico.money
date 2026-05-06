@@ -1,9 +1,34 @@
+/**
+ * Shared utility helpers used across the whole app.
+ *
+ * Contents:
+ *   • COUNTRY_CONFIG       — per-country settings (currency, locale, ID
+ *                            label/format, postcode placeholder, Plaid
+ *                            country code, whether transfers are enabled).
+ *   • cn                   — Tailwind class merger.
+ *   • formatDateTime       — date-formatting helpers used by transaction
+ *                            tables and the dashboard.
+ *   • formatAmount         — country-aware currency formatter.
+ *   • parseStringify       — JSON round-trip used to strip non-serialisable
+ *                            properties (e.g. Date instances, methods)
+ *                            before returning data from a server action to
+ *                            a client component.
+ *   • formUrlQuery         — appends/updates a single search param while
+ *                            preserving the rest of the URL state.
+ *   • encryptId/decryptId  — base64 encode/decode (NOT real encryption —
+ *                            just URL-safe obfuscation for shareable IDs).
+ *   • authFormSchema       — Zod schema for the sign-up / sign-in forms.
+ *                            Includes country-specific validation for
+ *                            postcodes, ID numbers, state codes and DOB.
+ */
 /* eslint-disable no-prototype-builtins */
 import { type ClassValue, clsx } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
+// Country-aware UI defaults. Adding a new country only requires extending
+// this map and (if applicable) the matching sections of authFormSchema.
 export const COUNTRY_CONFIG: Record<string, {
   currency: string; locale: string; prefix: string;
   idLabel: string; idPlaceholder: string;
@@ -115,6 +140,9 @@ export function formatAmount(amount: number, country: string = "US"): string {
   return formatter.format(amount);
 }
 
+// JSON round-trip clone. Used to strip non-serialisable fields (Date,
+// Buffer, undefined, methods) from objects returned by server actions
+// before they cross the client/server boundary in Next.js.
 export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
 
 export const removeSpecialCharacters = (value: string) => {
@@ -218,6 +246,9 @@ export function extractCustomerIdFromUrl(url: string) {
   return customerId;
 }
 
+// NOTE: these are NOT real encryption — just base64 encode/decode so we
+// can put account IDs in URLs without showing the raw Appwrite ID. If we
+// ever needed real protection we'd switch to a signed JWT.
 export function encryptId(id: string) {
   return btoa(id);
 }
@@ -234,6 +265,21 @@ export const getTransactionStatus = (date: Date) => {
   return date > twoDaysAgo ? "Processing" : "Success";
 };
 
+/**
+ * Builds a Zod schema for either the sign-in or sign-up form.
+ *
+ * On sign-in we only validate email + password; everything else is
+ * marked optional so React Hook Form's default values don't throw.
+ *
+ * On sign-up we additionally validate:
+ *   • Confirm-password match.
+ *   • Country-specific postcode format (ZIP / Canadian / UK).
+ *   • Country-specific national ID format (last-4 SSN / SIN / NI Number).
+ *   • Two-letter US state / Canadian province codes.
+ *   • Date of birth: accepts both ISO (YYYY-MM-DD) and DD-MM-YYYY,
+ *     enforces an 18+ minimum age and a 120 maximum.
+ *   • Acceptance of T&Cs.
+ */
 export const authFormSchema = (type: string) => z.object({
   // sign up only
   firstName:   type === 'sign-in' ? z.string().optional() : z.string().min(2, 'At least 2 characters'),

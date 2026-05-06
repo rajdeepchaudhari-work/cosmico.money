@@ -1,3 +1,15 @@
+/**
+ * RewardCard — visual representation of a single Quest Board challenge.
+ *
+ * The card is purely presentational: progress is computed upstream by
+ * lib/utils/rewards.ts (deterministic — see the comment there explaining
+ * why it isn't AI-driven), and the card just renders a stripe, badge,
+ * progress bar, and prize box themed to match the reward's category.
+ *
+ * Categories share a colour family with the rest of the app: brand
+ * orange for Food & Drink, blue for Travel, purple for Shopping, green
+ * for completed.
+ */
 import { formatAmount } from "@/lib/utils";
 import MerchantLogo from "./MerchantLogo";
 

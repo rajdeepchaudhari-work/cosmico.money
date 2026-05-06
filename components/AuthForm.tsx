@@ -1,3 +1,22 @@
+/**
+ * AuthForm — handles BOTH sign-in and sign-up via the `type` prop.
+ *
+ * Big component because it juggles three distinct UI states:
+ *   1. The form itself (different fields shown for sign-up vs sign-in).
+ *   2. The inline OTP step shown after sign-up — letting the user verify
+ *      their email without a full page navigation, so they can press
+ *      "back" to fix a typo without losing their other fields.
+ *   3. The post-verification "Link Account" step that mounts PlaidLink.
+ *
+ * Country-aware: changing the country dropdown updates the placeholders
+ * for postcode, ID number, and state field, and pre-fills the demo ID
+ * (e.g. "QQ 12 34 56 C" for the UK NI Number) so reviewers don't have
+ * to invent a valid one to test the flow.
+ *
+ * Validation lives in lib/utils.ts (authFormSchema) — Zod handles
+ * country-specific postcode/ID/age rules so this file stays focused on
+ * UI concerns.
+ */
 'use client';
 
 import Image from 'next/image'

@@ -1,3 +1,18 @@
+/**
+ * Dashboard (/) — the page users land on after logging in.
+ *
+ * As a Server Component this runs server-side, so all data fetches
+ * happen before the HTML is sent to the browser:
+ *   • getLoggedInUser  → who's signed in.
+ *   • getAccounts      → every linked bank with live Plaid balances.
+ *   • getAccount       → the currently focused account + its full
+ *                        transaction list (needed for the chart and
+ *                        the recent-transactions section).
+ *
+ * The "currently focused account" is driven by the `?id=` query string
+ * so the BankTabs row can switch accounts via simple links rather than
+ * client-side state.
+ */
 import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions';
 import RightSidebar from '@/components/RightSidebar';

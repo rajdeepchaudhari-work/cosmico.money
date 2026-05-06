@@ -1,3 +1,11 @@
+/**
+ * TotalBalanceBox — the top-of-dashboard summary tile.
+ *
+ * Shows the doughnut chart, the bank count, and the animated total
+ * balance. Currency prefix is country-aware so UK users see £, US
+ * users see $, etc. The actual aggregation happens in getAccounts on
+ * the server — this component is purely presentational.
+ */
 import AnimatedCounter from './AnimatedCounter';
 import DoughnutChart from './DoughnutChart';
 import { COUNTRY_CONFIG } from '@/lib/utils';

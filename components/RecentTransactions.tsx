@@ -1,3 +1,11 @@
+/**
+ * RecentTransactions — the dashboard panel that lists transactions
+ * for the currently selected bank with a tab strip across the top.
+ *
+ * Tabs are driven by the same appwriteItemId prop as the rest of the
+ * dashboard, so navigating between banks remains a server-driven URL
+ * change rather than purely client-side state.
+ */
 import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BankTabItem } from './BankTabItem'

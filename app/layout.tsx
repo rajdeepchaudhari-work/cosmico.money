@@ -1,3 +1,15 @@
+/**
+ * Top-level Next.js layout.
+ *
+ * Sets up the two web fonts the design system uses (Inter for UI, IBM
+ * Plex Serif for occasional accents), wires up document metadata
+ * (title, description, favicon), and pre-connects to Spline so the
+ * landing-page 3D scene starts loading sooner.
+ *
+ * `dynamic = 'force-dynamic'` keeps every page request server-rendered
+ * fresh — important because so much of the app depends on the auth
+ * cookie which we can't safely cache.
+ */
 export const dynamic = 'force-dynamic'
 
 import { SpeedInsights } from "@vercel/speed-insights/next"

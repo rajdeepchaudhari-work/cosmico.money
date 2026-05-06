@@ -1,3 +1,19 @@
+/**
+ * User & Bank server actions.
+ *
+ * Central server-side module that handles:
+ *   • Authentication (sign-up, sign-in, sign-out, password recovery)
+ *     — Two-factor: every login first creates an Appwrite session but the
+ *       session cookie is only set after a 6-digit email OTP is verified.
+ *   • Plaid linking (creating link tokens, exchanging public tokens, persisting
+ *     bank documents in Appwrite).
+ *   • US Dwolla customer + funding source creation (only US users get a
+ *     Dwolla customer; UK/Canada use GoCardless or no transfer at all).
+ *   • CRUD on the Bank and User collections in Appwrite.
+ *
+ * All functions in this file run server-side ("use server") so they can safely
+ * touch the Appwrite admin key, Plaid secret, and Dwolla credentials.
+ */
 "use server";
 
 import { ID, Query } from "node-appwrite";
@@ -16,12 +32,21 @@ import { revalidatePath } from "next/cache";
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
 import { sendOTPAndStorePending } from "./otp.actions";
 
+// Appwrite collection IDs are pulled from environment variables so the same
+// codebase can target dev / staging / production projects without changes.
+
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
   APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
   APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
 } = process.env;
 
+/**
+ * Looks up the application-level User document in the Appwrite "Users"
+ * collection by the Appwrite auth user ID. Used everywhere the app needs
+ * profile information (name, address, country, dwollaCustomerId, etc.) that
+ * isn't stored on the auth account itself.
+ */
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   try {
     const { database } = await createAdminClient();
@@ -38,6 +63,15 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   }
 };
 
+/**
+ * First half of the two-factor sign-in flow.
+ *
+ * Validates the email/password against Appwrite, but instead of activating
+ * the session straight away we hand the session.secret to the OTP module,
+ * which stashes it server-side and emails the user a six-digit code.
+ * The session cookie is only set once the OTP is later verified — this
+ * means a leaked password alone is not enough to access the account.
+ */
 export const signIn = async ({ email, password }: signInProps) => {
   try {
     const { account } = await createAdminClient();
@@ -45,7 +79,7 @@ export const signIn = async ({ email, password }: signInProps) => {
 
     const user = await getUserInfo({ userId: session.userId });
 
-    // Don't set the session cookie yet — require OTP first
+    // Don't set the session cookie yet — require OTP first.
     await sendOTPAndStorePending({
       userId: session.userId,
       email,
@@ -61,6 +95,20 @@ export const signIn = async ({ email, password }: signInProps) => {
   }
 };
 
+/**
+ * Creates a brand-new account.
+ *
+ * Steps performed in order:
+ *   1. (Optional) tidy up a previous half-finished sign-up attempt — if the
+ *      user pressed Back after entering their email and is restarting with a
+ *      different one, we delete the orphaned auth account + Users doc so the
+ *      database doesn't fill up with unverified users.
+ *   2. Create the Appwrite auth account with email + password.
+ *   3. For US users only, create a Dwolla customer (UK/Canada don't need one).
+ *   4. Persist the application-level User document with all profile data.
+ *   5. Create an Appwrite session and hand it to the OTP module — same
+ *      "session is held back until OTP verified" pattern as signIn.
+ */
 export const signUp = async (params: SignUpParams & { previousPendingUserId?: string }) => {
   const { password, previousPendingUserId, ...userData } = params as any;
   const { email, firstName, lastName, country } = userData;
@@ -70,7 +118,8 @@ export const signUp = async (params: SignUpParams & { previousPendingUserId?: st
   try {
     const { account, database, user: adminUser } = await createAdminClient();
 
-    // If user went back to fix their email, clean up the previous unverified account
+    // If the user went back to fix their email, clean up the previous
+    // unverified account so we don't leak orphaned records.
     if (previousPendingUserId) {
       try {
         const docs = await database.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!, [
@@ -81,7 +130,8 @@ export const signUp = async (params: SignUpParams & { previousPendingUserId?: st
         }
         await adminUser.delete(previousPendingUserId);
       } catch {
-        // Ignore — account may have already been cleaned up
+        // Ignore — the account may have already been cleaned up by a
+        // previous attempt or a server retry.
       }
     }
 
@@ -139,6 +189,11 @@ export const signUp = async (params: SignUpParams & { previousPendingUserId?: st
   }
 };
 
+/**
+ * Resolves the currently authenticated user from the Appwrite session cookie.
+ * Returns null if no session is present — used by the protected route layout
+ * to redirect unauthenticated visitors to /sign-in.
+ */
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
@@ -165,6 +220,14 @@ export const logoutAccount = async () => {
   }
 };
 
+/**
+ * Asks Plaid for a short-lived link_token. The browser passes this token to
+ * the Plaid Link UI, which the user uses to pick their bank and authenticate.
+ * The token is scoped to the current user and to the products we need
+ * ("auth" for account/routing numbers, "transactions" for transaction sync).
+ * Country code is derived from the user's profile so a UK user is shown
+ * UK banks, a US user is shown US banks, etc.
+ */
 export const createLinkToken = async (user: User) => {
   try {
     const tokenParams = {
@@ -216,12 +279,19 @@ export const createBankAccount = async ({
   }
 };
 
+/**
+ * Final step of bank linking. After the user finishes Plaid Link in the
+ * browser we receive a one-shot public_token; this function exchanges it for
+ * a long-lived access_token, then persists everything we need to query the
+ * account later (access_token, account_id, item_id, plus a Dwolla funding
+ * source URL for US users so we can later move money between accounts).
+ */
 export const exchangePublicToken = async ({
   publicToken,
   user,
 }: exchangePublicTokenProps) => {
   try {
-    // Exchange public token for access token and item ID
+    // Trade the short-lived public_token for a permanent access_token + item_id.
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken,
     });
@@ -316,6 +386,11 @@ export const getBank = async ({ documentId }: getBankProps) => {
   }
 };
 
+/**
+ * Triggers Appwrite's built-in password-reset flow. Appwrite emails the user
+ * a recovery link that points back to /reset-password with userId + secret in
+ * the query string; that page then calls resetPassword() below.
+ */
 export const sendPasswordRecovery = async (email: string) => {
   try {
     const { account } = await createAdminClient();
@@ -328,6 +403,10 @@ export const sendPasswordRecovery = async (email: string) => {
   }
 };
 
+/**
+ * Completes the password-reset flow using the userId/secret pair Appwrite
+ * embeds in the recovery email link.
+ */
 export const resetPassword = async (userId: string, secret: string, password: string) => {
   try {
     const { account } = await createAdminClient();
@@ -359,6 +438,10 @@ export const getBankByAccountId = async ({
   }
 };
 
+/**
+ * Updates the User document from the Settings page. Calls revalidatePath so
+ * Next.js refreshes the cached Settings page on the next render.
+ */
 export const updateUserProfile = async (
   userId: string,
   data: {
@@ -381,6 +464,12 @@ export const updateUserProfile = async (
   }
 };
 
+/**
+ * Removes a connected bank from the user's account. Only deletes our local
+ * Appwrite Bank document — Plaid still holds the access_token until it is
+ * explicitly invalidated, but for sandbox/demo purposes deleting the
+ * document is enough to make the bank disappear from the dashboard.
+ */
 export const disconnectBank = async (
   bankDocumentId: string
 ): Promise<{ success: boolean }> => {

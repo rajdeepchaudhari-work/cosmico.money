@@ -1,3 +1,13 @@
+/**
+ * Bank-data server actions.
+ *
+ * Wrappers around the Plaid API that combine on-the-fly Plaid data
+ * (live balances, recent transactions, institution metadata) with the
+ * Bank documents we persist in Appwrite (which hold the access tokens
+ * we received during the link flow). The pages and components in the
+ * app never call Plaid directly — they go through these helpers so the
+ * access tokens stay on the server.
+ */
 "use server";
 
 import {
@@ -16,7 +26,12 @@ import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
 
 
-// Get multiple bank accounts
+/**
+ * Returns every bank account the user has linked, enriched with live
+ * balances + institution data from Plaid. Also returns aggregated totals
+ * (total balance across all banks, number of banks) which the dashboard
+ * uses for the headline figure.
+ */
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
     // get banks from db
@@ -64,7 +79,15 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
   }
 };
 
-// Get one bank account
+/**
+ * Returns a single bank account along with its full transaction list.
+ * Combines two sources:
+ *   • Plaid transactionsSync — for transactions on the underlying bank.
+ *   • Appwrite Transactions collection — for in-app transfers between
+ *     Cosmico users (those don't exist in Plaid because we don't move
+ *     real money in sandbox mode).
+ * The two lists are merged and sorted newest-first.
+ */
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   try {
     // get bank from db
@@ -129,7 +152,10 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   }
 };
 
-// Get bank info
+/**
+ * Looks up institution-level metadata (logo, primary colour, name) from
+ * Plaid. Used to render the bank-specific styling on each card and tab.
+ */
 export const getInstitution = async ({
   institutionId,
 }: getInstitutionProps) => {
@@ -149,6 +175,19 @@ export const getInstitution = async ({
 
 import { normalizeCategory } from "@/lib/utils/category";
 
+/**
+ * Pulls every transaction Plaid knows about for one access_token.
+ *
+ * Uses /transactions/sync, which is cursor-based: the first call returns
+ * everything from the start of the account's history; subsequent calls
+ * (with the same cursor) return only what's new. Here we always loop until
+ * has_more is false so the caller gets a full snapshot.
+ *
+ * Each Plaid transaction is normalised into the shape the rest of the app
+ * expects: a stable id, a numeric amount (positive = debit, negative =
+ * credit), a tidied-up category (see lib/utils/category.ts), and an
+ * optional merchant logo URL.
+ */
 export const getTransactions = async ({
   accessToken,
 }: getTransactionsProps) => {

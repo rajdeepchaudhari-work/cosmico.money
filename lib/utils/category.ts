@@ -1,3 +1,12 @@
+/**
+ * Normalises Plaid's category strings into the small, human-friendly set
+ * the dashboard's doughnut chart and transaction tables understand.
+ *
+ * Plaid returns categories that are sometimes detailed ("FOOD_AND_DRINK",
+ * "TRAVEL_AIRLINES") and sometimes generic ("Payment"). Mapping them all
+ * onto a fixed handful of buckets keeps the chart readable and prevents
+ * the category list from sprawling as Plaid evolves its taxonomy.
+ */
 export function normalizeCategory(raw?: string): string {
   if (!raw) return "Payment";
 
